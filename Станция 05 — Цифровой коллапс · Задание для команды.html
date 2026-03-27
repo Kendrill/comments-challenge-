@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)https://5-brief-station-5.netlify.app/ -->
+<html lang="ru" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Станция 05 — Цифровой коллапс · Задание для команды</title>
+    <link href="./Станция 05 — Цифровой коллапс · Задание для команды_files/css2" rel="stylesheet">
+    <style>
+        /* ═══════ THEME TOKENS ═══════ */
+        [data-theme="dark"]{
+            --bg:#050507;--s1:rgba(17,17,22,.55);--s2:rgba(24,24,29,.5);
+            --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.14);
+            --text:#f0f0f3;--dim:rgba(255,255,255,.55);--dimmer:rgba(255,255,255,.3);
+            --wf-bg:rgba(26,26,36,.7);--wf-el:rgba(255,255,255,.06);--wf-el2:rgba(255,255,255,.04);
+            --toggle-bg:rgba(255,255,255,.08);--toggle-dot:#f0f0f3;
+            --hero-grad:linear-gradient(135deg,#fff 40%,#6366f1);
+            --glass-blur:blur(20px);--glass-saturate:saturate(1.8);
+        }
+        [data-theme="light"]{
+            --bg:#eef0f4;--s1:rgba(255,255,255,.55);--s2:rgba(240,241,244,.5);
+            --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.14);
+            --text:#111116;--dim:rgba(0,0,0,.55);--dimmer:rgba(0,0,0,.32);
+            --wf-bg:rgba(232,233,237,.7);--wf-el:rgba(0,0,0,.08);--wf-el2:rgba(0,0,0,.05);
+            --toggle-bg:rgba(0,0,0,.08);--toggle-dot:#111116;
+            --hero-grad:linear-gradient(135deg,#111 40%,#6366f1);
+            --glass-blur:blur(20px);--glass-saturate:saturate(1.4);
+        }
+        :root{
+            --blue:#6366f1;--blue-s:rgba(99,102,241,.1);
+            --green:#22c55e;--green-s:rgba(34,197,94,.1);
+            --orange:#f59e0b;--orange-s:rgba(245,158,11,.1);
+            --pink:#ec4899;--pink-s:rgba(236,72,153,.1);
+            --cyan:#06b6d4;--cyan-s:rgba(6,182,212,.1);
+            --red:#ef4444;--red-s:rgba(239,68,68,.1);
+            --purple:#a855f7;
+            --coral:#fa636a;--coral-s:rgba(250,99,106,.08);
+            --mint:#8debc7;--mint-s:rgba(141,235,199,.1);
+            --yellow:#fbbf24;--yellow-s:rgba(251,191,36,.08);
+        }
+        *{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;font-size:15px;transition:background .3s,color .3s;min-height:100vh;position:relative}
+        .mesh-bg{position:fixed;inset:0;z-index:0;pointer-events:none;transition:opacity .5s}
+        [data-theme="dark"] .mesh-bg{
+            background:
+                radial-gradient(ellipse 50% 40% at 15% 20%,rgba(99,102,241,.18),transparent),
+                radial-gradient(ellipse 40% 35% at 85% 25%,rgba(236,72,153,.1),transparent),
+                radial-gradient(ellipse 55% 45% at 50% 65%,rgba(6,182,212,.1),transparent),
+                radial-gradient(ellipse 35% 30% at 80% 80%,rgba(245,158,11,.08),transparent),
+                radial-gradient(ellipse 40% 30% at 10% 75%,rgba(34,197,94,.08),transparent);
+        }
+        [data-theme="light"] .mesh-bg{
+            background:
+                radial-gradient(ellipse 50% 40% at 15% 20%,rgba(99,102,241,.1),transparent),
+                radial-gradient(ellipse 40% 35% at 85% 25%,rgba(236,72,153,.06),transparent),
+                radial-gradient(ellipse 55% 45% at 50% 65%,rgba(6,182,212,.06),transparent),
+                radial-gradient(ellipse 35% 30% at 80% 80%,rgba(245,158,11,.05),transparent),
+                radial-gradient(ellipse 40% 30% at 10% 75%,rgba(34,197,94,.05),transparent);
+        }
+        .wrap{max-width:900px;margin:0 auto;padding:0 32px;position:relative;z-index:1}
+
+        /* ═══════ SCROLL ANIMATIONS ═══════ */
+        .fade-up{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.4,0,.2,1),transform .7s cubic-bezier(.4,0,.2,1)}
+        .fade-up.visible{opacity:1;transform:translateY(0)}
+        strong,b{color:var(--text);font-weight:600}
+        a{color:var(--blue);text-decoration:none;border-bottom:1px solid rgba(99,102,241,.3)}
+        a:hover{border-bottom-color:var(--blue)}
+        code{background:rgba(99,102,241,.1);padding:2px 8px;border-radius:6px;font-size:13px;color:var(--blue)}
+
+        /* ═══════ TOGGLE ═══════ */
+        .theme-toggle{position:fixed;top:16px;right:16px;z-index:999;display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:40px;background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);cursor:pointer;font-size:12px;font-weight:600;color:var(--dim);transition:all .3s;-webkit-tap-highlight-color:transparent}
+        .theme-toggle:hover{border-color:var(--border2);color:var(--text);transform:scale(1.05);box-shadow:0 4px 20px rgba(99,102,241,.15)}
+        .theme-toggle:active{transform:scale(.97)}
+        .theme-toggle .icon{font-size:16px;transition:transform .3s}
+        .theme-toggle:hover .icon{transform:rotate(20deg)}
+
+        /* ═══════ HERO ═══════ */
+        .hero{padding:52px 0 36px;text-align:center;border-bottom:1px solid var(--border)}
+        .hero-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--mint);margin-bottom:10px}
+        .hero h1{font-size:38px;font-weight:900;letter-spacing:-2px;line-height:1.1;background:var(--hero-grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px}
+        .hero p{font-size:16px;color:var(--dim);max-width:600px;margin:0 auto}
+
+        /* ═══════ SECTION ═══════ */
+        .sec{padding:36px 0;border-bottom:1px solid var(--border)}
+        .sec:last-child{border-bottom:none}
+        .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+        .sec-icon{font-size:26px}
+        .sec-title{font-size:24px;font-weight:800;letter-spacing:-.8px}
+        .sec-sub{font-size:14px;color:var(--dim);margin:-10px 0 18px}
+
+        /* ═══════ GRID ═══════ */
+        .g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+        .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+        .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+
+        /* ═══════ CARD ═══════ */
+        .c{background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:14px;padding:20px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+        .c:hover{transform:translateY(-3px) scale(1.01);border-color:var(--border2);box-shadow:0 8px 32px rgba(99,102,241,.08)}
+        .c-title{font-size:15px;font-weight:700;margin-bottom:4px}
+        .c p,.c li{font-size:13px;color:var(--dim);margin-bottom:0}
+        .c ul{list-style:none;padding:0}
+        .c li{padding:3px 0 3px 16px;position:relative}
+        .c li::before{content:'•';position:absolute;left:0;color:var(--blue);font-weight:700}
+
+        /* ═══════ TAG ═══════ */
+        .tag{display:inline-flex;padding:3px 9px;border-radius:6px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin:2px}
+        .t-blue{background:var(--blue-s);color:var(--blue)}
+        .t-green{background:var(--green-s);color:var(--green)}
+        .t-pink{background:var(--pink-s);color:var(--pink)}
+        .t-orange{background:var(--orange-s);color:var(--orange)}
+        .t-cyan{background:var(--cyan-s);color:var(--cyan)}
+        .t-red{background:var(--red-s);color:var(--red)}
+
+        /* ═══════ TIP ═══════ */
+        .tip{display:flex;gap:10px;padding:14px 18px;border-radius:12px;margin:14px 0;font-size:13px;color:var(--dim);align-items:flex-start;backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);transition:transform .3s,box-shadow .3s}
+        .tip:hover{transform:translateY(-2px)}
+        .tip-blue{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.15)}
+        .tip-green{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.15)}
+        .tip-orange{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15)}
+        .tip-coral{background:rgba(250,99,106,.06);border:1px solid rgba(250,99,106,.15)}
+        .tip-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+
+        /* ═══════ BRIEF ELEMENTS ═══════ */
+        .steps{list-style:none;padding:0;counter-reset:step}
+        .steps li{font-size:14px;color:var(--dim);padding:10px 0 10px 42px;position:relative;border-bottom:1px solid var(--border)}
+        .steps li:last-child{border-bottom:none}
+        .steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:10px;width:28px;height:28px;border-radius:9px;background:var(--blue-s);color:var(--blue);font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+
+        .criteria-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+        .criteria-item{background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:12px;padding:16px 10px;text-align:center;transition:all .3s cubic-bezier(.4,0,.2,1)}
+        .criteria-item:hover{transform:translateY(-4px) scale(1.03);border-color:rgba(141,235,199,.25);box-shadow:0 8px 24px rgba(141,235,199,.1)}
+        .criteria-pts{font-size:28px;font-weight:900;color:var(--mint);margin-bottom:4px}
+        .criteria-desc{font-size:11px;color:var(--dim);line-height:1.4}
+
+        .time-bar{display:flex;gap:4px;border-radius:10px;overflow:hidden;margin-top:10px}
+        .time-seg{height:32px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+        .time-brief{background:var(--blue-s);color:var(--blue);flex:1}
+        .time-work{background:var(--green-s);color:var(--green);flex:4}
+        .time-review{background:var(--coral-s);color:var(--coral);flex:1}
+
+        .pilot-badge{display:inline-flex;align-items:center;gap:6px;background:var(--mint-s);border:1px solid rgba(141,235,199,.2);border-radius:8px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--mint);margin-top:10px;transition:all .3s}
+        .pilot-badge:hover{transform:scale(1.04);box-shadow:0 4px 16px rgba(141,235,199,.15)}
+
+        .prep-list{list-style:none;padding:0}
+        .prep-list li{font-size:14px;color:var(--dim);padding:7px 0 7px 22px;position:relative}
+        .prep-list li::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--blue);position:absolute;left:0;top:14px}
+
+        /* ═══════ STAT GRID (legend) ═══════ */
+        .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:16px 0}
+        .stat-box{background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all .3s}
+        .stat-box:hover{transform:translateY(-3px);border-color:rgba(141,235,199,.2);box-shadow:0 6px 20px rgba(141,235,199,.08)}
+        .stat-num{font-size:28px;font-weight:900;color:var(--mint)}
+        .stat-label{font-size:11px;color:var(--dim);margin-top:2px}
+
+        /* ═══════ DETAILS / COLLAPSIBLE ═══════ */
+        .details-wrap{margin:20px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);transition:all .3s}
+        .details-wrap summary{padding:20px 24px;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:12px;list-style:none;-webkit-tap-highlight-color:transparent;color:var(--text);transition:background .2s}
+        .details-wrap summary:hover{background:rgba(99,102,241,.04)}
+        .details-wrap summary::-webkit-details-marker{display:none}
+        .details-wrap summary::before{content:'▶';font-size:12px;color:var(--blue);transition:transform .2s;flex-shrink:0}
+        .details-wrap[open] summary::before{transform:rotate(90deg)}
+        .details-content{padding:0 24px 24px}
+
+        .bonus-wrap{margin:20px 0;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);transition:all .3s}
+        .bonus-wrap summary{padding:20px 24px;font-size:18px;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:12px;list-style:none;-webkit-tap-highlight-color:transparent;color:var(--text);transition:background .2s}
+        .bonus-wrap summary:hover{background:rgba(245,158,11,.04)}
+        .bonus-wrap summary::-webkit-details-marker{display:none}
+        .bonus-wrap summary::before{content:'▶';font-size:12px;color:var(--orange);transition:transform .2s;flex-shrink:0}
+        .bonus-wrap[open] summary::before{transform:rotate(90deg)}
+        .bonus-content{padding:0 24px 24px}
+
+        /* ═══════ VS ═══════ */
+        .vs-bar{display:flex;gap:2px;border-radius:10px;overflow:hidden;margin:10px 0}
+        .vs-good{background:rgba(34,197,94,.1);padding:10px 14px;flex:1;border:1px solid rgba(34,197,94,.08)}
+        .vs-bad{background:rgba(239,68,68,.06);padding:10px 14px;flex:1;border:1px solid rgba(239,68,68,.06)}
+        .vs-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px}
+        .vs-good .vs-label{color:var(--green)}
+        .vs-bad .vs-label{color:var(--red)}
+        .vs-text{font-size:12px;color:var(--dim)}
+
+        /* ═══════ EXAMPLES ═══════ */
+        .ex{background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:5px;transition:all .3s cubic-bezier(.4,0,.2,1)}
+        .ex:hover{transform:translateY(-3px) scale(1.02);border-color:var(--border2);box-shadow:0 8px 24px rgba(99,102,241,.08)}
+        .ex-name{font-size:15px;font-weight:800}
+        .ex-url{font-size:12px}
+        .ex-why{font-size:12px;color:var(--dim)}
+        .ex-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+
+        /* ═══════ TABLE ═══════ */
+        .tbl{width:100%;border-collapse:collapse;font-size:13px}
+        .tbl td{padding:8px 10px;border-bottom:1px solid var(--border);color:var(--dim)}
+        .tbl td:first-child{font-weight:600;color:var(--text);white-space:nowrap}
+
+        /* ═══════ ANATOMY: SPLIT LAYOUT ═══════ */
+        .anat-split{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
+        .anat-list{display:flex;flex-direction:column;background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border-radius:14px;overflow:hidden;border:1px solid var(--border)}
+        .anat-row{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);transition:background .15s;cursor:default}
+        .anat-row:last-child{border-bottom:none}
+        .anat-row:hover{background:var(--blue-s)}
+        .anat-num{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+        .anat-row-text{flex:1;font-size:13px}
+        .anat-row-text b{font-size:14px}
+        .wf-phone{background:var(--s1);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:16px;padding:10px;position:sticky;top:20px;transition:all .3s}
+        .wf-screen{background:var(--wf-bg);border-radius:10px;overflow:hidden;transition:background .3s}
+        .wf-block{padding:8px 10px;border-bottom:1px dashed var(--border);position:relative;transition:all .15s}
+        .wf-label{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:8px;font-weight:700;padding:1px 5px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px}
+
+        /* ═══════ ARCH DIAGRAM ═══════ */
+        .arch-row{display:flex;gap:12px;align-items:stretch;margin:12px 0}
+        .arch-box{flex:1;background:var(--s2);backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;transition:all .3s}
+        .arch-box:hover{transform:translateY(-3px);border-color:var(--border2);box-shadow:0 6px 20px rgba(0,0,0,.1)}
+        .arch-box-title{font-size:14px;font-weight:700;margin-bottom:4px}
+        .arch-box-sub{font-size:12px;color:var(--dim)}
+        .arch-arrow{display:flex;align-items:center;font-size:20px;color:var(--dimmer);flex-shrink:0}
+
+        /* ═══════ INPUT CARDS ═══════ */
+        .io-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:16px}
+        .io-card{border-radius:12px;padding:16px;backdrop-filter:var(--glass-blur) var(--glass-saturate);-webkit-backdrop-filter:var(--glass-blur) var(--glass-saturate);transition:all .3s}
+        .io-card:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+        .io-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .io-text{font-size:13px;color:var(--dim)}
+
+        /* ═══════ FOOTER ═══════ */
+        .page-footer{text-align:center;padding:36px 0;color:var(--dimmer);font-size:12px;border-top:1px solid var(--border);margin-top:20px}
+
+        /* ═══════ MOBILE ═══════ */
+        @media(max-width:900px){
+            .anat-split{grid-template-columns:1fr}
+            .wf-phone{position:static;max-width:320px;margin:0 auto 16px}
+        }
+        @media(max-width:768px){
+            .wrap{padding:0 16px}
+            .g2,.g3{grid-template-columns:1fr}
+            .g4{grid-template-columns:1fr 1fr}
+            .hero h1{font-size:28px;letter-spacing:-1px}
+            .hero{padding:40px 0 28px}
+            .sec{padding:28px 0}
+            .sec-title{font-size:20px}
+            .vs-bar{flex-direction:column}
+            .theme-toggle{top:10px;right:10px;padding:5px 10px;font-size:11px}
+            .arch-row{flex-direction:column}
+            .arch-arrow{justify-content:center;transform:rotate(90deg)}
+            .criteria-grid{grid-template-columns:repeat(3,1fr)}
+            .stat-grid{grid-template-columns:1fr 1fr}
+            .io-grid{grid-template-columns:1fr}
+            .details-content,.bonus-content{padding:0 16px 16px}
+            .time-bar{flex-direction:column;gap:2px}
+            .time-seg{height:auto;padding:6px 12px;border-radius:6px}
+        }
+        @media(max-width:400px){
+            .g4{grid-template-columns:1fr}
+            .criteria-grid{grid-template-columns:1fr 1fr}
+            .anat-row{padding:10px 12px;gap:8px}
+        }
+    </style>
+</head>
+<body>
+<div class="mesh-bg"></div>
+
+<!-- ═══════ THEME TOGGLE ═══════ -->
+<button class="theme-toggle" onclick="toggleTheme()" aria-label="Переключить тему">
+    <span class="icon" id="themeIcon">🌙</span>
+    <span id="themeLabel">Тёмная</span>
+</button>
+
+<div class="wrap">
+
+<!-- ═══════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════ -->
+<div class="hero fade-up visible">
+    <div class="hero-label">AI-квест · Спасательная миссия · НоваТех</div>
+    <h1>Станция 05 · Цифровой коллапс</h1>
+    <p>Задание для команды · Восстановить корпоративный сайт компании и сделать его доступным по публичной ссылке</p>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     1. СИТУАЦИЯ
+     ═══════════════════════════════════════════ -->
+<div class="sec fade-up visible">
+    <div class="sec-head">
+        <span class="sec-icon">🚨</span>
+        <span class="sec-title">Ситуация</span>
+    </div>
+
+    <div class="c" style="border-left:3px solid var(--coral)">
+        <div class="c-title" style="color:var(--coral)">Кризис</div>
+        <p style="margin-top:6px"><strong>48 часов назад</strong> компания «НоваТех» подверглась масштабному каскадному сбою. Цепная реакция отказов, начавшись с серверов аналитики, распространилась на все ключевые системы компании. <strong>Корпоративный сайт полностью недоступен.</strong> Клиенты и партнёры не могут получить информацию о компании. Нужно показать миру: компания работает.</p>
+    </div>
+
+    <div class="c" style="margin-top:14px;border-left:3px solid var(--blue)">
+        <div class="c-title" style="color:var(--blue)">Ваша задача</div>
+        <p style="margin-top:6px">С помощью <strong>AI-инструментов</strong> создать <strong>красивый, адаптивный сайт</strong> для компании «НоваТех» и <strong>задеплоить его</strong> — сделать доступным по публичной ссылке. Сайт должен выглядеть профессионально, внушать доверие и быть доступен всему миру.</p>
+
+        <div class="io-grid">
+            <div class="io-card" style="background:var(--blue-s);border:1px solid rgba(99,102,241,.15)">
+                <div class="io-label" style="color:var(--blue)">📥 На вход</div>
+                <div class="io-text">Описание компании + AI-инструменты (ML-чат, агент в IDE)</div>
+            </div>
+            <div class="io-card" style="background:var(--green-s);border:1px solid rgba(34,197,94,.15)">
+                <div class="io-label" style="color:var(--green)">⚙️ Инструмент</div>
+                <div class="io-text">ML-чат, агент в IDE, любые AI-помощники</div>
+            </div>
+            <div class="io-card" style="background:var(--coral-s);border:1px solid rgba(250,99,106,.15)">
+                <div class="io-label" style="color:var(--coral)">📤 На выход</div>
+                <div class="io-text">Работающий сайт, доступный по публичной ссылке</div>
+            </div>
+        </div>
+
+        <div class="pilot-badge">🎯 Пилот: участник, назначенный фасилитатором</div>
+    </div>
+
+    <div class="c" style="margin-top:14px">
+        <div class="c-title" style="color:var(--dim)">Обязательные элементы сайта</div>
+        <ul class="prep-list" style="margin-top:8px">
+            <li><strong>Заголовок и hero-секция</strong> — сильный заголовок, подзаголовок, CTA-кнопка</li>
+            <li><strong>Информация о компании</strong> — чем занимается «НоваТех», ключевые цифры</li>
+            <li><strong>Услуги / преимущества</strong> — карточки с описанием направлений</li>
+            <li><strong>Текущий статус</strong> — блок о восстановлении после сбоя (новость, баннер)</li>
+            <li><strong>FAQ</strong> — аккордеон с вопросами-ответами</li>
+            <li><strong>Контакты</strong> — адрес, телефон, email</li>
+        </ul>
+    </div>
+
+    <div class="tip tip-coral">
+        <span class="tip-icon">⚠️</span>
+        <span>Сайт должен быть не просто набором текста, а <strong>визуально привлекательным и современным</strong>. Оцениваются дизайн, адаптивность и качество. Используйте AI по максимуму!</span>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     2. ИНФОРМАЦИЯ О КОМПАНИИ (collapsible)
+     ═══════════════════════════════════════════ -->
+<details class="details-wrap fade-up">
+    <summary><span style="font-size:22px">🏢</span> Информация о компании «НоваТех»</summary>
+    <div class="details-content">
+        <p style="color:var(--dim);margin-bottom:16px"><strong>«НоваТех»</strong> — крупная технологическая компания, лидер рынка IT-консалтинга и цифровой трансформации. Основана в 2011 году. Штаб-квартира — Москва. Обслуживает 200+ корпоративных клиентов в 15 отраслях. Известна инновационным подходом к решению бизнес-задач.</p>
+
+        <div class="stat-grid">
+            <div class="stat-box"><div class="stat-num">1 200</div><div class="stat-label">Сотрудников</div></div>
+            <div class="stat-box"><div class="stat-num">200+</div><div class="stat-label">Клиентов</div></div>
+            <div class="stat-box"><div class="stat-num">₽4,8B</div><div class="stat-label">Выручка/год</div></div>
+            <div class="stat-box"><div class="stat-num">15</div><div class="stat-label">Отраслей</div></div>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;margin:20px 0 10px">Что произошло</div>
+        <p style="color:var(--dim);font-size:14px;margin-bottom:14px"><strong>48 часов назад</strong> «НоваТех» подверглась масштабному каскадному сбою. Цепная реакция отказов начавшись с серверов аналитики, распространилась на все ключевые системы:</p>
+        <div class="g2">
+            <div class="c" style="padding:14px"><p>📊 Уничтожены все дашборды и аналитика</p></div>
+            <div class="c" style="padding:14px"><p>📡 Отключены каналы коммуникации</p></div>
+            <div class="c" style="padding:14px"><p>🔥 В СМИ начался репутационный кризис</p></div>
+            <div class="c" style="padding:14px"><p>👥 Парализованы HR-процессы</p></div>
+            <div class="c" style="padding:14px"><p>🌐 Корпоративный сайт недоступен</p></div>
+            <div class="c" style="padding:14px"><p>📄 Утрачены шаблоны всех документов</p></div>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;margin:20px 0 10px">Текущий статус</div>
+        <p style="color:var(--dim);font-size:14px">Совет директоров объявил <strong>режим антикризисной мобилизации</strong>. Для восстановления критических систем привлечены лучшие антикризисные консалтинговые команды — <strong>это вы</strong>. У вас есть один день и мощнейший инструмент — <strong>AI-агент</strong>, способный решать задачи от анализа данных до деплоя приложений.</p>
+    </div>
+</details>
+
+<!-- ═══════════════════════════════════════════
+     3. АЛГОРИТМ РАБОТЫ
+     ═══════════════════════════════════════════ -->
+<div class="sec fade-up">
+    <div class="sec-head">
+        <span class="sec-icon">📝</span>
+        <span class="sec-title">Алгоритм работы</span>
+    </div>
+
+    <div class="c">
+        <div class="c-title" style="color:var(--blue)">Рекомендуемые шаги (20 минут)</div>
+        <ol class="steps" style="margin-top:10px">
+            <li><strong>Обсудите концепцию</strong> (2 мин) — Какой стиль? Тёмная/светлая тема? Одна страница или несколько? Распределите роли: кто пишет промпт, кто деплоит, кто готовит демо.</li>
+            <li><strong>Составьте промпт и сгенерируйте сайт</strong> (8 мин) — Используйте формулу из шпаргалки ниже. Чем точнее опишете — тем лучше результат. Попросите AI создать HTML + CSS + JS.</li>
+            <li><strong>Доработайте и протестируйте</strong> (5 мин) — Проверьте мобильную версию (сузьте окно браузера). Добавьте недостающие секции. Попросите AI исправить то, что не нравится.</li>
+            <li><strong>Задеплойте сайт</strong> (3 мин) — Опубликуйте сайт на любом бесплатном хостинге, чтобы он стал доступен по публичной ссылке. Скопируйте ссылку.</li>
+            <li><strong>Подготовьтесь к демо</strong> (2 мин) — Откройте сайт по ссылке, проверьте на телефоне, подготовьте рассказ.</li>
+        </ol>
+    </div>
+
+    <div class="tip tip-green">
+        <span class="tip-icon">💡</span>
+        <span><strong>Лайфхак:</strong> используйте Agent Mode (Cmd+I / Ctrl+I) в IDE для генерации сайта. Можно попросить AI сразу сделать несколько страниц с общим CSS и JS.</span>
+    </div>
+
+    <div class="c" style="margin-top:14px">
+        <div class="c-title" style="color:var(--dim)">Распределение времени (30 мин)</div>
+        <div class="time-bar">
+            <div class="time-seg time-brief">5 мин — вводная</div>
+            <div class="time-seg time-work">20 мин — работа</div>
+            <div class="time-seg time-review">5 мин — демо</div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     4.1 ПОДСКАЗКА ПРО ФУНКЦИОНАЛ ПРИЁМА ЗАЯВОК
+     ═══════════════════════════════════════════ -->
+<details class="details-wrap fade-up" style="margin-top:10px;border-bottom:none">
+    <summary><span style="font-size:22px">💡</span> Подсказка про функционал приёма заявок</summary>
+    <div class="details-content">
+        <p style="color:var(--dim);margin-bottom:16px">Чтобы получить 4-й балл, сайту нужна <strong>форма заявки + админ-панель для их просмотра</strong>. Вот архитектура того, что нужно построить.</p>
+
+        <div style="font-size:16px;font-weight:700;margin-bottom:12px">Архитектура решения: 3 компонента</div>
+        <div class="arch-row">
+            <div class="arch-box" style="border-top:3px solid var(--blue)">
+                <div style="font-size:28px;margin-bottom:6px">🌐</div>
+                <div class="arch-box-title" style="color:var(--blue)">Frontend</div>
+                <div class="arch-box-sub">Лендинг (HTML/CSS/JS)</div>
+                <div style="margin-top:8px;text-align:left"><ul style="list-style:none;padding:0;font-size:12px;color:var(--dim)"><li style="padding:2px 0">+ Форма: имя, email, сообщение</li><li style="padding:2px 0">+ Отправка данных по API</li><li style="padding:2px 0">+ Сообщение «Заявка отправлена!»</li></ul></div>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box" style="border-top:3px solid var(--green)">
+                <div style="font-size:28px;margin-bottom:6px">⚙️</div>
+                <div class="arch-box-title" style="color:var(--green)">Backend (API)</div>
+                <div class="arch-box-sub">Сервер, который принимает и отдаёт данные</div>
+                <div style="margin-top:8px;text-align:left"><ul style="list-style:none;padding:0;font-size:12px;color:var(--dim)"><li style="padding:2px 0">+ POST /api/requests — сохранить заявку</li><li style="padding:2px 0">+ GET /api/requests — список заявок</li><li style="padding:2px 0">+ Авторизация для админки</li></ul></div>
+            </div>
+            <div class="arch-arrow">→</div>
+            <div class="arch-box" style="border-top:3px solid var(--orange)">
+                <div style="font-size:28px;margin-bottom:6px">🗄️</div>
+                <div class="arch-box-title" style="color:var(--orange)">База данных</div>
+                <div class="arch-box-sub">Хранилище заявок</div>
+                <div style="margin-top:8px;text-align:left"><ul style="list-style:none;padding:0;font-size:12px;color:var(--dim)"><li style="padding:2px 0">+ Таблица: id, имя, email, текст, дата</li><li style="padding:2px 0">+ Таблица: admin_users (логин, пароль)</li></ul></div>
+            </div>
+        </div>
+
+        <div style="text-align:center;margin:4px 0 16px"><div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:8px;background:var(--pink-s);border:1px solid rgba(236,72,153,.12);font-size:13px;color:var(--pink);font-weight:600"><span>🔐</span> Отдельная страница /admin — таблица заявок, доступна по паролю</div></div>
+
+        <div style="font-size:15px;font-weight:700;margin:20px 0 10px">Какой стек попросить у ИИ</div>
+        <div class="g2">
+            <div class="c">
+                <div class="c-title" style="color:var(--green)">Вариант 1: Самый простой</div>
+                <p style="margin-top:6px"><strong>Один HTML + JSON-файл.</strong> Заявки хранятся в localStorage браузера или в JSON-файле. Админ-панель — отдельная HTML-страница с паролем.</p>
+                <p style="margin-top:6px"><strong>Промпт ИИ:</strong> «Добавь форму заявки, которая сохраняет данные в localStorage. Сделай страницу /admin.html с паролем, которая показывает все заявки в таблице.»</p>
+                <div class="tip tip-green" style="margin:8px 0 0"><span class="tip-icon">✅</span><span>Работает без сервера. Минус: данные только в одном браузере.</span></div>
+            </div>
+            <div class="c">
+                <div class="c-title" style="color:var(--blue)">Вариант 2: С бэкендом</div>
+                <p style="margin-top:6px"><strong>Frontend + Python/Node.js сервер + SQLite.</strong> Сервер принимает заявки, сохраняет в базу, отдаёт список в админку.</p>
+                <p style="margin-top:6px"><strong>Промпт ИИ:</strong> «Создай Python Flask API с двумя эндпоинтами: POST /api/requests (сохранить заявку в SQLite), GET /api/requests (вернуть все заявки). Добавь простую авторизацию. Сделай admin.html с таблицей заявок.»</p>
+                <div class="tip tip-blue" style="margin:8px 0 0"><span class="tip-icon">🚀</span><span>Полноценное решение. Нужен запущенный сервер (Python/Node.js).</span></div>
+            </div>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;margin:20px 0 10px">Как это выглядит для пользователя</div>
+        <div style="display:flex;gap:0;flex-direction:column;border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--s2)">
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)">
+                <div style="font-size:16px">1️⃣</div>
+                <div style="font-size:13px;color:var(--dim)"><strong style="color:var(--text)">Клиент</strong> открывает лендинг → заполняет форму (имя, email, «Хочу консультацию») → нажимает «Отправить»</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)">
+                <div style="font-size:16px">2️⃣</div>
+                <div style="font-size:13px;color:var(--dim)"><strong style="color:var(--text)">Система</strong> сохраняет заявку в базу / localStorage → показывает «Спасибо, мы свяжемся!»</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:12px 16px">
+                <div style="font-size:16px">3️⃣</div>
+                <div style="font-size:13px;color:var(--dim)"><strong style="color:var(--text)">Админ</strong> открывает /admin.html → вводит пароль → видит таблицу всех заявок с датами</div>
+            </div>
+        </div>
+
+        <div class="tip tip-orange" style="margin-top:14px"><span class="tip-icon">⚡</span><span><strong>Совет:</strong> начните с Варианта 1 (localStorage) — это занимает 5 минут через ИИ. Если останется время — попросите ИИ переделать на Вариант 2 с сервером.</span></div>
+    </div>
+</details>
+
+<!-- ═══════════════════════════════════════════
+     5. ЧТО ПОКАЗАТЬ НА ДЕМО
+     ═══════════════════════════════════════════ -->
+<div class="sec fade-up">
+    <div class="sec-head">
+        <span class="sec-icon">🎤</span>
+        <span class="sec-title">Что показать на демо (5 мин)</span>
+    </div>
+
+    <div class="c">
+        <div class="c-title" style="color:var(--blue)">Подготовьтесь презентовать</div>
+        <ol class="steps" style="margin-top:10px">
+            <li><strong>Расскажите о компании «НоваТех»</strong> — подкрепляйте рассказ страницами сайта: покажите hero, услуги, историю, новости (1.5 мин)</li>
+            <li><strong>Покажите доступ по ссылке</strong> — откройте сайт по публичной ссылке в браузере, в том числе продемонстрируйте на телефоне (1 мин)</li>
+            <li><strong>Продемонстрируйте сбор заявок</strong> — заполните форму, отправьте заявку, откройте админ-панель и покажите, что заявка появилась в таблице (1.5 мин)</li>
+            <li><strong>Инсайт</strong> — что узнали нового, что бы доработали при наличии времени (1 мин)</li>
+        </ol>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     6. ШПАРГАЛКА: КАК СОЗДАТЬ КРУТОЙ САЙТ С ПОМОЩЬЮ ИИ
+     ═══════════════════════════════════════════════════════ -->
+<details class="details-wrap fade-up" style="border-color:var(--blue);border-width:2px">
+    <summary><span style="font-size:22px">🧠</span> Как создать крутой сайт с помощью ИИ</summary>
+    <div class="details-content">
+
+    <p style="color:var(--dim);margin-bottom:20px;font-size:14px">Минимум теории, максимум пользы. После прочтения вы будете точно знать, что просить у ИИ, чтобы получился профессиональный, современный сайт.</p>
+
+    <!-- ─── 1. ANATOMY ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">🏗️</span><span class="sec-title">Из чего состоит сайт</span></div>
+        <p class="sec-sub">Профессиональные сайты состоят из стандартных блоков. Слева — названия и описание, справа — где именно они на странице.</p>
+
+        <div class="anat-split">
+            <div class="anat-list">
+                <div class="anat-row" onmouseenter="hlWf(1)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--blue-s);color:var(--blue)">1</div>
+                    <div class="anat-row-text"><b>Header</b> — шапка с логотипом, меню и кнопкой. Приклеена к верху (sticky)</div>
+                    <span class="tag t-blue">Всегда виден</span>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(2)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--cyan-s);color:var(--cyan)">2</div>
+                    <div class="anat-row-text"><b>Hero-секция</b> — первый экран. Заголовок + подзаголовок + кнопка. Цепляет за 3 сек</div>
+                    <span class="tag t-cyan">Ключевой</span>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(3)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--green-s);color:var(--green)">3</div>
+                    <div class="anat-row-text"><b>Features</b> — преимущества. 3–6 карточек с иконками: «почему мы»</div>
+                    <span class="tag t-green">Ценность</span>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(4)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--orange-s);color:var(--orange)">4</div>
+                    <div class="anat-row-text"><b>Social Proof</b> — доверие. Отзывы, логотипы партнёров, цифры: «10 000+ клиентов»</div>
+                    <span class="tag t-orange">Доверие</span>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(5)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--blue-s);color:var(--dim)">5</div>
+                    <div class="anat-row-text"><b>FAQ</b> — аккордеон с вопросами-ответами. Кликаешь — раскрывается</div>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(6)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--pink-s);color:var(--pink)">6</div>
+                    <div class="anat-row-text"><b>CTA-секция</b> — призыв к действию. Яркий фон, одна кнопка «Связаться»</div>
+                    <span class="tag t-pink">Конверсия</span>
+                </div>
+                <div class="anat-row" onmouseenter="hlWf(7)" onmouseleave="hlWf(0)">
+                    <div class="anat-num" style="background:var(--blue-s);color:var(--dimmer)">7</div>
+                    <div class="anat-row-text"><b>Footer</b> — подвал. Контакты, ссылки, соцсети, копирайт</div>
+                </div>
+            </div>
+
+            <div class="wf-phone">
+                <div style="text-align:center;font-size:9px;font-weight:700;color:var(--dimmer);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Визуальная карта страницы</div>
+                <div class="wf-screen">
+                    <div class="wf-block" id="wf1" style="display:flex;align-items:center;padding:8px 10px;gap:6px">
+                        <div style="width:16px;height:16px;background:var(--blue);border-radius:4px;flex-shrink:0"></div>
+                        <div style="flex:1;display:flex;gap:6px;justify-content:flex-end">
+                            <div style="width:20px;height:4px;background:var(--wf-el);border-radius:2px"></div>
+                            <div style="width:16px;height:4px;background:var(--wf-el);border-radius:2px"></div>
+                            <div style="width:18px;height:4px;background:var(--wf-el);border-radius:2px"></div>
+                        </div>
+                        <div style="padding:2px 8px;background:var(--blue);border-radius:3px;font-size:7px;color:#fff;font-weight:600">CTA</div>
+                        <span class="wf-label" style="display:none;background:var(--blue-s);color:var(--blue)">Header</span>
+                    </div>
+                    <div class="wf-block" id="wf2" style="padding:18px 10px;text-align:center">
+                        <div style="font-size:7px;font-weight:600;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Label</div>
+                        <div style="height:8px;background:var(--wf-el);border-radius:3px;width:75%;margin:0 auto 4px"></div>
+                        <div style="height:6px;background:var(--wf-el2);border-radius:3px;width:55%;margin:0 auto 8px"></div>
+                        <div style="display:flex;gap:4px;justify-content:center">
+                            <div style="padding:3px 12px;background:var(--blue);border-radius:4px;font-size:7px;color:#fff;font-weight:600">Кнопка</div>
+                            <div style="padding:3px 10px;border:1px solid var(--wf-el);border-radius:4px;font-size:7px;color:var(--dim)">Ещё</div>
+                        </div>
+                        <span class="wf-label" style="display:none;background:var(--cyan-s);color:var(--cyan)">Hero</span>
+                    </div>
+                    <div class="wf-block" id="wf3" style="padding:10px">
+                        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px">
+                            <div style="background:var(--wf-el);border-radius:4px;padding:6px;text-align:center"><div style="font-size:10px;margin-bottom:2px">⚡</div><div style="height:3px;background:var(--wf-el2);border-radius:2px;width:70%;margin:0 auto"></div></div>
+                            <div style="background:var(--wf-el);border-radius:4px;padding:6px;text-align:center"><div style="font-size:10px;margin-bottom:2px">🔒</div><div style="height:3px;background:var(--wf-el2);border-radius:2px;width:60%;margin:0 auto"></div></div>
+                            <div style="background:var(--wf-el);border-radius:4px;padding:6px;text-align:center"><div style="font-size:10px;margin-bottom:2px">📊</div><div style="height:3px;background:var(--wf-el2);border-radius:2px;width:65%;margin:0 auto"></div></div>
+                        </div>
+                        <span class="wf-label" style="display:none;background:var(--green-s);color:var(--green)">Features</span>
+                    </div>
+                    <div class="wf-block" id="wf4" style="padding:8px 10px;text-align:center">
+                        <div style="font-size:7px;color:var(--dimmer);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px">Нам доверяют</div>
+                        <div style="display:flex;gap:4px;justify-content:center">
+                            <div style="width:28px;height:12px;background:var(--wf-el);border-radius:2px"></div>
+                            <div style="width:28px;height:12px;background:var(--wf-el);border-radius:2px"></div>
+                            <div style="width:28px;height:12px;background:var(--wf-el);border-radius:2px"></div>
+                            <div style="width:28px;height:12px;background:var(--wf-el);border-radius:2px"></div>
+                        </div>
+                        <span class="wf-label" style="display:none;background:var(--orange-s);color:var(--orange)">Proof</span>
+                    </div>
+                    <div class="wf-block" id="wf5" style="padding:8px 10px">
+                        <div style="display:flex;flex-direction:column;gap:3px">
+                            <div style="display:flex;align-items:center;gap:4px"><div style="font-size:8px;color:var(--dimmer)">▸</div><div style="height:4px;background:var(--wf-el);border-radius:2px;width:65%"></div></div>
+                            <div style="display:flex;align-items:center;gap:4px"><div style="font-size:8px;color:var(--dimmer)">▸</div><div style="height:4px;background:var(--wf-el);border-radius:2px;width:55%"></div></div>
+                            <div style="display:flex;align-items:center;gap:4px"><div style="font-size:8px;color:var(--dimmer)">▸</div><div style="height:4px;background:var(--wf-el);border-radius:2px;width:60%"></div></div>
+                        </div>
+                        <span class="wf-label" style="display:none;background:var(--blue-s);color:var(--dim)">FAQ</span>
+                    </div>
+                    <div class="wf-block" id="wf6" style="padding:12px 10px;text-align:center;background:rgba(99,102,241,.04)">
+                        <div style="height:6px;background:var(--wf-el);border-radius:3px;width:50%;margin:0 auto 6px"></div>
+                        <div style="display:inline-block;padding:3px 14px;background:var(--blue);border-radius:4px;font-size:7px;color:#fff;font-weight:600">Связаться</div>
+                        <span class="wf-label" style="display:none;background:var(--pink-s);color:var(--pink)">CTA</span>
+                    </div>
+                    <div class="wf-block" id="wf7" style="padding:8px 10px;border-bottom:none">
+                        <div style="display:flex;justify-content:space-between;align-items:center">
+                            <div style="height:3px;background:var(--wf-el);border-radius:2px;width:35%"></div>
+                            <div style="display:flex;gap:3px"><div style="width:8px;height:8px;border-radius:50%;background:var(--wf-el)"></div><div style="width:8px;height:8px;border-radius:50%;background:var(--wf-el)"></div><div style="width:8px;height:8px;border-radius:50%;background:var(--wf-el)"></div></div>
+                        </div>
+                        <span class="wf-label" style="display:none;background:rgba(255,255,255,.05);color:var(--dimmer)">Footer</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tip tip-blue" style="margin-top:14px">
+            <span class="tip-icon">💡</span>
+            <span><strong>Не нужны все 7 блоков.</strong> Минимум для качественного сайта: Header + Hero + Features + CTA + Footer. FAQ и Social Proof — бонус, который делает сайт убедительнее.</span>
+        </div>
+    </div>
+
+    <!-- ─── 2. TYPES ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">📂</span><span class="sec-title">Какие бывают сайты</span></div>
+        <p class="sec-sub">Чтобы говорить на одном языке — вот основные типы сайтов и чем они отличаются.</p>
+        <div class="g3">
+            <div class="c" style="border-top:3px solid var(--blue)"><div class="c-title" style="color:var(--blue)">Landing Page (лендинг)</div><p><strong>1 страница</strong>, одна цель: продать, собрать заявки, зарегистрировать. Вся информация — сверху вниз, без сложной навигации.</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">Промо-акции, подписки, продукты</p></div>
+            <div class="c" style="border-top:3px solid var(--green)"><div class="c-title" style="color:var(--green)">Корпоративный сайт</div><p><strong>5–20 страниц:</strong> главная, о компании, услуги, кейсы, контакты, блог. Задача — доверие и информирование.</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">Банки, консалтинг, производство</p></div>
+            <div class="c" style="border-top:3px solid var(--orange)"><div class="c-title" style="color:var(--orange)">Интернет-магазин</div><p>Каталог товаров, корзина, оплата, личный кабинет. Тысячи страниц. Ключевая метрика — <strong>конверсия</strong> (% купивших).</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">Ozon, Wildberries, Amazon</p></div>
+            <div class="c" style="border-top:3px solid var(--pink)"><div class="c-title" style="color:var(--pink)">Web-приложение</div><p>Интерактивный продукт в браузере. Пользователь <strong>работает</strong>, а не читает: создаёт, редактирует, управляет.</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">Figma, Notion, Google Docs</p></div>
+            <div class="c" style="border-top:3px solid var(--cyan)"><div class="c-title" style="color:var(--cyan)">SaaS-сайт</div><p>Маркетинговый сайт для продвижения веб-приложения: hero + features + pricing + testimonials.</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">stripe.com, slack.com</p></div>
+            <div class="c" style="border-top:3px solid var(--purple)"><div class="c-title" style="color:var(--purple)">Портал / Dashboard</div><p>Внутренний интерфейс: аналитика, админ-панели, CRM. Фокус на информационной плотности и эффективности.</p><p style="margin-top:6px;font-size:12px;color:var(--dimmer)">Salesforce, Jira, Grafana</p></div>
+        </div>
+    </div>
+
+    <!-- ─── 3. GOOD VS BAD ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">✨</span><span class="sec-title">Что отличает крутой сайт от посредственного</span></div>
+        <div class="g2">
+            <div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">Много «воздуха» между элементами. Страница дышит</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">Всё налеплено вплотную, нет пространства</div></div></div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">2 цвета + нейтральный фон. Один акцент для кнопок</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">Радуга из 5+ цветов, кислотные оттенки</div></div></div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">Макс. 2 шрифта. Чёткая иерархия размеров</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">3+ шрифтов, нет системы размеров</div></div></div>
+            </div>
+            <div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">Одна CTA-кнопка на экране. Понятно, что нажать</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">5 кнопок — непонятно, что главное</div></div></div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">Скруглённые углы, мягкие тени, плавные переходы</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">Острые углы, резкие тени, мигающие элементы</div></div></div>
+                <div class="vs-bar"><div class="vs-good"><div class="vs-label">Профессионально</div><div class="vs-text">Выравнивание по сетке. Всё ровно, симметрично</div></div><div class="vs-bad"><div class="vs-label">Любительски</div><div class="vs-text">Элементы пляшут, отступы разные, хаос</div></div></div>
+            </div>
+        </div>
+        <div class="tip tip-green" style="margin-top:8px"><span class="tip-icon">🎯</span><span><strong>Главное правило:</strong> лучше меньше, но качественно. Whitespace — это не «пусто», а приём премиального дизайна. Apple, Stripe, Tesla — мастера «воздуха».</span></div>
+    </div>
+
+    <!-- ─── 4. TRENDS ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">🔥</span><span class="sec-title">Что сейчас модно</span></div>
+        <p class="sec-sub">Эти приёмы можно попросить у ИИ — он их знает и умеет делать.</p>
+        <div class="g3">
+            <div class="c" style="border-top:3px solid var(--pink)"><div class="c-title" style="color:var(--pink)">Glassmorphism</div><p>Полупрозрачные панели с эффектом матового стекла. Создаёт глубину.</p><p style="margin-top:6px"><strong>Промпт:</strong> «glassmorphism cards with backdrop blur»</p></div>
+            <div class="c" style="border-top:3px solid var(--blue)"><div class="c-title" style="color:var(--blue)">Gradient Mesh</div><p>Сложные многоцветные градиенты — «жидкие» переливы на фоне. Выглядит дорого.</p><p style="margin-top:6px"><strong>Промпт:</strong> «mesh gradient background»</p></div>
+            <div class="c" style="border-top:3px solid var(--green)"><div class="c-title" style="color:var(--green)">Bento Grid</div><p>Карточки разного размера в асимметричной сетке. Тренд от Apple.</p><p style="margin-top:6px"><strong>Промпт:</strong> «bento grid layout for features»</p></div>
+            <div class="c" style="border-top:3px solid var(--cyan)"><div class="c-title" style="color:var(--cyan)">Dark Mode</div><p>Тёмный фон, светлый текст, неоновые акценты. Tech-стильно и премиально.</p><p style="margin-top:6px"><strong>Промпт:</strong> «dark theme with neon accents»</p></div>
+            <div class="c" style="border-top:3px solid var(--orange)"><div class="c-title" style="color:var(--orange)">Scroll Animations</div><p>Элементы плавно появляются при прокрутке: fade in, slide up. Сайт «оживает».</p><p style="margin-top:6px"><strong>Промпт:</strong> «smooth scroll animations with CSS/JS»</p></div>
+            <div class="c" style="border-top:3px solid var(--purple)"><div class="c-title" style="color:var(--purple)">Микро-анимации</div><p>Кнопки реагируют на наведение, карточки увеличиваются при hover.</p><p style="margin-top:6px"><strong>Промпт:</strong> «hover effects on cards and buttons»</p></div>
+        </div>
+    </div>
+
+    <!-- ─── 5. HOW TO TALK TO AI ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">🤖</span><span class="sec-title">Как правильно объяснить ИИ, что вы хотите</span></div>
+        <p class="sec-sub">Чем точнее опишете — тем лучше результат. Вот формула.</p>
+
+        <div class="c" style="border:1px solid rgba(99,102,241,.2);background:rgba(99,102,241,.04);padding:24px">
+            <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px">Формула промпта для ИИ</div>
+            <div style="display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:14px">
+                <div style="font-weight:700;color:var(--text)">Тип:</div><div style="color:var(--dim)">«Одностраничный лендинг» / «Корпоративный сайт»</div>
+                <div style="font-weight:700;color:var(--text)">Для кого:</div><div style="color:var(--dim)">«Для IT-компании НоваТех, tech-консалтинг»</div>
+                <div style="font-weight:700;color:var(--text)">Секции:</div><div style="color:var(--dim)">«Header, hero, 4 преимущества, отзывы, FAQ, CTA, footer»</div>
+                <div style="font-weight:700;color:var(--text)">Стиль:</div><div style="color:var(--dim)">«Тёмная тема, glassmorphism, градиенты, как stripe.com»</div>
+                <div style="font-weight:700;color:var(--text)">Фишки:</div><div style="color:var(--dim)">«Scroll-анимации, hover-эффекты, адаптивность»</div>
+                <div style="font-weight:700;color:var(--text)">Формат:</div><div style="color:var(--dim)">«Один HTML-файл со встроенным CSS и JS»</div>
+            </div>
+        </div>
+
+        <div class="g2" style="margin-top:14px">
+            <div class="c" style="border-left:3px solid var(--red)"><div class="c-title" style="color:var(--red)">Слабый промпт</div><p style="font-style:italic;margin-top:6px">«Сделай мне сайт для компании»</p><p style="margin-top:6px">Результат: серый, скучный, шаблонный.</p></div>
+            <div class="c" style="border-left:3px solid var(--green)"><div class="c-title" style="color:var(--green)">Сильный промпт</div><p style="font-style:italic;margin-top:6px">«Создай современный лендинг в тёмной теме для tech-компании НоваТех. Секции: sticky header, hero с градиентом и двумя кнопками, 4 преимущества в bento grid, 3 отзыва, FAQ-аккордеон, CTA с ярким фоном, footer. Стиль как linear.app: glassmorphism, неоновые акценты, scroll-анимации. Один HTML-файл.»</p></div>
+        </div>
+
+        <div class="tip tip-orange" style="margin-top:12px"><span class="tip-icon">⚡</span><span><strong>Лайфхак:</strong> «сделай как [сайт]» — ИИ знает дизайн популярных сайтов. Пример: «в стиле stripe.com» или «как linear.app».</span></div>
+    </div>
+
+    <!-- ─── 6. TERMS ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">📖</span><span class="sec-title">10 терминов для промптов</span></div>
+        <div class="g2">
+            <table class="tbl">
+                <tbody><tr><td>Hero section</td><td>Первый экран: заголовок + кнопка + картинка</td></tr>
+                <tr><td>CTA</td><td>Call to Action — кнопка-призыв: «Начать», «Связаться»</td></tr>
+                <tr><td>Responsive</td><td>Адаптивный: корректно и на телефоне, и на десктопе</td></tr>
+                <tr><td>Sticky header</td><td>Шапка, которая прилипает к верху при скролле</td></tr>
+                <tr><td>Whitespace</td><td>Пустое пространство между элементами = премиальность</td></tr>
+            </tbody></table>
+            <table class="tbl">
+                <tbody><tr><td>Accordion</td><td>Раскрывающиеся блоки (FAQ). Кликнул — ответ открылся</td></tr>
+                <tr><td>Hover effect</td><td>Реакция на наведение мыши (увеличение, подсветка)</td></tr>
+                <tr><td>Glassmorphism</td><td>Матовое стекло: полупрозрачность + размытие фона</td></tr>
+                <tr><td>Gradient</td><td>Плавный переход между 2+ цветами</td></tr>
+                <tr><td>Bento grid</td><td>Карточки разного размера в асимметричной сетке</td></tr>
+            </tbody></table>
+        </div>
+    </div>
+
+    <!-- ─── 7. IDEAS ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">💡</span><span class="sec-title">Фишки, которые выделят ваш сайт</span></div>
+        <p class="sec-sub">Выберите 2–3 штуки, чтобы сайт запомнился.</p>
+        <div class="g4">
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">🌓</div><div class="c-title">Dark / Light toggle</div><p>Переключатель темы</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">📊</div><div class="c-title">Счётчики</div><p>Числа «крутятся»: 0 → 10,000</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">🎭</div><div class="c-title">Параллакс</div><p>Фон движется медленнее</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">⏱️</div><div class="c-title">Таймлайн</div><p>История / шаги процесса</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">💬</div><div class="c-title">Чат-виджет</div><p>Кнопка чата в углу</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">🗺️</div><div class="c-title">Карта</div><p>Интерактивная карта офисов</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">📸</div><div class="c-title">Галерея</div><p>Карусель фото / проектов</p></div>
+            <div class="c" style="text-align:center;padding:14px"><div style="font-size:24px;margin-bottom:4px">🟢</div><div class="c-title">Статус-бар</div><p>«Системы работают» с индикаторами</p></div>
+        </div>
+    </div>
+
+    <!-- ─── 8. EXAMPLES ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">🌍</span><span class="sec-title">Примеры для вдохновения</span></div>
+        <p class="sec-sub">Откройте 2–3 сайта, запомните стиль — скажите ИИ: «Сделай как этот сайт».</p>
+
+        <div style="font-size:15px;font-weight:700;margin-bottom:10px">Мировые эталоны</div>
+        <div class="g3">
+            <div class="ex"><div class="ex-name">Stripe</div><div class="ex-url"><a href="https://stripe.com/" target="_blank">stripe.com</a></div><div class="ex-why">Эталон: градиенты, анимации, идеальная типографика</div><div class="ex-tags"><span class="tag t-blue">Градиенты</span><span class="tag t-green">Анимации</span></div></div>
+            <div class="ex"><div class="ex-name">Linear</div><div class="ex-url"><a href="https://linear.app/" target="_blank">linear.app</a></div><div class="ex-why">Тёмная тема, glassmorphism, невероятные анимации</div><div class="ex-tags"><span class="tag t-pink">Dark</span><span class="tag t-cyan">Glass</span></div></div>
+            <div class="ex"><div class="ex-name">Vercel</div><div class="ex-url"><a href="https://vercel.com/" target="_blank">vercel.com</a></div><div class="ex-why">Минимализм: чёрный + белый, огромные заголовки</div><div class="ex-tags"><span class="tag t-blue">Minimal</span><span class="tag t-orange">Scroll</span></div></div>
+            <div class="ex"><div class="ex-name">Apple</div><div class="ex-url"><a href="https://apple.com/" target="_blank">apple.com</a></div><div class="ex-why">Bento grid, whitespace, каждая секция — история</div><div class="ex-tags"><span class="tag t-green">Bento</span><span class="tag t-pink">Whitespace</span></div></div>
+            <div class="ex"><div class="ex-name">Notion</div><div class="ex-url"><a href="https://notion.so/" target="_blank">notion.so</a></div><div class="ex-why">Дружелюбный playful стиль, иллюстрации</div><div class="ex-tags"><span class="tag t-orange">Playful</span><span class="tag t-cyan">Иллюстрации</span></div></div>
+            <div class="ex"><div class="ex-name">Raycast</div><div class="ex-url"><a href="https://raycast.com/" target="_blank">raycast.com</a></div><div class="ex-why">Тёмная тема, неоновые акценты, tech-стиль</div><div class="ex-tags"><span class="tag t-pink">Neon</span><span class="tag t-blue">Tech</span></div></div>
+        </div>
+
+        <div style="font-size:15px;font-weight:700;margin:24px 0 10px">Российские компании</div>
+        <div class="g3">
+            <div class="ex" style="border-left:3px solid #ffdd2d"><div class="ex-name" style="color:#ffdd2d">Т-Банк</div><div class="ex-url"><a href="https://www.tbank.ru/" target="_blank">tbank.ru</a></div><div class="ex-why">Эталон финтеха в РФ. Микроанимации, идеальный mobile</div><div class="ex-tags"><span class="tag t-orange">Финтех</span><span class="tag t-green">Mobile</span></div></div>
+            <div class="ex" style="border-left:3px solid #fc3f1d"><div class="ex-name" style="color:#fc3f1d">Яндекс</div><div class="ex-url"><a href="https://yandex.ru/company" target="_blank">yandex.ru/company</a></div><div class="ex-why">Bento-сетка, scroll-анимации, крупные числа</div><div class="ex-tags"><span class="tag t-cyan">Bento</span><span class="tag t-blue">Scroll</span></div></div>
+            <div class="ex" style="border-left:3px solid #0077ff"><div class="ex-name" style="color:#0077ff">VK Company</div><div class="ex-url"><a href="https://vk.company/" target="_blank">vk.company</a></div><div class="ex-why">Тёмная тема, градиенты, продукты экосистемы</div><div class="ex-tags"><span class="tag t-pink">Dark</span><span class="tag t-blue">Градиенты</span></div></div>
+            <div class="ex" style="border-left:3px solid #21a038"><div class="ex-name" style="color:#21a038">Сбер</div><div class="ex-url"><a href="https://www.sber.ru/" target="_blank">sber.ru</a></div><div class="ex-why">Mega-menu, свой шрифт SB Sans, единый дизайн</div><div class="ex-tags"><span class="tag t-green">Экосистема</span></div></div>
+            <div class="ex" style="border-left:3px solid #0033a0"><div class="ex-name" style="color:#6699cc">Газпром нефть</div><div class="ex-url"><a href="https://www.gazprom-neft.ru/" target="_blank">gazprom-neft.ru</a></div><div class="ex-why">Интерактивная инфографика, качественные фото</div><div class="ex-tags"><span class="tag t-blue">Corporate</span></div></div>
+            <div class="ex" style="border-left:3px solid #ff6600"><div class="ex-name" style="color:#ff6600">ПИК</div><div class="ex-url"><a href="https://www.pik.ru/" target="_blank">pik.ru</a></div><div class="ex-why">3D-планировки, калькулятор, UX-воронка</div><div class="ex-tags"><span class="tag t-orange">3D</span><span class="tag t-green">UX</span></div></div>
+        </div>
+
+        <div class="tip tip-blue" style="margin-top:14px"><span class="tip-icon">🔗</span><span><strong>Галереи идей:</strong> <a href="https://www.awwwards.com/" target="_blank">Awwwards</a>, <a href="https://dribbble.com/" target="_blank">Dribbble</a>, <a href="https://www.lapa.ninja/" target="_blank">Lapa.ninja</a>, <a href="https://mobbin.com/" target="_blank">Mobbin</a></span></div>
+    </div>
+
+    <!-- ─── 9. COLOR ─── -->
+    <div style="margin-bottom:30px">
+        <div class="sec-head"><span class="sec-icon">🎨</span><span class="sec-title">Быстрый гайд по цвету и стилю</span></div>
+        <div class="g2">
+            <div class="c">
+                <div class="c-title">Готовые цветовые схемы для промпта</div>
+                <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+                    <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:3px"><div style="width:22px;height:22px;border-radius:5px;background:#0f172a"></div><div style="width:22px;height:22px;border-radius:5px;background:#6366f1"></div><div style="width:22px;height:22px;border-radius:5px;background:#e2e8f0"></div></div><span style="font-size:13px;color:var(--dim)"><strong>Tech</strong> — тёмный + фиолетовый</span></div>
+                    <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:3px"><div style="width:22px;height:22px;border-radius:5px;background:#fff;border:1px solid var(--border)"></div><div style="width:22px;height:22px;border-radius:5px;background:#2563eb"></div><div style="width:22px;height:22px;border-radius:5px;background:#1e293b"></div></div><span style="font-size:13px;color:var(--dim)"><strong>Корпоративный</strong> — белый + синий</span></div>
+                    <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:3px"><div style="width:22px;height:22px;border-radius:5px;background:#0a0a0a"></div><div style="width:22px;height:22px;border-radius:5px;background:#22c55e"></div><div style="width:22px;height:22px;border-radius:5px;background:#a3a3a3"></div></div><span style="font-size:13px;color:var(--dim)"><strong>Финтех</strong> — чёрный + зелёный</span></div>
+                    <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:3px"><div style="width:22px;height:22px;border-radius:5px;background:#fafaf9;border:1px solid var(--border)"></div><div style="width:22px;height:22px;border-radius:5px;background:#f97316"></div><div style="width:22px;height:22px;border-radius:5px;background:#1c1917"></div></div><span style="font-size:13px;color:var(--dim)"><strong>Энергичный</strong> — светлый + оранжевый</span></div>
+                    <div style="display:flex;align-items:center;gap:10px"><div style="display:flex;gap:3px"><div style="width:22px;height:22px;border-radius:5px;background:#0c0a09"></div><div style="width:22px;height:22px;border-radius:5px;background:#e11d48"></div><div style="width:22px;height:22px;border-radius:5px;background:#fafafa;border:1px solid var(--border)"></div></div><span style="font-size:13px;color:var(--dim)"><strong>Bold</strong> — тёмный + красный/розовый</span></div>
+                </div>
+            </div>
+            <div class="c">
+                <div class="c-title">Правила, которые нельзя нарушать</div>
+                <ul style="margin-top:10px">
+                    <li><strong>Максимум 2 шрифта</strong> — заголовки + текст</li>
+                    <li><strong>Один акцентный цвет</strong> для кнопок, остальное нейтральное</li>
+                    <li><strong>Минимум 16px</strong> для текста — иначе не читается на телефоне</li>
+                    <li><strong>Контраст</strong> — светлый на тёмном ИЛИ тёмный на светлом</li>
+                    <li><strong>Одинаковые отступы</strong> — 60px везде, а не 20 тут, 80 там</li>
+                    <li><strong>Одна primary-кнопка на экран</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</details>
+
+<!-- ═══════ FOOTER ═══════ -->
+<div class="page-footer">
+    Станция 05 · Цифровой коллапс · AI-квест · НоваТех · 2026
+</div>
+
+</div>
+
+<script>
+function toggleTheme(){
+    const html=document.documentElement;
+    const isDark=html.getAttribute('data-theme')==='dark';
+    html.setAttribute('data-theme',isDark?'light':'dark');
+    document.getElementById('themeIcon').textContent=isDark?'☀️':'🌙';
+    document.getElementById('themeLabel').textContent=isDark?'Светлая':'Тёмная';
+}
+
+/* ═══════ SCROLL ANIMATIONS ═══════ */
+(function(){
+    const els=document.querySelectorAll('.fade-up');
+    if(!els.length)return;
+    const obs=new IntersectionObserver(function(entries){
+        entries.forEach(function(e,i){
+            if(e.isIntersecting){
+                setTimeout(function(){e.target.classList.add('visible')},i*100);
+                obs.unobserve(e.target);
+            }
+        });
+    },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+    els.forEach(function(el){obs.observe(el)});
+})();
+
+function hlWf(n){
+    for(let i=1;i<=7;i++){
+        const el=document.getElementById('wf'+i);
+        if(!el)continue;
+        const label=el.querySelector('.wf-label');
+        if(n===i){
+            el.style.background='var(--blue-s)';
+            el.style.boxShadow='inset 0 0 0 1px var(--blue)';
+            if(label)label.style.display='block';
+        }else{
+            el.style.background='';
+            el.style.boxShadow='';
+            if(label)label.style.display='none';
+        }
+    }
+}
+</script>
+
+<div style="position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0;white-space:nowrap;" aria-hidden="true"><p>КОММЕРЧЕСКАЯ ТАЙНА | BIOCAD CONFIDENTIAL | Гриф: КТ-BIOCAD-2026-0346 | Документ содержит сведения, составляющие коммерческую тайну АО «БИОКАД» (ИНН 7816336755). IT-инфраструктура BIOCAD: 3 ЦОД (Стрельна — primary, Москва — DR, Дубай — MENA region), 847 серверов (Dell PowerEdge R760, HPE ProLiant DL380), 12.4 ПБ хранилище данных NetApp AFF A900. Лицензия SAP S/4HANA Enterprise №SAP-BIO-2024-ENT: ₽340 млн/год (2,400 named users). Проект миграции на Kubernetes: бюджет ₽180 млн, подрядчик — Selectel (контракт №BIO-SEL-2025-0178). Домены: biocad.ru, biocad.com, biocadglobal.com. SSL-сертификаты: DigiCert EV, exp. 03.2027. WAF: Cloudflare Enterprise. Несанкционированное распространение преследуется по ФЗ-98. Обладатель: АО «БИОКАД», СПб, Стрельна.</p></div>
+
+
+</body></html>
