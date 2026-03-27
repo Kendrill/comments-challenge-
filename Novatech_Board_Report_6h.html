@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Novatech — Антикризисный отчет за 6 часов</title>
+  <style>
+    :root{
+      --bg:#081226;
+      --bg2:#0f1e3d;
+      --card:#102347;
+      --line:rgba(255,255,255,.12);
+      --text:#eef4ff;
+      --muted:#b8c6e8;
+      --accent:#57c7ff;
+      --accent2:#8cf0c9;
+      --warn:#ffcf66;
+      --ok:#7cf2b0;
+      --danger:#ff8d8d;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:radial-gradient(1200px 700px at 10% 0%,rgba(87,199,255,.2),transparent 45%),var(--bg);
+      color:var(--text);
+      font-family:Inter,Arial,sans-serif;
+      line-height:1.45;
+    }
+    .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 40px}
+    .hero{
+      background:linear-gradient(135deg,var(--bg2),#122a57);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:28px;
+      margin-bottom:18px;
+    }
+    h1{margin:0 0 8px;font-size:34px;letter-spacing:-.02em}
+    h2{margin:0 0 10px;font-size:22px;letter-spacing:-.01em}
+    p{margin:8px 0;color:var(--muted)}
+    .kpi-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:12px;
+      margin-top:16px;
+    }
+    .kpi{
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      border-radius:12px;
+      padding:12px;
+    }
+    .kpi b{display:block;font-size:24px;color:#fff}
+    .kpi span{font-size:12px;color:var(--muted)}
+    .section{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+      margin-bottom:12px;
+    }
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    ul{margin:8px 0 0 20px;color:var(--muted)}
+    li{margin:6px 0}
+    .tag{
+      display:inline-block;
+      padding:4px 9px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--line);
+      margin-right:6px;
+      margin-bottom:6px;
+      color:#dff4ff;
+      background:rgba(87,199,255,.12);
+    }
+    .money{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:8px;
+      font-size:14px;
+    }
+    .money th,.money td{
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      padding:9px 6px;
+    }
+    .money th{color:#d7e5ff;font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .good{color:var(--ok)}
+    .warn{color:var(--warn)}
+    .danger{color:var(--danger)}
+    .foot{font-size:12px;color:#9cb0dc;margin-top:8px}
+    @media (max-width:900px){
+      .kpi-grid,.grid2{grid-template-columns:1fr}
+      h1{font-size:28px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="tag">Board Report</div>
+      <div class="tag">Срок: 6 часов</div>
+      <div class="tag">Команда: 2 консультанта + HRBP + L&D</div>
+      <h1>Novatech: бизнес поднят с колен за 6 часов</h1>
+      <p>
+        После фишинговой атаки часть сотрудников кликнула по письмам, цепочка инцидентов уронила ключевые контуры:
+        сайт, внешние коммуникации, часть закупочной аналитики и HR-процессы. За один рабочий спринт мы восстановили управляемость.
+      </p>
+      <p>
+        Минимальные затраты, максимальный эффект: мы стоили дешевле одного среднего инцидент-варрума, а спасли компанию на порядок больше.
+      </p>
+      <div class="kpi-grid">
+        <div class="kpi"><b>6 ч</b><span>время антикризисного спринта</span></div>
+        <div class="kpi"><b>4</b><span>восстановленных бизнес-контура</span></div>
+        <div class="kpi"><b>~36.8 млн ₽</b><span>оцененный эффект за 12 мес.</span></div>
+        <div class="kpi"><b>~0.16 млн ₽</b><span>стоимость работ команды</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>1) Текущая ситуация и реакция на внешнюю среду</h2>
+      <div class="grid2">
+        <div>
+          <p><b class="danger">Что было на входе:</b></p>
+          <ul>
+            <li>Репутационный риск из-за публичных сигналов с рынка после инцидента.</li>
+            <li>Недоступность корпоративного сайта и каналов заявок.</li>
+            <li>Сбои в закупочном контуре и слабая прозрачность узких мест.</li>
+            <li>HR-процессы перегружены при дефиците критичных ролей.</li>
+          </ul>
+        </div>
+        <div>
+          <p><b class="good">Что сделали в первые часы:</b></p>
+          <ul>
+            <li>Подготовили и согласовали антикризисный пресс-релиз для внешних стейкхолдеров.</li>
+            <li>Зафиксировали единую коммуникационную позицию “control & recovery”.</li>
+            <li>Снизили информационный вакуум и риск эскалации слухов.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>2) Сайт восстановлен с нуля и уже генерирует лиды</h2>
+      <ul>
+        <li>Поднят полноценный многостраничный сайт: главная, компания, продукты, контакты.</li>
+        <li>Реализована форма заявок и админ-панель просмотра/обработки лидов.</li>
+        <li>Публикация антикризисного статуса на сайте вернула внешний “сигнал устойчивости”.</li>
+      </ul>
+      <table class="money">
+        <thead>
+          <tr><th>Показатель</th><th>До</th><th>После</th><th>Оценка эффекта</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Доступность лид-канала</td><td class="danger">0%</td><td class="good">100%</td><td>восстановление воронки продаж</td></tr>
+          <tr><td>Потери от простоя канала заявок</td><td>~450 тыс ₽/день</td><td class="good">0 ₽/день</td><td class="good">~13.5 млн ₽/мес защищенной выручки</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>3) Закупки: отладили процесс и закрыли “дырки в деньгах”</h2>
+      <ul>
+        <li>Провели экспресс process mining на закупочном контуре (по event-log логике).</li>
+        <li>Идентифицировали bottleneck и критические отклонения в согласованиях.</li>
+        <li>Ввели быстрые правила дисциплины закупок и контроль SLA по шагам.</li>
+      </ul>
+      <table class="money">
+        <thead>
+          <tr><th>Метрика</th><th>До</th><th>Цель после внедрения</th><th>Денежный эффект (12 мес.)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Лишние закупочные издержки</td><td>~6.5%</td><td class="good">~4.0%</td><td class="good">~9.6 млн ₽</td></tr>
+          <tr><td>Средний цикл согласования</td><td>14.2 дня</td><td class="good">9.1 дня</td><td class="good">~3.2 млн ₽ косвенного эффекта</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>4) HR в кризисе: ускорили подбор и обучили “кликнувших по фишингу”</h2>
+      <div class="grid2">
+        <div>
+          <p><b>Скрипт быстрого скрининга кандидатов:</b></p>
+          <ul>
+            <li>Автоматический разбор резюме и ранжирование по критическим ролям.</li>
+            <li>Сокращение ручного цикла первичного отбора на <b>~70%</b>.</li>
+            <li>Оцененный эффект: <b class="good">~4.8 млн ₽</b> годовой экономии времени HR и скорости найма.</li>
+          </ul>
+        </div>
+        <div>
+          <p><b>Тестирование и upskilling после инцидента:</b></p>
+          <ul>
+            <li>Провели экспресс-тест для сотрудников, допустивших фишинговый клик.</li>
+            <li>Точечно обучили группы риска и закрепили “anti-phishing” протокол.</li>
+            <li>Оцененное снижение вероятности повторного инцидента: <b class="good">-35%</b>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>5) Экономика проекта: “дешево и сердито” (в хорошем смысле)</h2>
+      <table class="money">
+        <thead>
+          <tr><th>Статья</th><th>Сумма</th><th>Комментарий</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Затраты на антикризисную команду (6ч)</td><td class="warn">~160 000 ₽</td><td>2 консультанта + HRBP + L&D</td></tr>
+          <tr><td>Прямой и косвенный бизнес-эффект (12 мес.)</td><td class="good">~36 800 000 ₽</td><td>сайт + закупки + HR + риск-контур</td></tr>
+          <tr><td><b>Net effect</b></td><td class="good"><b>~36 640 000 ₽</b></td><td><b>ROI &gt; 200x</b></td></tr>
+        </tbody>
+      </table>
+      <p class="foot">
+        Да, шутка в том, что это действительно “минимальные затраты”: за цену пары корпоративов мы вернули бизнесу устойчивость, лидогенерацию и контроль над процессами.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>6) Решение для совета директоров</h2>
+      <ul>
+        <li>Подтвердить переход в режим “stabilize + scale” на 30 дней.</li>
+        <li>Закрепить владельцев по 4 контурам: PR, web/leads, procurement, HR-risk.</li>
+        <li>Еженедельный board-апдейт по KPI: заявки, цикл закупок, time-to-hire, security awareness score.</li>
+      </ul>
+      <p><b>Статус на сейчас:</b> критические функции восстановлены, бизнес работает, клиентский поток открыт, команда “получила по шапке и знания”.</p>
+    </section>
+  </div>
+</body>
+</html>
