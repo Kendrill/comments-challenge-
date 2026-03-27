@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вакансия НоваТех — Senior Full-Stack Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --navy:#0f2754; --navy-dark:#091a3a; --blue:#0167ba; --mint:#8debc7; --coral:#fa636a; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--navy-dark);color:#fff;line-height:1.6}
+        .page-header{text-align:center;padding:60px 40px 40px;background:radial-gradient(ellipse at 30% 40%,rgba(1,103,186,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 70%,rgba(141,235,199,.08) 0%,transparent 50%),linear-gradient(160deg,var(--navy),var(--navy-dark))}
+        .page-header h1{font-size:42px;font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#fff 30%,var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+        .page-header p{font-size:18px;font-weight:300;color:rgba(255,255,255,.5)}
+        .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--mint);margin-bottom:8px}
+        .station{max-width:900px;margin:0 auto;padding:48px 40px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .station:last-child{border-bottom:none}
+        .station-head{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+        .station-num{font-size:13px;font-weight:700;color:var(--blue);background:rgba(1,103,186,.15);padding:4px 12px;border-radius:8px}
+        .station-emoji{font-size:36px}
+        .station-name{font-size:28px;font-weight:800;letter-spacing:-1px}
+        .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:24px;margin-bottom:16px}
+        .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+        .card-label-coral{color:var(--coral)}
+        .card-label-blue{color:var(--blue)}
+        .card-label-mint{color:var(--mint)}
+        .card-label-white{color:rgba(255,255,255,.4)}
+        .card-label-yellow{color:#fbbf24}
+        .card-text{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65}
+        .steps{list-style:none;padding:0;counter-reset:step}
+        .steps li{font-size:14px;color:rgba(255,255,255,.55);padding:8px 0 8px 36px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+        .steps li:last-child{border-bottom:none}
+        .steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;border-radius:8px;background:rgba(1,103,186,.2);color:var(--blue);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+        .criteria-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+        .criteria-item{background:rgba(141,235,199,.06);border:1px solid rgba(141,235,199,.12);border-radius:12px;padding:16px;text-align:center}
+        .criteria-pts{font-size:28px;font-weight:800;color:var(--mint);margin-bottom:4px}
+        .criteria-desc{font-size:12px;color:rgba(255,255,255,.5)}
+        .time-bar{display:flex;gap:4px;margin-top:8px;border-radius:8px;overflow:hidden}
+        .time-seg{height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+        .time-brief{background:rgba(1,103,186,.3);color:var(--blue);flex:1}
+        .time-work{background:rgba(141,235,199,.2);color:var(--mint);flex:4}
+        .time-review{background:rgba(250,99,106,.2);color:var(--coral);flex:1}
+        .tip{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:rgba(250,99,106,.06);border:1px solid rgba(250,99,106,.12);border-radius:12px;margin-top:8px;font-size:13px;color:rgba(255,255,255,.55)}
+        .tip-icon{font-size:18px;flex-shrink:0}
+        .prep-list{list-style:none;padding:0}
+        .prep-list li{font-size:14px;color:rgba(255,255,255,.55);padding:6px 0 6px 20px;position:relative}
+        .prep-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);position:absolute;left:0;top:13px}
+        .pilot-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(141,235,199,.1);border:1px solid rgba(141,235,199,.2);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--mint);margin-top:8px}
+        .script-box{background:rgba(1,103,186,.08);border:1px solid rgba(1,103,186,.2);border-radius:12px;padding:20px 24px;margin:12px 0;font-size:14px;color:rgba(255,255,255,.7);line-height:1.7;font-style:italic}
+        .script-box strong{color:#fff;font-style:normal}
+        .timeline-grid{display:grid;grid-template-columns:80px 1fr 1fr;gap:0;margin:8px 0}
+        .tl-cell{padding:10px 14px;font-size:13px;color:rgba(255,255,255,.55);border-bottom:1px solid rgba(255,255,255,.04)}
+        .tl-cell.header{color:rgba(255,255,255,.3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,.1)}
+        .tl-cell.time{color:var(--mint);font-weight:600}
+        .problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .problem-item{background:rgba(250,99,106,.04);border:1px solid rgba(250,99,106,.1);border-radius:12px;padding:16px}
+        .problem-item .p-title{font-size:13px;font-weight:700;color:var(--coral);margin-bottom:6px}
+        .problem-item .p-fix{font-size:13px;color:rgba(255,255,255,.55)}
+        .hint-box{background:rgba(141,235,199,.06);border:1px solid rgba(141,235,199,.15);border-radius:12px;padding:20px 24px;margin:12px 0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+        .hint-box strong{color:var(--mint)}
+        .tag-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+        .tag{padding:3px 10px;border-radius:8px;font-size:11px;font-weight:500;background:rgba(255,255,255,.06);color:rgba(255,255,255,.45)}
+        .tag-mint{background:rgba(141,235,199,.1);color:var(--mint)}
+        .tag-blue{background:rgba(1,103,186,.15);color:var(--blue)}
+        code{background:rgba(255,255,255,.08);padding:2px 8px;border-radius:6px;font-size:13px;color:var(--mint)}
+        @media print{body{background:#fff;color:#222}.station{page-break-inside:avoid}.card{border-color:#ddd}.card-text,.steps li,.prep-list li,.tip,.tl-cell{color:#444}.station-name{color:#000}}
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <p class="label">НоваТех · Открытая вакансия</p>
+    <h1>Senior Full-Stack Developer</h1>
+    <p>IT-решения для бизнеса · 1200+ сотрудников · Москва, гибрид</p>
+</div>
+
+<div class="station">
+    <div class="station-head">
+        <span class="station-emoji">🏢</span>
+        <span class="station-name">О позиции</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-blue">Описание</div>
+        <div class="card-text">В связи с масштабным ростом портфеля AI-проектов и восстановлением после кадрового кризиса, НоваТех ищет опытного Senior Full-Stack Developer, который возглавит разработку ключевых продуктов на стыке классической веб-разработки и AI.</div>
+        <div class="tag-row">
+            <span class="tag tag-mint">Гибрид: 3 офис / 2 удалённо</span>
+            <span class="tag tag-blue">Москва</span>
+            <span class="tag">IT-консалтинг</span>
+            <span class="tag">AI-powered products</span>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-white">Ключевые обязанности</div>
+        <ul class="prep-list">
+            <li>Проектирование и разработка full-stack веб-приложений (backend + frontend + база данных)</li>
+            <li>Интеграция AI/LLM в продукты: AI-агенты, RAG-пайплайны, agentic workflows</li>
+            <li>Проектирование и реализация REST/gRPC API, микросервисная архитектура</li>
+            <li>Настройка CI/CD, контейнеризация (Docker), базовый деплой (Kubernetes / cloud)</li>
+            <li>Code review, менторство junior/middle разработчиков</li>
+            <li>Участие в архитектурных решениях и техническом планировании</li>
+            <li>Работа в кросс-функциональной команде (PM, дизайн, QA, DevOps)</li>
+        </ul>
+    </div>
+</div>
+
+<div class="station">
+    <div class="station-head">
+        <span class="station-emoji">✅</span>
+        <span class="station-name">Требования</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-coral">Обязательные</div>
+        <ul class="prep-list">
+            <li>Коммерческий опыт разработки <strong style="color:#fff">не менее 5 лет</strong></li>
+            <li><strong style="color:#fff">Full-stack</strong>: уверенный backend + frontend + работа с БД + базовый деплой</li>
+            <li>Backend: Python / Go / Java / Node.js / C# (один или несколько)</li>
+            <li>Frontend: React / Vue.js / Angular / Next.js (один или несколько)</li>
+            <li>Базы данных: PostgreSQL / MySQL / MongoDB + Redis или аналоги</li>
+            <li>Деплой: Docker, CI/CD, базовое понимание Kubernetes/Cloud</li>
+            <li>Опыт работы с <strong style="color:#fff">AI-инструментами не менее 2 лет</strong> — от первых ChatGPT/Copilot до современных AI-агентов (Claude, GPT-4, LangChain, RAG, multi-agent systems)</li>
+            <li>Опыт интеграции LLM API в продукты (OpenAI API, Claude API, function calling, tool-use)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-mint">Желательные</div>
+        <ul class="prep-list">
+            <li>Опыт с agentic workflows, CrewAI / AutoGen / LangGraph</li>
+            <li>Опыт с vector databases (Pinecone, Weaviate, ChromaDB)</li>
+            <li>Fine-tuning LLM, prompt engineering на продвинутом уровне</li>
+            <li>Сертификации: AWS / GCP / Kubernetes</li>
+            <li>Английский Upper-Intermediate+ (B2+)</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-blue">Ключевые компетенции</div>
+        <div class="tag-row">
+            <span class="tag tag-blue">Full-stack разработка</span>
+            <span class="tag tag-blue">AI/LLM интеграция</span>
+            <span class="tag tag-blue">Архитектурное мышление</span>
+            <span class="tag tag-blue">Командная работа</span>
+            <span class="tag tag-blue">Самостоятельность</span>
+        </div>
+    </div>
+</div>
+
+<div class="station" style="border-bottom:none">
+    <div class="station-head">
+        <span class="station-emoji">💰</span>
+        <span class="station-name">Условия</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-mint">Что предлагаем</div>
+        <ul class="prep-list">
+            <li>Оклад: <strong style="color:var(--mint)">350 000 – 500 000 руб.</strong> (gross)</li>
+            <li>Годовой бонус: до 20% от годового оклада</li>
+            <li>ДМС (включая стоматологию) с первого дня</li>
+            <li>Бюджет на обучение и конференции: 150 000 руб./год</li>
+            <li>Современный стек, AI-first культура</li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
