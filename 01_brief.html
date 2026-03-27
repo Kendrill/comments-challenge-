@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Станция 01 — Аналитический блэкаут · Задание для команды</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0b0f1a;
+    --bg2: #111827;
+    --surface: rgba(255,255,255,.04);
+    --surface-hover: rgba(255,255,255,.07);
+    --border: rgba(255,255,255,.08);
+    --border-hover: rgba(255,255,255,.14);
+    --text: #e2e8f0;
+    --text-dim: rgba(255,255,255,.5);
+    --text-dimmer: rgba(255,255,255,.3);
+    --accent: #22d3ee;
+    --accent2: #a78bfa;
+    --danger: #f87171;
+    --success: #34d399;
+    --warning: #fbbf24;
+}
+[data-theme="light"] {
+    --bg: #f8fafc;
+    --bg2: #ffffff;
+    --surface: rgba(0,0,0,.03);
+    --surface-hover: rgba(0,0,0,.06);
+    --border: rgba(0,0,0,.08);
+    --border-hover: rgba(0,0,0,.15);
+    --text: #1e293b;
+    --text-dim: rgba(0,0,0,.55);
+    --text-dimmer: rgba(0,0,0,.3);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+.container { max-width: 980px; margin: 0 auto; padding: 0 24px; }
+
+/* --- Header --- */
+.top-bar {
+    position: sticky; top:0; z-index:100;
+    background: rgba(11,15,26,.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+[data-theme="light"] .top-bar { background: rgba(248,250,252,.85); }
+.top-bar-left { display:flex; align-items:center; gap:12px; font-size:13px; color:var(--text-dim); }
+.top-bar-left .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); }
+.theme-toggle {
+    background: var(--surface); border:1px solid var(--border); border-radius:8px;
+    padding:6px 12px; cursor:pointer; color:var(--text-dim); font-size:13px; font-family:inherit;
+    transition: all .2s;
+}
+.theme-toggle:hover { border-color:var(--border-hover); color:var(--text); }
+
+/* --- Hero --- */
+.hero {
+    padding: 80px 0 60px;
+    text-align: center;
+}
+.hero-badge {
+    display:inline-block; padding:6px 16px; border-radius:100px;
+    font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    color:#0b0f1a; margin-bottom:20px;
+}
+.hero h1 {
+    font-size:clamp(36px,5vw,56px); font-weight:900; letter-spacing:-2px; line-height:1.1;
+    margin-bottom:16px;
+    background:linear-gradient(135deg, #fff 30%, var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+[data-theme="light"] .hero h1 {
+    background:linear-gradient(135deg, #1e293b 30%, #0891b2);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero-sub {
+    font-size:18px; color:var(--text-dim); max-width:600px; margin:0 auto;
+}
+
+/* --- Sections --- */
+.section { padding:48px 0; }
+.section + .section { border-top:1px solid var(--border); }
+.section-label {
+    font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    color:var(--accent); margin-bottom:8px;
+}
+.section-title {
+    font-size:clamp(24px,3vw,36px); font-weight:800; letter-spacing:-1px;
+    margin-bottom:24px;
+}
+
+/* --- Cards --- */
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all .25s;
+}
+.card:hover { background:var(--surface-hover); border-color:var(--border-hover); }
+.card-grid { display:grid; gap:16px; }
+.card-grid-2 { grid-template-columns: 1fr 1fr; }
+.card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+.card-grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media(max-width:768px) {
+    .card-grid-2, .card-grid-3, .card-grid-4 { grid-template-columns:1fr; }
+}
+
+/* --- Info cards row --- */
+.info-row {
+    display:flex; flex-wrap:wrap; gap:12px; margin-bottom:32px;
+}
+.info-chip {
+    display:flex; align-items:center; gap:10px;
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    padding:14px 20px; flex:1; min-width:200px;
+}
+.info-chip-icon { font-size:20px; }
+.info-chip-label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1px; color:var(--text-dimmer); }
+.info-chip-value { font-size:14px; font-weight:600; color:var(--text); }
+
+/* --- Situation card --- */
+.situation-card {
+    background: linear-gradient(135deg, rgba(248,113,113,.08), rgba(248,113,113,.02));
+    border-color: rgba(248,113,113,.2);
+    padding:32px;
+}
+.situation-card:hover { border-color:rgba(248,113,113,.35); }
+
+/* --- Criteria --- */
+.criteria-item {
+    display:flex; gap:16px; align-items:flex-start;
+    padding:20px 0;
+}
+.criteria-item + .criteria-item { border-top:1px solid var(--border); }
+.criteria-num {
+    width:40px; height:40px; border-radius:12px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px; font-weight:800;
+    background:linear-gradient(135deg, var(--accent), var(--accent2));
+    color:#0b0f1a;
+}
+.criteria-bonus .criteria-num {
+    background:linear-gradient(135deg, var(--warning), #f59e0b);
+}
+.criteria-title { font-size:15px; font-weight:700; margin-bottom:4px; }
+.criteria-desc { font-size:13px; color:var(--text-dim); line-height:1.5; }
+
+/* --- Steps --- */
+.step {
+    display:flex; gap:20px; padding:20px 0;
+}
+.step + .step { border-top:1px solid var(--border); }
+.step-time {
+    min-width:60px; font-size:13px; font-weight:700; color:var(--accent);
+    padding-top:2px;
+}
+.step-num {
+    width:32px; height:32px; border-radius:10px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+    font-size:13px; font-weight:800;
+    background:var(--surface); border:1px solid var(--border);
+    color:var(--text-dim);
+}
+.step-title { font-size:15px; font-weight:600; margin-bottom:4px; }
+.step-desc { font-size:13px; color:var(--text-dim); line-height:1.5; }
+
+/* --- Accordion --- */
+.accordion-item {
+    background:var(--surface); border:1px solid var(--border); border-radius:12px;
+    margin-bottom:8px; overflow:hidden;
+}
+.accordion-header {
+    padding:16px 20px; cursor:pointer; display:flex; justify-content:space-between; align-items:center;
+    font-size:14px; font-weight:600; user-select:none; transition: background .2s;
+}
+.accordion-header:hover { background:var(--surface-hover); }
+.accordion-arrow { transition:transform .3s; font-size:12px; color:var(--text-dim); }
+.accordion-item.open .accordion-arrow { transform:rotate(180deg); }
+.accordion-body {
+    max-height:0; overflow:hidden; transition:max-height .35s ease;
+}
+.accordion-body-inner {
+    padding:0 20px 16px; font-size:13px; color:var(--text-dim); line-height:1.6;
+}
+.accordion-item.open .accordion-body { max-height:800px; }
+
+/* --- Table --- */
+.data-table {
+    width:100%; border-collapse:collapse; font-size:13px;
+}
+.data-table th {
+    text-align:left; padding:10px 12px; font-weight:600; font-size:11px;
+    text-transform:uppercase; letter-spacing:1px; color:var(--text-dimmer);
+    border-bottom:1px solid var(--border);
+}
+.data-table td {
+    padding:10px 12px; border-bottom:1px solid var(--border); color:var(--text-dim);
+}
+.data-table tr:hover td { color:var(--text); }
+
+/* --- Code block --- */
+.code-block {
+    background:rgba(0,0,0,.3); border:1px solid var(--border); border-radius:12px;
+    padding:20px; font-family:'Courier New', monospace; font-size:13px;
+    color:var(--accent); line-height:1.7; overflow-x:auto; white-space:pre-wrap;
+}
+[data-theme="light"] .code-block { background:rgba(0,0,0,.04); }
+
+/* --- Tags --- */
+.tag {
+    display:inline-block; padding:4px 10px; border-radius:6px;
+    font-size:11px; font-weight:600;
+    background:rgba(34,211,238,.1); color:var(--accent);
+}
+.tag-danger { background:rgba(248,113,113,.1); color:var(--danger); }
+.tag-success { background:rgba(52,211,153,.1); color:var(--success); }
+.tag-warning { background:rgba(251,191,36,.1); color:var(--warning); }
+
+/* --- Process flow --- */
+.flow {
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    padding:24px; background:var(--surface); border:1px solid var(--border);
+    border-radius:16px;
+}
+.flow-step {
+    padding:8px 14px; border-radius:8px; font-size:12px; font-weight:600;
+    background:rgba(34,211,238,.1); color:var(--accent); white-space:nowrap;
+}
+.flow-arrow { color:var(--text-dimmer); font-size:14px; }
+.flow-optional { border:1px dashed rgba(167,139,250,.3); background:rgba(167,139,250,.08); color:var(--accent2); }
+
+/* --- Alert box --- */
+.alert {
+    padding:16px 20px; border-radius:12px; font-size:13px; line-height:1.6;
+    display:flex; gap:12px; align-items:flex-start;
+}
+.alert-info { background:rgba(34,211,238,.08); border:1px solid rgba(34,211,238,.15); }
+.alert-warn { background:rgba(251,191,36,.08); border:1px solid rgba(251,191,36,.15); }
+.alert-icon { font-size:18px; flex-shrink:0; padding-top:1px; }
+
+/* --- Footer --- */
+.footer {
+    padding:32px 0; text-align:center; font-size:12px; color:var(--text-dimmer);
+    border-top:1px solid var(--border);
+}
+
+/* --- Print --- */
+@media print {
+    .top-bar, .theme-toggle { display:none; }
+    body { background:#fff; color:#000; font-size:11px; }
+    .hero h1 { -webkit-text-fill-color:#000; background:none; }
+    .card, .accordion-item, .code-block, .flow, .alert, .situation-card {
+        border:1px solid #ddd; background:#fafafa; break-inside:avoid;
+    }
+    .section { padding:24px 0; }
+    .accordion-body { max-height:none!important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<div class="top-bar">
+    <div class="top-bar-left">
+        <span class="dot"></span>
+        <span>AI-квест &middot; Спасательная миссия &middot; НоваТех</span>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">&#9790; / &#9788;</button>
+</div>
+
+<div class="container">
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+    <div class="hero-badge">Станция 01</div>
+    <h1>Аналитический блэкаут</h1>
+    <p class="hero-sub">Задание для команды &middot; Восстановить картину закупочного процесса компании из сырых логов SAP</p>
+</div>
+
+<!-- ============ SITUATION ============ -->
+<div class="section">
+    <div class="section-label">&#x1F6A8; Ситуация</div>
+    <div class="section-title">Кризис</div>
+
+    <div class="card situation-card" style="margin-bottom:24px">
+        <p style="font-size:15px;line-height:1.7">
+            <strong>48 часов назад</strong> компания &laquo;НоваТех&raquo; подверглась масштабному каскадному сбою.
+            Цепная реакция отказов, начавшись с серверов аналитики, уничтожила <strong>все дашборды, отчётность и аналитические системы</strong>.
+            Единственное, что уцелело &mdash; <strong>сырые логи из ERP-системы SAP</strong> по модулю закупок (MM).
+        </p>
+        <p style="font-size:15px;line-height:1.7;margin-top:12px">
+            Руководство компании не понимает, как <strong>реально работает процесс закупок</strong>: где задержки, где нарушения,
+            где теряются деньги. Ваша задача &mdash; провести <strong>процесс-майнинг</strong> по сырым данным и восстановить полную картину.
+        </p>
+    </div>
+
+    <div class="section-title" style="font-size:20px;margin-bottom:16px">Ваша задача</div>
+    <p style="font-size:15px;color:var(--text-dim);margin-bottom:24px;line-height:1.7">
+        С помощью <strong>AI-чата</strong> проанализировать event log из SAP, восстановить карту процесса Procure-to-Pay,
+        найти узкие места и нарушения, рассчитать ключевые метрики и оформить результаты в виде <strong>HTML-отчёта</strong>.
+    </p>
+
+    <div class="info-row">
+        <div class="info-chip">
+            <span class="info-chip-icon">&#x1F4E5;</span>
+            <div>
+                <div class="info-chip-label">На вход</div>
+                <div class="info-chip-value">CSV-файл: SAP P2P event log</div>
+            </div>
+        </div>
+        <div class="info-chip">
+            <span class="info-chip-icon">&#x2699;&#xFE0F;</span>
+            <div>
+                <div class="info-chip-label">Инструмент</div>
+                <div class="info-chip-value">AI-чат (любая модель)</div>
+            </div>
+        </div>
+        <div class="info-chip">
+            <span class="info-chip-icon">&#x1F4E4;</span>
+            <div>
+                <div class="info-chip-label">На выход</div>
+                <div class="info-chip-value">HTML-отчёт с process map и метриками</div>
+            </div>
+        </div>
+        <div class="info-chip">
+            <span class="info-chip-icon">&#x1F3AF;</span>
+            <div>
+                <div class="info-chip-label">Пилот</div>
+                <div class="info-chip-value">Участник, назначенный фасилитатором</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title" style="font-size:20px;margin-bottom:16px">Обязательные элементы результата</div>
+    <div class="card-grid card-grid-2" style="margin-bottom:24px">
+        <div class="card">
+            <div style="font-size:24px;margin-bottom:8px">&#x1F5FA;&#xFE0F;</div>
+            <div style="font-weight:700;margin-bottom:4px">Карта процесса</div>
+            <div style="font-size:13px;color:var(--text-dim)">Визуальная схема P2P-процесса: какие шаги, в каком порядке, какие ветвления и циклы</div>
+        </div>
+        <div class="card">
+            <div style="font-size:24px;margin-bottom:8px">&#x1F50D;</div>
+            <div style="font-weight:700;margin-bottom:4px">Узкие места (Bottleneck-и)</div>
+            <div style="font-size:13px;color:var(--text-dim)">Где процесс тормозит? На каком шаге, как долго, для какого завода/поставщика</div>
+        </div>
+        <div class="card">
+            <div style="font-size:24px;margin-bottom:8px">&#x1F4CA;</div>
+            <div style="font-weight:700;margin-bottom:4px">Ключевые метрики</div>
+            <div style="font-size:13px;color:var(--text-dim)">Lead time, rework rate, % maverick buying, % отклонений и другие PM-показатели</div>
+        </div>
+        <div class="card">
+            <div style="font-size:24px;margin-bottom:8px">&#x1F4DD;</div>
+            <div style="font-weight:700;margin-bottom:4px">Рекомендации руководству</div>
+            <div style="font-size:13px;color:var(--text-dim)">Конкретные, адресные предложения: что исправить, кому, какой эффект</div>
+        </div>
+    </div>
+
+    <div class="alert alert-warn">
+        <span class="alert-icon">&#x26A0;&#xFE0F;</span>
+        <div>
+            Результат должен быть не просто текстом в чате, а <strong>HTML-файлом</strong>, который открывается в браузере
+            и содержит визуализации (граф процесса, таблицы, графики). Попросите AI сгенерировать HTML-код, скопируйте его
+            в файл и откройте.
+        </div>
+    </div>
+</div>
+
+<!-- ============ DATA DESCRIPTION ============ -->
+<div class="section">
+    <div class="section-label">&#x1F4C1; Данные</div>
+    <div class="section-title">Что в файле sap_p2p_event_log.csv</div>
+
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:20px;line-height:1.7">
+        Event log &mdash; это журнал событий из SAP-системы (модуль MM &mdash; Materials Management). Каждая строка &mdash;
+        одно событие в процессе закупки. <strong>73 кейса, ~700 событий</strong>.
+    </p>
+
+    <div style="overflow-x:auto;margin-bottom:24px">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Столбец</th>
+                    <th>Описание</th>
+                    <th>Пример</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td><strong>Case_ID</strong></td><td>Номер заявки на закупку (Purchase Requisition)</td><td>PR-1000045601</td></tr>
+                <tr><td><strong>Activity</strong></td><td>Шаг процесса (событие)</td><td>Purchase Requisition Created</td></tr>
+                <tr><td><strong>Timestamp</strong></td><td>Дата и время события</td><td>2024-09-15T10:23:00</td></tr>
+                <tr><td><strong>User</strong></td><td>Пользователь SAP</td><td>USR_BUYER03</td></tr>
+                <tr><td><strong>T_Code</strong></td><td>SAP Transaction Code</td><td>ME51N, MIGO, MIRO...</td></tr>
+                <tr><td><strong>Document_Number</strong></td><td>Номер документа SAP</td><td>4500012345</td></tr>
+                <tr><td><strong>Document_Type</strong></td><td>Тип документа</td><td>NB, RE, WE, ZP</td></tr>
+                <tr><td><strong>Company_Code</strong></td><td>Код компании</td><td>1000 (HQ), 2000 (Siberia)</td></tr>
+                <tr><td><strong>Plant</strong></td><td>Код завода</td><td>1100 (Мск), 1200 (СПб), 2100 (Нск)</td></tr>
+                <tr><td><strong>Purchasing_Group</strong></td><td>Закупочная группа</td><td>100 (IT), 200 (Office), 300 (Prod)</td></tr>
+                <tr><td><strong>Vendor / Vendor_Name</strong></td><td>Поставщик</td><td>1000000345 / Gamma Supplies</td></tr>
+                <tr><td><strong>Net_Value / Currency</strong></td><td>Сумма и валюта</td><td>1250000.00 / RUB</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-title" style="font-size:18px;margin-bottom:12px">Основной P2P-процесс (happy path)</div>
+    <div class="flow">
+        <span class="flow-step">PR Created<br><small>ME51N</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">PR Released<br><small>ME54N</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step flow-optional">RFQ Created<br><small>ME41</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step flow-optional">Quotation<br><small>ME47</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">PO Created<br><small>ME21N</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">PO Released<br><small>ME28</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Goods Receipt<br><small>MIGO</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Invoice<br><small>MIRO</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Verified<br><small>MIR7</small></span><span class="flow-arrow">&rarr;</span>
+        <span class="flow-step">Payment<br><small>F110</small></span>
+    </div>
+    <p style="font-size:12px;color:var(--text-dimmer);margin-top:8px">
+        <span class="tag" style="font-size:10px">Пунктир</span> &mdash; опциональные шаги (RFQ/Quotation &mdash; при крупных суммах)
+    </p>
+</div>
+
+<!-- ============ ALGORITHM ============ -->
+<div class="section">
+    <div class="section-label">&#x1F4DD; Алгоритм работы</div>
+    <div class="section-title">Рекомендуемые шаги (20 минут)</div>
+
+    <div class="step">
+        <div class="step-time">0&ndash;2 мин</div>
+        <div class="step-num">1</div>
+        <div>
+            <div class="step-title">Загрузите данные в AI-чат</div>
+            <div class="step-desc">Прикрепите файл <strong>sap_p2p_event_log.csv</strong> к чату. Попросите AI: &laquo;Проанализируй этот SAP P2P event log. Расскажи, что в нём: сколько кейсов, какие активности, какой временной период&raquo;.</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">2&ndash;6 мин</div>
+        <div class="step-num">2</div>
+        <div>
+            <div class="step-title">Восстановите карту процесса</div>
+            <div class="step-desc">Попросите AI построить карту процесса: &laquo;Построй process map: какие шаги, в каком порядке, какие есть ветвления и циклы. Покажи основной happy path и отклонения&raquo;.</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">6&ndash;12 мин</div>
+        <div class="step-num">3</div>
+        <div>
+            <div class="step-title">Найдите узкие места и аномалии</div>
+            <div class="step-desc">Ключевой этап. Попросите AI: &laquo;Найди bottleneck-и: где самые большие задержки? Есть ли нарушения процесса (maverick buying, retroactive PO)? Разбей анализ по Plant, Vendor, Purchasing Group&raquo;.</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">12&ndash;15 мин</div>
+        <div class="step-num">4</div>
+        <div>
+            <div class="step-title">Рассчитайте метрики и сформулируйте рекомендации</div>
+            <div class="step-desc">&laquo;Рассчитай ключевые метрики: средний lead time (end-to-end и по шагам), rework rate, % maverick buying, % zombie cases. На основе анализа дай конкретные рекомендации руководству&raquo;.</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">15&ndash;18 мин</div>
+        <div class="step-num">5</div>
+        <div>
+            <div class="step-title">Сгенерируйте HTML-отчёт</div>
+            <div class="step-desc">&laquo;Собери все результаты в один HTML-файл: граф процесса, таблицы с метриками, список bottleneck-ов, рекомендации. Используй Chart.js или Mermaid.js для визуализаций. Сделай красивый дизайн&raquo;. Скопируйте HTML-код из чата, сохраните как <code>.html</code> файл и откройте в браузере.</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">18&ndash;20 мин</div>
+        <div class="step-num">6</div>
+        <div>
+            <div class="step-title">Проверьте и подготовьтесь к демо</div>
+            <div class="step-desc">Откройте HTML в браузере. Всё ли отображается? Все ли секции на месте? Подготовьте 5-минутный рассказ.</div>
+        </div>
+    </div>
+
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:24px">
+        <div class="tag" style="padding:8px 16px;font-size:12px">5 мин &mdash; вводная</div>
+        <div class="tag tag-success" style="padding:8px 16px;font-size:12px">20 мин &mdash; работа</div>
+        <div class="tag tag-warning" style="padding:8px 16px;font-size:12px">5 мин &mdash; демо</div>
+    </div>
+</div>
+
+<!-- ============ FIRST 5 MINUTES TIPS ============ -->
+<div class="section">
+    <div class="section-label">&#x1F4A1; Подсказки первых 5 минут</div>
+    <div class="section-title">Что нужно знать до старта</div>
+
+    <div class="card-grid card-grid-3" style="margin-bottom:24px">
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:8px;color:var(--accent)">Что такое Process Mining?</div>
+            <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+                Анализ реальных бизнес-процессов по логам из IT-систем. Вместо того чтобы <em>спрашивать</em> людей &laquo;как устроен процесс&raquo;,
+                мы <em>смотрим</em> на данные и видим, как процесс работает <strong>на самом деле</strong>.
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:8px;color:var(--accent)">3 вида Process Mining</div>
+            <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+                <strong>1. Discovery</strong> &mdash; восстановить карту процесса из логов<br>
+                <strong>2. Enhancement</strong> &mdash; найти bottleneck-и и метрики<br>
+                <strong>3. Conformance</strong> &mdash; сравнить &laquo;как есть&raquo; vs &laquo;как должно быть&raquo;
+            </div>
+        </div>
+        <div class="card">
+            <div style="font-weight:700;margin-bottom:8px;color:var(--accent)">Правильная последовательность</div>
+            <div style="font-size:13px;color:var(--text-dim);line-height:1.6">
+                <strong>1.</strong> Загрузить данные &rarr; понять структуру<br>
+                <strong>2.</strong> Discovery &rarr; построить карту<br>
+                <strong>3.</strong> Enhancement &rarr; метрики и bottleneck-и<br>
+                <strong>4.</strong> Рекомендации &rarr; выводы для бизнеса<br>
+                <strong>5.</strong> Визуализация &rarr; HTML-отчёт
+            </div>
+        </div>
+    </div>
+
+    <div class="section-title" style="font-size:18px;margin-bottom:12px">SAP-терминология (шпаргалка)</div>
+    <div style="overflow-x:auto;margin-bottom:24px">
+        <table class="data-table">
+            <thead><tr><th>Термин / T-Code</th><th>Что это</th></tr></thead>
+            <tbody>
+                <tr><td><strong>PR (Purchase Requisition)</strong></td><td>Заявка на закупку &mdash; внутренний запрос на покупку товара/услуги</td></tr>
+                <tr><td><strong>PO (Purchase Order)</strong></td><td>Заказ на закупку &mdash; официальный заказ поставщику</td></tr>
+                <tr><td><strong>GR (Goods Receipt)</strong></td><td>Приёмка товара на склад</td></tr>
+                <tr><td><strong>IR (Invoice Receipt)</strong></td><td>Получение счёта от поставщика</td></tr>
+                <tr><td><strong>ME51N / ME54N</strong></td><td>Создание / Одобрение заявки на закупку</td></tr>
+                <tr><td><strong>ME21N / ME28</strong></td><td>Создание / Одобрение заказа на закупку</td></tr>
+                <tr><td><strong>MIGO</strong></td><td>Приёмка товара (Goods Receipt)</td></tr>
+                <tr><td><strong>MIRO / MIR7</strong></td><td>Регистрация / Верификация счёта</td></tr>
+                <tr><td><strong>F110</strong></td><td>Автоматический платёжный прогон</td></tr>
+                <tr><td><strong>3-way match</strong></td><td>Сверка PO + GR + Invoice &mdash; суммы и количества должны совпасть</td></tr>
+                <tr><td><strong>Maverick Buying</strong></td><td>Закупка в обход процесса: PO без заявки (PR)</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="section-title" style="font-size:18px;margin-bottom:12px">На что обращать внимание в данных</div>
+    <div class="card-grid card-grid-2">
+        <div class="card">
+            <div style="font-size:20px;margin-bottom:6px">&#x23F1;&#xFE0F;</div>
+            <div style="font-weight:700;margin-bottom:4px;font-size:14px">Длительность шагов</div>
+            <div style="font-size:13px;color:var(--text-dim)">Считайте разницу между timestamps последовательных шагов. Где задержки? Для каких заводов/поставщиков?</div>
+        </div>
+        <div class="card">
+            <div style="font-size:20px;margin-bottom:6px">&#x1F504;</div>
+            <div style="font-weight:700;margin-bottom:4px;font-size:14px">Циклы и rework</div>
+            <div style="font-size:13px;color:var(--text-dim)">Повторяющиеся активности в одном кейсе (PR Rejected &rarr; PR Created снова) &mdash; это rework. Сколько процентов кейсов?</div>
+        </div>
+        <div class="card">
+            <div style="font-size:20px;margin-bottom:6px">&#x26A0;&#xFE0F;</div>
+            <div style="font-weight:700;margin-bottom:4px;font-size:14px">Пропущенные шаги</div>
+            <div style="font-size:13px;color:var(--text-dim)">Есть ли кейсы, где пропущены обязательные шаги? PO без PR? GR до PO?</div>
+        </div>
+        <div class="card">
+            <div style="font-size:20px;margin-bottom:6px">&#x1F47B;</div>
+            <div style="font-weight:700;margin-bottom:4px;font-size:14px">Zombie-кейсы</div>
+            <div style="font-size:13px;color:var(--text-dim)">Кейсы, которые начались, но никогда не дошли до Payment Completed. Где они застряли?</div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ EXAMPLE PROMPTS ============ -->
+<div class="section">
+    <div class="section-label">&#x1F916; Примеры промптов для AI</div>
+    <div class="section-title">Что спросить у AI-чата</div>
+
+    <p style="font-size:14px;color:var(--text-dim);margin-bottom:20px">
+        Копируйте и адаптируйте. Чем точнее промпт &mdash; тем лучше результат.
+    </p>
+
+    <div class="accordion-item open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F50D; Шаг 1 &mdash; Разведка данных</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <div class="code-block">Я загружаю SAP P2P event log (CSV). Проанализируй его:
+1. Сколько уникальных кейсов (Case_ID)?
+2. Какие активности (Activity) встречаются и как часто?
+3. Какой временной период охватывают данные?
+4. Какие заводы (Plant), поставщики (Vendor), закупочные группы (Purchasing_Group) есть?
+5. Какой диапазон сумм (Net_Value)?
+
+Дай краткую сводку в виде таблицы.</div>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F5FA;&#xFE0F; Шаг 2 &mdash; Карта процесса</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <div class="code-block">Построй карту процесса (process map) по этим данным:
+1. Определи основной happy path (наиболее частая последовательность шагов)
+2. Покажи все ветвления и альтернативные пути
+3. Отметь циклы (rework loops) — когда процесс возвращается на предыдущий шаг
+4. Укажи частоту каждого перехода (сколько кейсов идут по каждому пути)
+
+Визуализируй как граф (можно текстовый или Mermaid-диаграмму).</div>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F50D; Шаг 3 &mdash; Bottleneck-и и аномалии</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <div class="code-block">Проведи глубокий анализ bottleneck-ов и нарушений:
+
+1. BOTTLENECK-И: Для каждого перехода между шагами рассчитай медианное и среднее время. Где самые большие задержки? Разбей по Plant и Vendor.
+
+2. НАРУШЕНИЯ:
+   - Maverick Buying: есть ли кейсы с PO Created, но без PR Created?
+   - Retroactive PO: есть ли случаи, где Goods Receipt раньше PO Created?
+   - Duplicate Invoices: есть ли кейсы с несколькими Invoice Receipt?
+   - Zombie Cases: какие кейсы не дошли до Payment Completed?
+
+3. ПАТТЕРНЫ ПО ИЗМЕРЕНИЯМ:
+   - Какой Plant самый проблемный?
+   - Какой Vendor самый проблемный?
+   - Какая Purchasing Group самая медленная?
+
+Приведи конкретные цифры и Case_ID примеров.</div>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F4CA; Шаг 4 &mdash; Метрики и рекомендации</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <div class="code-block">Рассчитай ключевые Process Mining метрики:
+
+1. Lead Time (end-to-end): среднее, медиана, мин, макс (от первого до последнего события в кейсе)
+2. Lead Time по шагам: средняя длительность каждого перехода
+3. Throughput: сколько кейсов завершено за месяц
+4. Rework Rate: % кейсов с повторными активностями
+5. Maverick Buying Rate: % кейсов без PR
+6. Process Completion Rate: % кейсов, дошедших до Payment
+
+На основе этих метрик дай 5 конкретных рекомендаций руководству НоваТех. Каждая рекомендация должна содержать: что исправить, кому адресована, ожидаемый эффект.</div>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F3A8; Шаг 5 &mdash; HTML-отчёт</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <div class="code-block">Создай красивый HTML-отчёт для руководства НоваТех. Один HTML-файл со встроенным CSS и JS.
+
+Секции отчёта:
+1. Заголовок: «Process Mining Report — NovaTech Procurement (P2P)»
+2. Executive Summary: 3-4 ключевых вывода
+3. Process Map: визуальная схема процесса (используй Mermaid.js через CDN)
+4. Bottleneck Analysis: таблица с задержками по шагам
+5. Violations Found: список нарушений с количеством и примерами
+6. Key Metrics: карточки с основными показателями
+7. Recommendations: пронумерованные рекомендации
+
+Стиль: тёмная тема, современный дизайн, аккуратная типографика.
+Подключи Mermaid.js через CDN: https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js</div>
+        </div></div>
+    </div>
+</div>
+
+<!-- ============ DEMO ============ -->
+<div class="section">
+    <div class="section-label">&#x1F3A4; Демо</div>
+    <div class="section-title">Что показать за 5 минут</div>
+
+    <div class="step">
+        <div class="step-time">1.5 мин</div>
+        <div class="step-num">1</div>
+        <div>
+            <div class="step-title">Покажите карту процесса</div>
+            <div class="step-desc">Откройте HTML-отчёт в браузере. Покажите process map: &laquo;Вот как реально работает P2P в НоваТех. Основной путь &mdash; 11 шагов. Но мы нашли X отклонений...&raquo;</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">1.5 мин</div>
+        <div class="step-num">2</div>
+        <div>
+            <div class="step-title">Расскажите о найденных проблемах</div>
+            <div class="step-desc">Покажите bottleneck-и и нарушения: &laquo;Главная проблема &mdash; завод в СПб: согласование заявок занимает в среднем 16 дней вместо 3. Поставщик Gamma &mdash; 100% задержек...&raquo;</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">1 мин</div>
+        <div class="step-num">3</div>
+        <div>
+            <div class="step-title">Озвучьте метрики и рекомендации</div>
+            <div class="step-desc">&laquo;Средний lead time &mdash; X дней. Maverick buying &mdash; Y%. Наши рекомендации: 1)&nbsp;..., 2)&nbsp;..., 3)&nbsp;...&raquo;</div>
+        </div>
+    </div>
+
+    <div class="step">
+        <div class="step-time">1 мин</div>
+        <div class="step-num">4</div>
+        <div>
+            <div class="step-title">Инсайт</div>
+            <div class="step-desc">Что узнали нового? Как AI помог в анализе? Что бы доработали при наличии времени?</div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ PM CHEAT SHEET ============ -->
+<div class="section">
+    <div class="section-label">&#x1F9E0; Шпаргалка</div>
+    <div class="section-title">Process Mining за 3 минуты</div>
+
+    <div class="accordion-item open">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F4D6; Ключевые термины</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <table class="data-table">
+                <tbody>
+                    <tr><td><strong>Event Log</strong></td><td>Журнал событий &mdash; основа для process mining. Каждая строка = одно событие (что, когда, кто)</td></tr>
+                    <tr><td><strong>Case / Case ID</strong></td><td>Один экземпляр процесса от начала до конца (одна заявка на закупку)</td></tr>
+                    <tr><td><strong>Activity</strong></td><td>Шаг процесса (событие): &laquo;Purchase Order Created&raquo;, &laquo;Goods Receipt&raquo;</td></tr>
+                    <tr><td><strong>Happy Path</strong></td><td>Идеальный путь &mdash; последовательность шагов без отклонений</td></tr>
+                    <tr><td><strong>Bottleneck</strong></td><td>Узкое место &mdash; шаг, на котором процесс тормозит (большое время ожидания)</td></tr>
+                    <tr><td><strong>Lead Time</strong></td><td>Время от начала до конца кейса (end-to-end)</td></tr>
+                    <tr><td><strong>Rework</strong></td><td>Повторение шага &mdash; процесс &laquo;откатывается назад&raquo; (заявка отклонена &rarr; переделана)</td></tr>
+                    <tr><td><strong>Conformance</strong></td><td>Соответствие реального процесса эталонному регламенту</td></tr>
+                    <tr><td><strong>Variant</strong></td><td>Уникальная последовательность шагов. 100 кейсов могут иметь 15 разных вариантов</td></tr>
+                </tbody>
+            </table>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x1F4CA; Какие метрики считать</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <table class="data-table">
+                <thead><tr><th>Метрика</th><th>Формула / Что считать</th><th>Зачем</th></tr></thead>
+                <tbody>
+                    <tr><td><strong>Lead Time</strong></td><td>Timestamp последнего события &minus; Timestamp первого (по кейсу)</td><td>Скорость процесса</td></tr>
+                    <tr><td><strong>Step Duration</strong></td><td>Timestamp(шаг N+1) &minus; Timestamp(шаг N)</td><td>Где тормозит</td></tr>
+                    <tr><td><strong>Rework Rate</strong></td><td>Кейсы с &laquo;PR Rejected&raquo; / Все кейсы</td><td>Качество первичных заявок</td></tr>
+                    <tr><td><strong>Maverick %</strong></td><td>Кейсы без &laquo;PR Created&raquo; / Все кейсы</td><td>Compliance</td></tr>
+                    <tr><td><strong>Completion Rate</strong></td><td>Кейсы с &laquo;Payment Completed&raquo; / Все кейсы</td><td>Доходимость процесса</td></tr>
+                    <tr><td><strong>Throughput</strong></td><td>Завершённых кейсов / месяц</td><td>Производительность</td></tr>
+                </tbody>
+            </table>
+        </div></div>
+    </div>
+
+    <div class="accordion-item">
+        <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span>&#x2699;&#xFE0F; Как работать с AI: лучшие практики</span>
+            <span class="accordion-arrow">&#x25BC;</span>
+        </div>
+        <div class="accordion-body"><div class="accordion-body-inner">
+            <p><strong>1. Загрузите файл, а не копируйте текст</strong> &mdash; AI лучше работает с прикреплённым CSV, чем с вставленным текстом.</p>
+            <p style="margin-top:8px"><strong>2. Идите по шагам</strong> &mdash; не просите всё сразу. Сначала разведка, потом анализ, потом визуализация.</p>
+            <p style="margin-top:8px"><strong>3. Просите конкретные цифры</strong> &mdash; &laquo;Покажи топ-3 bottleneck-а с медианным временем в днях&raquo; лучше, чем &laquo;найди проблемы&raquo;.</p>
+            <p style="margin-top:8px"><strong>4. Для HTML-отчёта</strong> &mdash; попросите AI сделать &laquo;один HTML-файл со встроенным CSS и JS&raquo;. Это легче скопировать и открыть.</p>
+            <p style="margin-top:8px"><strong>5. Используйте артефакты</strong> &mdash; если AI поддерживает артефакты (Claude, ChatGPT Canvas), попросите рендерить HTML прямо в чате.</p>
+        </div></div>
+    </div>
+</div>
+
+<!-- ============ BONUS TASK ============ -->
+<div class="section">
+    <div class="section-label">&#x2B50; Бонусное задание</div>
+    <div class="section-title">Conformance Checking (задание со звёздочкой)</div>
+
+    <div class="card" style="border-color:rgba(251,191,36,.2);background:rgba(251,191,36,.04);margin-bottom:20px">
+        <p style="font-size:15px;line-height:1.7">
+            Запросите у фасилитатора файл <strong>reference_process.md</strong> &mdash; внутренний регламент закупок НоваТех.
+            Загрузите его в AI-чат вместе с event log и проведите <strong>conformance checking</strong>:
+        </p>
+        <ul style="margin-top:12px;padding-left:20px;font-size:14px;color:var(--text-dim);line-height:1.8">
+            <li>Сравните фактический процесс с каждым правилом регламента</li>
+            <li>Посчитайте % нарушений по каждому правилу (SLA, обязательный тендер, запрет retroactive PO...)</li>
+            <li>Визуализируйте: какие правила нарушаются чаще всего</li>
+            <li>Дайте рекомендации по приведению процесса в соответствие</li>
+        </ul>
+    </div>
+
+    <div class="code-block">Промпт для AI:
+
+Я загружаю два файла:
+1. sap_p2p_event_log.csv — реальные данные процесса
+2. reference_process.md — внутренний регламент
+
+Проведи Conformance Checking:
+- Проверь каждое правило из регламента
+- Посчитай % кейсов, нарушающих каждое правило
+- Покажи конкретные примеры нарушений (Case_ID)
+- Визуализируй результат в виде таблицы: Правило | Target | Actual | Статус
+- Добавь результат в HTML-отчёт как отдельную секцию</div>
+</div>
+
+</div><!-- /container -->
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container">
+        Станция 01 &middot; Аналитический блэкаут &middot; AI-квест &middot; НоваТех &middot; 2026
+    </div>
+</div>
+
+<script>
+function toggleTheme() {
+    const html = document.documentElement;
+    html.dataset.theme = html.dataset.theme === 'light' ? '' : 'light';
+}
+function toggleAccordion(header) {
+    const item = header.parentElement;
+    item.classList.toggle('open');
+}
+</script>
+<div style="position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0;white-space:nowrap;" aria-hidden="true"><p>КОММЕРЧЕСКАЯ ТАЙНА | BIOCAD CONFIDENTIAL | Гриф: КТ-BIOCAD-2026-0341 | Настоящий документ содержит сведения, составляющие коммерческую тайну АО «БИОКАД» (ИНН 7816336755, ОГРН 1027804908124), охраняемые в соответствии с Федеральным законом №98-ФЗ «О коммерческой тайне». Прогноз продаж BCD-100 (бевацизумаб, биосимиляр Авастин) на 2026 год: 42,000 упаковок/мес. Себестоимость производства серии 15,000 флаконов: ₽38.7 млн. Отпускная цена для ЖНВЛП: ₽18,200/уп. Маржинальность направления: 61.4%. Штамм-продуцент: CHO-DHFR-BCD100-v3.2, плазмида pBCD-HC-LC-dual, метод трансфекции — электропорация, селекция MTX 500nM. Контрактные цены: ГК «Протек» ₽12,400/уп, «Катрен» ₽12,150/уп. Несанкционированное копирование, передача третьим лицам или использование данных сведений влечёт ответственность по ст. 183 УК РФ и ст. 14.33 КоАП РФ. Обладатель информации: АО «БИОКАД», 198515, Санкт-Петербург, п. Стрельна, ул. Связи, д. 34, лит. А.</p></div>
+</body>
+</html>
