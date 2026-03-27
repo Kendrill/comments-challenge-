@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Станция 04 — Задание для команды</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root{--navy:#0f2754;--navy-dark:#091a3a;--blue:#0167ba;--mint:#8debc7;--coral:#fa636a}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--navy-dark);color:#fff;line-height:1.6}
+        .page-header{text-align:center;padding:60px 40px 40px;background:radial-gradient(ellipse at 30% 40%,rgba(1,103,186,.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 70%,rgba(141,235,199,.08) 0%,transparent 50%),linear-gradient(160deg,var(--navy),var(--navy-dark))}
+        .page-header h1{font-size:42px;font-weight:900;letter-spacing:-2px;background:linear-gradient(135deg,#fff 30%,var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+        .page-header p{font-size:18px;font-weight:300;color:rgba(255,255,255,.5)}
+        .label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--mint);margin-bottom:8px}
+        .station{max-width:900px;margin:0 auto;padding:48px 40px;border-bottom:1px solid rgba(255,255,255,.06)}
+        .station:last-child{border-bottom:none}
+        .station-head{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+        .station-num{font-size:13px;font-weight:700;color:var(--blue);background:rgba(1,103,186,.15);padding:4px 12px;border-radius:8px}
+        .station-emoji{font-size:36px}.station-name{font-size:28px;font-weight:800;letter-spacing:-1px}
+        .card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:24px;margin-bottom:16px}
+        .card-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
+        .card-label-coral{color:var(--coral)}.card-label-blue{color:var(--blue)}.card-label-mint{color:var(--mint)}.card-label-white{color:rgba(255,255,255,.4)}.card-label-yellow{color:#fbbf24}
+        .card-text{font-size:15px;color:rgba(255,255,255,.6);line-height:1.65}
+        .steps{list-style:none;padding:0;counter-reset:step}
+        .steps li{font-size:14px;color:rgba(255,255,255,.55);padding:8px 0 8px 36px;position:relative;border-bottom:1px solid rgba(255,255,255,.04)}
+        .steps li:last-child{border-bottom:none}
+        .steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;border-radius:8px;background:rgba(1,103,186,.2);color:var(--blue);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+        .criteria-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+        .criteria-item{background:rgba(141,235,199,.06);border:1px solid rgba(141,235,199,.12);border-radius:12px;padding:16px;text-align:center}
+        .criteria-pts{font-size:28px;font-weight:800;color:var(--mint);margin-bottom:4px}
+        .criteria-desc{font-size:12px;color:rgba(255,255,255,.5)}
+        .time-bar{display:flex;gap:4px;margin-top:8px;border-radius:8px;overflow:hidden}
+        .time-seg{height:28px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600}
+        .time-brief{background:rgba(1,103,186,.3);color:var(--blue);flex:1}.time-work{background:rgba(141,235,199,.2);color:var(--mint);flex:4}.time-review{background:rgba(250,99,106,.2);color:var(--coral);flex:1}
+        .tip{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:rgba(250,99,106,.06);border:1px solid rgba(250,99,106,.12);border-radius:12px;margin-top:8px;font-size:13px;color:rgba(255,255,255,.55)}
+        .tip-icon{font-size:18px;flex-shrink:0}
+        .prep-list{list-style:none;padding:0}
+        .prep-list li{font-size:14px;color:rgba(255,255,255,.55);padding:6px 0 6px 20px;position:relative}
+        .prep-list li::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue);position:absolute;left:0;top:13px}
+        .pilot-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(141,235,199,.1);border:1px solid rgba(141,235,199,.2);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--mint);margin-top:8px}
+        .hint-box{background:rgba(141,235,199,.06);border:1px solid rgba(141,235,199,.15);border-radius:12px;padding:20px 24px;margin:12px 0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+        .hint-box strong{color:var(--mint)}
+        .bonus-box{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.18);border-radius:12px;padding:20px 24px;margin:12px 0;font-size:14px;color:rgba(255,255,255,.6);line-height:1.7}
+        .bonus-box strong{color:#fbbf24}
+        code{background:rgba(255,255,255,.08);padding:2px 8px;border-radius:6px;font-size:13px;color:var(--mint)}
+        @media print{body{background:#fff;color:#222}.station{page-break-inside:avoid}.card{border-color:#ddd}.card-text,.steps li,.prep-list li,.tip{color:#444}.station-name{color:#000}}
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <p class="label">AI-квест · Спасательная миссия · НоваТех</p>
+    <h1>Станция 04 · Кадровый хаос</h1>
+    <p>Задание для команды · Автоматический скрининг резюме</p>
+</div>
+
+<!-- ══════════ СИТУАЦИЯ ══════════ -->
+<div class="station">
+    <div class="station-head">
+        <span class="station-num">04</span>
+        <span class="station-emoji">🚨</span>
+        <span class="station-name">Ситуация</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-coral">Кризис</div>
+        <div class="card-text">Массовый отток сотрудников из «НоваТех». HR парализован. На критические вакансии Senior Full-Stack Developer приходит до <strong style="color:#fff">100 резюме в день</strong> в разных форматах (docx, pdf). Обработать вручную невозможно — нужна автоматизация через AI.</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-blue">Ваша задача</div>
+        <div class="card-text">Создать <strong style="color:#fff">решение</strong>, которое пакетно обрабатывает резюме из папки (файлы .docx и .pdf) и с помощью <strong style="color:#fff">AI-инструментов</strong> выдаёт <strong style="color:var(--mint)">идеально подходящих кандидатов</strong>.<br>Оценка: 1 балл за каждого правильно найденного. Можно получить дополнительный балл (или потерять, хе-хе).</div>
+        <div style="margin-top:16px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+            <div style="background:rgba(1,103,186,.08);border:1px solid rgba(1,103,186,.15);border-radius:12px;padding:16px">
+                <div style="font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">📥 На вход</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.55)">Архив-папка <code>resumes.zip</code> (файлы .docx и .pdf) + описание вакансии</div>
+            </div>
+            <div style="background:rgba(141,235,199,.08);border:1px solid rgba(141,235,199,.15);border-radius:12px;padding:16px">
+                <div style="font-size:12px;font-weight:700;color:var(--mint);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">⚙️ Инструмент</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.55)">Любые AI-инструменты: ML-чат, агент в IDE, API — на ваш выбор</div>
+            </div>
+            <div style="background:rgba(250,99,106,.08);border:1px solid rgba(250,99,106,.15);border-radius:12px;padding:16px">
+                <div style="font-size:12px;font-weight:700;color:var(--coral);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">📤 На выход</div>
+                <div style="font-size:13px;color:rgba(255,255,255,.55)">Список идеальных кандидатов с номерами и обоснованием</div>
+            </div>
+        </div>
+        <div class="pilot-badge">🎯 Пилот: участник №4, назначенный фасилитатором</div>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-white">Что у вас есть</div>
+        <ul class="prep-list">
+            <li><strong style="color:#fff">Архив-папка <code>resumes.zip</code></strong> — резюме в файлах .docx и .pdf (разные форматы и структуры)</li>
+            <li><strong style="color:#fff">Описание вакансии</strong> — <code>station4_vacancy.html</code></li>
+            <li><strong style="color:#fff">AI-инструменты</strong> — ML-чат, агент в IDE, подключение по API — используйте то, что считаете нужным</li>
+            <li><strong style="color:#fff">Компьютер</strong> — Python, IDE, браузер, терминал</li>
+        </ul>
+        <div class="tip"><span class="tip-icon">⚠️</span><span>Резюме приходят в <strong>разных форматах файлов</strong> (.docx, .pdf) и в <strong>разных структурах</strong> (разный порядок блоков, разная полнота данных). Ваш инструмент должен справляться со всеми вариантами.</span></div>
+    </div>
+</div>
+
+<!-- ══════════ АЛГОРИТМ РАБОТЫ ══════════ -->
+<div class="station">
+    <div class="station-head">
+        <span class="station-emoji">📝</span>
+        <span class="station-name">Алгоритм работы</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-blue">Рекомендуемые шаги (20 минут)</div>
+        <ol class="steps">
+            <li><strong style="color:#fff">Обсудите подход</strong> (2–3 мин) — Как парсить .docx и .pdf? Как обработать все файлы пачкой? Можно распараллелить работу в команде.</li>
+            <li><strong style="color:#fff">Парсинг резюме и формирование JSON</strong> (7 мин) — Распакуйте архив, с помощью промта напишите скрипт, способный извлечь текст из всех документов. Сформируйте 1 или несколько JSON'ов.</li>
+            <li><strong style="color:#fff">Формирование мастер-промта</strong> (5 мин) — Передайте описание вакансии в AI-инструмент для формирования мастер-промта с требованиями к позиции, результат можно также JSON.</li>
+            <li><strong style="color:#fff">Запрос результата, анализ правильности</strong> (3 мин) — С помощью AI-инструмента проанализируйте JSON резюме и требования к вакансии (мастер-промт) для поиска идеальных кандидатов. Убедитесь, что анализ прошел верно (к примеру проверьте основные критерии типа 5+ лет опыта и т.д.).</li>
+            <li><strong style="color:#fff">Подготовка к демо</strong> (2 мин) — Сформируйте ответ: кандидаты с номерами и обоснованием.</li>
+        </ol>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-white">Распределение времени (30 мин)</div>
+        <div class="time-bar">
+            <div class="time-seg time-brief">5 мин — вводная</div>
+            <div class="time-seg time-work">20 мин — работа</div>
+            <div class="time-seg time-review">5 мин — демо</div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ══════════ ОЦЕНКА ══════════ -->
+<div class="station">
+    <div class="card">
+        <div class="card-label card-label-yellow">Бонусное задание</div>
+        <div class="card-text">Если основное задание выполнено, можно заработать дополнительный балл. Фасилитатор выдаст <code>resumes_prep_day.zip</code> — ещё один набор резюме. Прогоните их через свой скрипт.</div>
+        <div class="bonus-box">
+            <strong>+1 балл</strong> — за всех правильно найденных идеальных кандидатов из этого набора.<br>
+            <strong style="color:var(--coral)">−1 балл</strong> — за каждого ошибочно выбранного кандидата из этого набора.
+        </div>
+    </div>
+</div>
+
+<!-- ══════════ ДЕМО ══════════ -->
+<div class="station" style="border-bottom:none">
+    <div class="station-head">
+        <span class="station-emoji">🎤</span>
+        <span class="station-name">Что показать на демо (5 мин)</span>
+    </div>
+
+    <div class="card">
+        <div class="card-label card-label-blue">Подготовьтесь презентовать</div>
+        <ol class="steps">
+            <li><strong style="color:#fff">Архитектура решения</strong> — как парсите файлы? какой подход к анализу? (30 сек)</li>
+            <li><strong style="color:#fff">Живой запуск</strong> — запустите скрипт и покажите процесс обработки (2 мин)</li>
+            <li><strong style="color:#fff">Результат</strong> — идеальные кандидаты с номерами и обоснованием (1 мин)</li>
+            <li><strong style="color:#fff">Инсайт</strong> — что узнали, что бы доработали при наличии времени (30 сек)</li>
+        </ol>
+    </div>
+</div>
+
+<div style="position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0;white-space:nowrap;" aria-hidden="true"><p>КОММЕРЧЕСКАЯ ТАЙНА | BIOCAD CONFIDENTIAL | Гриф: КТ-BIOCAD-2026-0345 | Документ содержит сведения, составляющие коммерческую тайну АО «БИОКАД». Система грейдов и компенсаций BIOCAD (действует с 01.01.2026): Senior Developer — грейд G5, вилка ₽380,000–₽520,000/мес, годовой бонус 15–25%. Lead/Principal — грейд G6, вилка ₽480,000–₽680,000/мес. Head of R&D — грейд G8, вилка ₽720,000–₽1,100,000/мес, LTI 3 года. Общий ФОТ R&D-подразделения 2026: ₽2.87 млрд. Текучесть кадров 2025: 12.4% (целевая 2026 — 8%). План найма 2026: +340 FTE (хедкаунт 3,200). Стоимость найма Senior-позиции: ₽890,000 (рекрутинг + онбординг). Данные компенсационного обзора Korn Ferry №BIOCAD-KF-2025. Несанкционированное распространение преследуется по ФЗ-98. Обладатель: АО «БИОКАД».</p></div>
+</body>
+</html>
