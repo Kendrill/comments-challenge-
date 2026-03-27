@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Официальное заявление НоваТех по публикациям о работе с данными клиентов</title>
+  <style>
+    :root {
+      --navy: #0F2A5F;
+      --ink: #0B1220;
+      --bg-soft: #F3F5F8;
+      --line: #D7DDE5;
+      --muted: #98A2B3;
+      --accent: #C0392B;
+      --text: #1F2937;
+      --white: #FFFFFF;
+      --ok: #1F6B4F;
+      --warn: #9A6700;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 18px 40px rgba(11, 18, 32, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      padding: 28px 20px 48px;
+    }
+
+    .page {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at top right, rgba(255,255,255,0.08) 0, rgba(255,255,255,0) 38%),
+        linear-gradient(135deg, #0B1220 0%, #102A5F 100%);
+      color: var(--white);
+      border-radius: 24px;
+      padding: 32px 36px 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .brand-mark {
+      width: 76px;
+      height: 76px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+    }
+
+    .brand-mark span {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.78);
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 38px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      font-weight: 800;
+      max-width: 760px;
+    }
+
+    .hero-subtitle {
+      margin: 16px 0 0;
+      max-width: 760px;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 16px;
+    }
+
+    .sheet {
+      background: var(--white);
+      border: 1px solid #E5EAF0;
+      border-radius: 24px;
+      margin-top: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 26px rgba(15, 42, 95, 0.06);
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      align-items: center;
+      padding: 20px 32px;
+      background: #F9FAFB;
+      border-bottom: 1px solid #E7ECF2;
+    }
+
+    .meta-item {
+      font-size: 14px;
+      color: #4B5563;
+    }
+
+    .meta-item strong {
+      color: var(--ink);
+    }
+
+    .meta-divider {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #C5CCD6;
+      display: inline-block;
+    }
+
+    section {
+      padding: 28px 32px;
+      border-bottom: 1px solid #EEF2F6;
+    }
+
+    section:last-of-type {
+      border-bottom: none;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      line-height: 1.2;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 16px;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    .lede {
+      padding: 18px 20px;
+      background: linear-gradient(180deg, rgba(192, 57, 43, 0.06) 0%, rgba(192, 57, 43, 0.02) 100%);
+      border-left: 4px solid var(--accent);
+      border-radius: 0 14px 14px 0;
+      margin-bottom: 18px;
+    }
+
+    .lede p {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.6;
+    }
+
+    .note {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: #596579;
+      background: #F8FAFC;
+      border: 1px solid #E7EDF4;
+      padding: 9px 12px;
+      border-radius: 999px;
+      margin-top: 4px;
+    }
+
+    .note .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .figure {
+      margin: 24px 0 6px;
+      background: var(--bg-soft);
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 22px 22px 18px;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .figure-title {
+      margin: 0 0 16px;
+      font-size: 19px;
+      line-height: 1.25;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .status-card {
+      background: var(--white);
+      border: 1px solid #E3E8EF;
+      border-radius: 16px;
+      padding: 16px;
+      min-height: 124px;
+    }
+
+    .status-card h3 {
+      margin: 10px 0 8px;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .status-card p {
+      margin: 0;
+      font-size: 14px;
+      color: #4B5563;
+      line-height: 1.45;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .badge::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+
+    .badge-blue {
+      background: rgba(15, 42, 95, 0.09);
+      color: var(--navy);
+    }
+
+    .badge-blue::before {
+      background: var(--navy);
+    }
+
+    .badge-red {
+      background: rgba(192, 57, 43, 0.1);
+      color: var(--accent);
+    }
+
+    .badge-red::before {
+      background: var(--accent);
+    }
+
+    .badge-amber {
+      background: rgba(154, 103, 0, 0.12);
+      color: var(--warn);
+    }
+
+    .badge-amber::before {
+      background: var(--warn);
+    }
+
+    .badge-green {
+      background: rgba(31, 107, 79, 0.12);
+      color: var(--ok);
+    }
+
+    .badge-green::before {
+      background: var(--ok);
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 6px;
+    }
+
+    .action-card {
+      background: #FBFCFE;
+      border: 1px solid #E5EAF1;
+      border-radius: 16px;
+      padding: 18px;
+      min-height: 180px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--navy), rgba(15, 42, 95, 0.15));
+    }
+
+    .action-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .action-head h3 {
+      margin: 0;
+      font-size: 17px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .pill {
+      white-space: nowrap;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--navy);
+      background: rgba(15, 42, 95, 0.08);
+      border: 1px solid rgba(15, 42, 95, 0.1);
+    }
+
+    .meta-list {
+      display: grid;
+      gap: 8px;
+      font-size: 14px;
+      color: #475467;
+    }
+
+    .meta-line-small {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+
+    .meta-line-small strong {
+      min-width: 108px;
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .timeline {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 8px;
+      padding-top: 12px;
+    }
+
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      top: 28px;
+      height: 2px;
+      background: linear-gradient(90deg, rgba(15, 42, 95, 0.18), rgba(15, 42, 95, 0.48), rgba(15, 42, 95, 0.18));
+    }
+
+    .timeline-step {
+      position: relative;
+      background: var(--white);
+      border: 1px solid #E3E8EF;
+      border-radius: 16px;
+      padding: 18px 14px 16px;
+      min-height: 190px;
+    }
+
+    .timeline-step::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: 18px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 4px solid var(--navy);
+      box-shadow: 0 0 0 6px var(--bg-soft);
+    }
+
+    .timeline-time {
+      display: inline-block;
+      margin-top: 2px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--navy);
+    }
+
+    .timeline-step h3 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .timeline-step p {
+      margin: 0;
+      font-size: 14px;
+      color: #4B5563;
+      line-height: 1.45;
+    }
+
+    .policy-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .policy-card {
+      background: var(--white);
+      border: 1px solid #E3E8EF;
+      border-radius: 16px;
+      padding: 18px 16px;
+      position: relative;
+      min-height: 210px;
+    }
+
+    .policy-card::before {
+      content: "";
+      display: block;
+      width: 44px;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    .policy-card h3 {
+      margin: 0 0 10px;
+      font-size: 16px;
+      line-height: 1.3;
+      color: var(--ink);
+    }
+
+    .policy-card ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 9px;
+      font-size: 14px;
+      color: #4B5563;
+    }
+
+    .policy-card li {
+      position: relative;
+      padding-left: 14px;
+      line-height: 1.45;
+    }
+
+    .policy-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.62em;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--navy);
+      transform: translateY(-50%);
+    }
+
+    figcaption {
+      margin-top: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      color: #667085;
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+      align-items: start;
+      background: linear-gradient(180deg, #FBFCFE 0%, #F4F7FB 100%);
+      border: 1px solid #E5EAF1;
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .contact-card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .contact-card p {
+      margin: 0 0 10px;
+      color: #4B5563;
+      font-size: 15px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      font-size: 15px;
+    }
+
+    .contact-list div strong {
+      display: block;
+      color: var(--ink);
+      margin-bottom: 3px;
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .footer-note {
+      padding: 0 32px 28px;
+      font-size: 12px;
+      color: #7A8698;
+    }
+
+    @media (max-width: 900px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      .hero-grid,
+      .contact-card {
+        grid-template-columns: 1fr;
+      }
+
+      .status-grid,
+      .action-grid,
+      .policy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline::before {
+        left: 28px;
+        right: auto;
+        top: 20px;
+        bottom: 20px;
+        width: 2px;
+        height: auto;
+      }
+
+      .timeline-step {
+        padding-left: 54px;
+        min-height: auto;
+      }
+
+      .timeline-step::before {
+        top: 18px;
+        left: 18px;
+      }
+
+      .meta-line-small {
+        display: block;
+      }
+
+      .meta-line-small strong {
+        min-width: 0;
+        display: block;
+        margin-bottom: 4px;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      html, body {
+        background: #ffffff;
+      }
+
+      body {
+        padding: 0;
+      }
+
+      .page {
+        max-width: none;
+      }
+
+      .hero,
+      .sheet,
+      .figure,
+      .action-card,
+      .status-card,
+      .policy-card,
+      .timeline-step,
+      .contact-card {
+        box-shadow: none !important;
+      }
+
+      .hero,
+      .figure,
+      .timeline-step,
+      .action-card,
+      .status-card,
+      .policy-card,
+      .contact-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <p class="eyebrow">Официальное заявление компании</p>
+          <h1>НоваТех начала независимую проверку после публикаций о работе с данными клиентов</h1>
+          <p class="hero-subtitle">Позиция компании на момент публикации: известны признаки аномальной активности и нарушения в доступности части систем; характер инцидента и его причина пока не установлены.</p>
+        </div>
+        <div class="brand-mark" aria-hidden="true">
+          <span>НТ</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="sheet">
+      <section class="meta" aria-label="Дата и источник">
+        <div class="meta-item"><strong>Дата:</strong> 19 марта 2026 года, Москва</div>
+        <span class="meta-divider" aria-hidden="true"></span>
+        <div class="meta-item"><strong>Источник:</strong> Пресс-служба НоваТех</div>
+      </section>
+
+      <section aria-labelledby="position-title">
+        <h2 id="position-title">Основной текст с позицией компании</h2>
+
+        <div class="lede">
+          <p><strong>НоваТех знает о публикациях и обращениях, вышедших 18–19 марта, и рассматривает ситуацию как приоритетную.</strong> Компания подтверждает: на момент публикации корпоративный сайт недоступен, часть внутренних каналов коммуникации нарушена, а в ряде интеграционных контуров клиентов за период с декабря по февраль зафиксированы сигналы об аномальной активности.</p>
+        </div>
+
+        <p>На текущий момент у компании нет подтверждённых оснований утверждать, что речь идёт о доказанном нарушении работы с данными клиентов либо о подтверждённой утечке. Мы проверяем три рабочие версии: внешнее вмешательство, ошибка конфигурации и нарушение внутренних процедур.</p>
+
+        <p>Проверка начата немедленно и ведётся одновременно в техническом и процессном контурах. Для сохранения журналов событий, исключения изменения следов и снижения дополнительных рисков временно ограничен доступ к части систем и журналов интеграции.</p>
+
+        <p>Затронутые клиенты уведомляются напрямую и получают отдельные контактные точки по своим проектам. Для координации решений создан единый антикризисный штаб, а для внешних запросов развёрнут отдельный канал взаимодействия для клиентов и СМИ.</p>
+
+        <p>Первые результаты первичной проверки будут сообщены не позднее 24 марта 2026 года. При наличии оснований НоваТех передаст материалы уполномоченным органам и продолжит взаимодействие в рамках применимого законодательства.</p>
+
+        <div class="note" role="note">
+          <span class="dot" aria-hidden="true"></span>
+          До завершения проверки компания не будет подтверждать версии, которые не подтверждены техническими данными и процессной экспертизой.
+        </div>
+
+        <figure class="figure" aria-labelledby="known-title">
+          <h3 class="figure-title" id="known-title">Что известно на данный момент</h3>
+
+          <div class="status-grid">
+            <article class="status-card">
+              <span class="badge badge-blue">Известно</span>
+              <h3>Публикации и запросы по инциденту</h3>
+              <p>Компания зафиксировала волну публикаций в СМИ и социальных каналах и рассматривает тему как приоритетную для публичного ответа и внутренней проверки.</p>
+            </article>
+
+            <article class="status-card">
+              <span class="badge badge-red">Подтверждено</span>
+              <h3>Доступность сайта и внутренних каналов</h3>
+              <p>Корпоративный сайт недоступен, часть внутренних коммуникационных контуров работает с ограничениями и переведена на резервный порядок взаимодействия.</p>
+            </article>
+
+            <article class="status-card">
+              <span class="badge badge-amber">Зафиксировано</span>
+              <h3>Аномальная активность в контурах интеграции</h3>
+              <p>По ряду клиентских интеграционных контуров отмечены сигналы аномальной активности в период с декабря по февраль; объём и природа событий уточняются.</p>
+            </article>
+
+            <article class="status-card">
+              <span class="badge badge-amber">Не установлено</span>
+              <h3>Характер инцидента</h3>
+              <p>На момент публикации не установлено, идёт ли речь о внешнем вмешательстве, ошибке конфигурации или нарушении внутренних процедур.</p>
+            </article>
+
+            <article class="status-card">
+              <span class="badge badge-green">Запущено</span>
+              <h3>Независимая проверка</h3>
+              <p>Открыта техническая и процессная проверка с внешним участием; доступ к части систем ограничен, а журналы интеграции переведены в режим контролируемого анализа.</p>
+            </article>
+
+            <article class="status-card">
+              <span class="badge badge-blue">Развёрнуто</span>
+              <h3>Работа с клиентами и СМИ</h3>
+              <p>Затронутые клиенты уведомляются напрямую, а для обращений СМИ и корпоративных заказчиков создан единый канал коммуникации и единая точка подтверждения информации.</p>
+            </article>
+          </div>
+
+          <figcaption>Сводка отражает только подтверждённые на момент публикации факты, рабочие версии и принятые управленческие решения. Формулировки будут обновляться по мере завершения первичной проверки.</figcaption>
+        </figure>
+      </section>
+
+      <section aria-labelledby="actions-title">
+        <h2 id="actions-title">Конкретные действия компании</h2>
+
+        <div class="action-grid">
+          <article class="action-card">
+            <div class="action-head">
+              <h3>Изоляция и сохранение следов</h3>
+              <span class="pill">Выполняется</span>
+            </div>
+            <div class="meta-list">
+              <div class="meta-line-small"><strong>Что делаем</strong><span>Ограничиваем доступ к части систем, журналам интеграции и маршрутам сервисной выгрузки, чтобы сохранить целостность технических следов и исключить вторичную активность.</span></div>
+              <div class="meta-line-small"><strong>Кто отвечает</strong><span>Антикризисный штаб, команда информационной безопасности, владельцы критических систем.</span></div>
+              <div class="meta-line-small"><strong>Следующий шаг</strong><span>Проверка матриц доступа, истории административных действий и цепочек выгрузки по затронутым контурам.</span></div>
+            </div>
+          </article>
+
+          <article class="action-card">
+            <div class="action-head">
+              <h3>Независимая техническая и процессная проверка</h3>
+              <span class="pill">Запущено</span>
+            </div>
+            <div class="meta-list">
+              <div class="meta-line-small"><strong>Что делаем</strong><span>Параллельно проверяем журналы событий, конфигурации интеграции, механизмы маршрутизации данных и корректность внутренних процедур допуска и сопровождения.</span></div>
+              <div class="meta-line-small"><strong>Кто отвечает</strong><span>Отдельная проверочная группа с внешним участием и внутренними владельцами процессов.</span></div>
+              <div class="meta-line-small"><strong>Следующий шаг</strong><span>Сформировать первичную картину причин, затронутых контуров и объёма дальнейшего расследования.</span></div>
+            </div>
+          </article>
+
+          <article class="action-card">
+            <div class="action-head">
+              <h3>Прямое уведомление клиентов</h3>
+              <span class="pill">Идёт</span>
+            </div>
+            <div class="meta-list">
+              <div class="meta-line-small"><strong>Что делаем</strong><span>Связываемся напрямую с клиентами, для которых есть признаки аномальной активности либо проектная зависимость от затронутых контуров.</span></div>
+              <div class="meta-line-small"><strong>Кто отвечает</strong><span>Клиентские руководители, служба сопровождения, антикризисный штаб.</span></div>
+              <div class="meta-line-small"><strong>Следующий шаг</strong><span>Синхронизировать статус по каждому проекту и предоставить отдельные точки входа для вопросов по безопасности и операционной части.</span></div>
+            </div>
+          </article>
+
+          <article class="action-card">
+            <div class="action-head">
+              <h3>Единый канал взаимодействия</h3>
+              <span class="pill">Активирован</span>
+            </div>
+            <div class="meta-list">
+              <div class="meta-line-small"><strong>Что делаем</strong><span>Концентрируем внешние обращения клиентов и СМИ в одном канале, чтобы исключить расхождение формулировок и задержки в ответах.</span></div>
+              <div class="meta-line-small"><strong>Кто отвечает</strong><span>Пресс-служба, корпоративные коммуникации, дежурная группа антикризисного штаба.</span></div>
+              <div class="meta-line-small"><strong>Следующий шаг</strong><span>Публиковать подтверждённые обновления по мере завершения этапов проверки, включая первичный отчёт не позднее 24 марта 2026 года.</span></div>
+            </div>
+          </article>
+        </div>
+
+        <figure class="figure" aria-labelledby="timeline-title">
+          <h3 class="figure-title" id="timeline-title">Действия компании в первые 72 часа</h3>
+
+          <div class="timeline">
+            <article class="timeline-step">
+              <span class="timeline-time">0–6 часов</span>
+              <h3>Создание штаба</h3>
+              <p>Назначен единый контур управления инцидентом, зафиксированы роли по технологии, клиентской коммуникации и публичным ответам.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span class="timeline-time">6–24 часа</span>
+              <h3>Ограничение доступа</h3>
+              <p>Временно ограничен доступ к части систем и журналов интеграции, чтобы сохранить данные для анализа и снизить риск повторной активности.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span class="timeline-time">24–36 часов</span>
+              <h3>Независимая проверка</h3>
+              <p>Запущена техническая и процессная экспертиза с внешним участием, включая проверку конфигураций, маршрутов данных и внутренних процедур.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span class="timeline-time">36–48 часов</span>
+              <h3>Уведомление клиентов</h3>
+              <p>Начаты прямые уведомления затронутых клиентов и синхронизация статусов по проектам с отдельными контактами на стороне компании.</p>
+            </article>
+
+            <article class="timeline-step">
+              <span class="timeline-time">48–72 часа</span>
+              <h3>Сверка и отчёт</h3>
+              <p>Проводится сверка доступов, журналов, контуров выгрузки и событий по ключевым интеграциям; готовится первичный отчёт с проверенными выводами.</p>
+            </article>
+          </div>
+
+          <figcaption>Таймлайн показывает последовательность управленческих и технических действий в первые трое суток. Срок публикации первых результатов первичной проверки — не позднее 24 марта 2026 года.</figcaption>
+        </figure>
+
+        <p><strong>После завершения первичной проверки компания введёт пакет обязательных изменений по контурам доступа, выгрузки, хранения и эскалации.</strong> Эти меры будут действовать не как временная реакция, а как постоянный стандарт управления риском для клиентских интеграционных проектов.</p>
+
+        <figure class="figure" aria-labelledby="policy-title">
+          <h3 class="figure-title" id="policy-title">Что будет изменено по итогам проверки</h3>
+
+          <div class="policy-grid">
+            <article class="policy-card">
+              <h3>Доступы</h3>
+              <ul>
+                <li>Полная ревизия служебных и проектных прав доступа по критическим контурам.</li>
+                <li>Отдельное согласование повышенных прав и ускоренное закрытие неиспользуемых учётных записей.</li>
+                <li>Периодическая повторная аттестация доступа для проектных и подрядных ролей.</li>
+              </ul>
+            </article>
+
+            <article class="policy-card">
+              <h3>Выгрузка и хранение данных</h3>
+              <ul>
+                <li>Пересмотр правил выгрузки, маршрутов передачи и допустимых технических точек хранения.</li>
+                <li>Жёсткая фиксация исключений и обязательное журналирование операций, связанных с выгрузкой.</li>
+                <li>Дополнительный контроль для внешних контуров и сервисных копий.</li>
+              </ul>
+            </article>
+
+            <article class="policy-card">
+              <h3>Внешний контроль</h3>
+              <ul>
+                <li>Независимая оценка журналирования, настроек интеграции и практик сопровождения.</li>
+                <li>Выборочные проверки проектов с повышенной чувствительностью к данным.</li>
+                <li>Регулярная отчётность о выполнении корректирующих мер на уровне руководства компании.</li>
+              </ul>
+            </article>
+
+            <article class="policy-card">
+              <h3>Эскалация и коммуникации</h3>
+              <ul>
+                <li>Обновление протоколов эскалации инцидентов с чёткими ролями и сроками реакции.</li>
+                <li>Резервные каналы внутренних уведомлений для случаев недоступности базовых систем.</li>
+                <li>Единый сценарий коммуникации для клиентов, СМИ и внутренних команд.</li>
+              </ul>
+            </article>
+          </div>
+
+          <figcaption>Изменения охватывают не только защитный контур, но и процессную дисциплину: кто получает доступ, как подтверждаются исключения, как хранится след операций и как запускается эскалация при первых признаках отклонений.</figcaption>
+        </figure>
+      </section>
+
+      <section aria-labelledby="contact-title">
+        <h2 id="contact-title">Контакт для СМИ</h2>
+
+        <div class="contact-card">
+          <div>
+            <h3>Единый канал для редакционных запросов</h3>
+            <p>До восстановления стандартных цифровых каналов НоваТех просит направлять запросы СМИ напрямую в пресс-службу по указанным ниже контактам.</p>
+            <p>При обращении просим указывать редакцию, дедлайн и тему запроса. Подтверждённые обновления по ходу проверки будут передаваться через этот же канал.</p>
+          </div>
+
+          <div class="contact-list">
+            <div>
+              <strong>Контактное лицо</strong>
+              Мария Воронцова
+            </div>
+            <div>
+              <strong>Должность</strong>
+              Руководитель корпоративных коммуникаций
+            </div>
+            <div>
+              <strong>Email</strong>
+              media@novatech.ru
+            </div>
+            <div>
+              <strong>Телефон</strong>
+              +7 (495) 120-48-60
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="footer-note">
+        НоваТех продолжит сообщать только подтверждённые данные и обновлять позицию по мере завершения первичной проверки.
+      </div>
+    </main>
+  </div>
+</body>
+</html>
