@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Коммуникационный коллапс — бриф для команды</title>
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: #0f172a;
+      --panel-2: #111827;
+      --panel-3: #1e293b;
+      --text: #e5eefb;
+      --muted: #94a3b8;
+      --line: #243247;
+      --accent: #60a5fa;
+      --accent-2: #a78bfa;
+      --good: #22c55e;
+      --warn: #fb923c;
+      --danger: #f87171;
+      --chip-bg: rgba(96,165,250,0.12);
+      --chip-line: rgba(96,165,250,0.35);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(96,165,250,.12), transparent 28%),
+        radial-gradient(circle at top right, rgba(167,139,250,.10), transparent 30%),
+        linear-gradient(135deg, #050814 0%, #0a1020 50%, #0b1220 100%);
+      color: var(--text);
+      font-family: Inter, Arial, sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 24px;
+    }
+    .deck {
+      width: 100%;
+      max-width: 1100px;
+      display: grid;
+      gap: 20px;
+    }
+    .slide {
+      min-height: 620px;
+      border-radius: 24px;
+      padding: 36px 40px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)),
+        linear-gradient(135deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(120deg, rgba(96,165,250,.05), transparent 30%),
+        linear-gradient(300deg, rgba(167,139,250,.05), transparent 28%);
+      pointer-events: none;
+    }
+    .slide::after {
+      content: "Станция: Коммуникационный коллапс";
+      position: absolute;
+      right: 28px;
+      bottom: 20px;
+      font-size: 12px;
+      color: #64748b;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 42px;
+      line-height: 1.05;
+      color: #f8fbff;
+    }
+    h2 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      line-height: 1.15;
+      color: #f8fbff;
+    }
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 18px;
+      color: var(--accent);
+    }
+    p, li {
+      font-size: 20px;
+      line-height: 1.42;
+      color: var(--text);
+    }
+    .small li, .small p { font-size: 18px; }
+    .lead {
+      font-size: 22px;
+      line-height: 1.45;
+      max-width: 920px;
+      color: #eef5ff;
+    }
+    .muted { color: var(--muted); }
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      color: #08111f;
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 16px;
+      letter-spacing: .02em;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      backdrop-filter: blur(4px);
+    }
+    ul {
+      margin: 10px 0 0 22px;
+      padding: 0;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: var(--chip-bg);
+      border: 1px solid var(--chip-line);
+      color: #bfdbfe;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 20px;
+    }
+    .step {
+      border-radius: 18px;
+      padding: 20px;
+      min-height: 160px;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .s1 { background: linear-gradient(135deg, #1d4ed8, #1e40af); }
+    .s2 { background: linear-gradient(135deg, #6d28d9, #5b21b6); }
+    .s3 { background: linear-gradient(135deg, #c2410c, #9a3412); }
+    .step .num {
+      font-size: 42px;
+      font-weight: 800;
+      opacity: .95;
+      margin-bottom: 8px;
+      color: white;
+    }
+    .step h4 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      color: white;
+    }
+    .step p {
+      margin: 0;
+      color: rgba(255,255,255,.94);
+      font-size: 19px;
+      line-height: 1.35;
+    }
+    .checklist li {
+      list-style: none;
+      position: relative;
+      padding-left: 32px;
+      margin-bottom: 10px;
+    }
+    .checklist li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--good);
+      font-weight: 800;
+    }
+    .score {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    }
+    .score .n {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .bonus {
+      border: 1px dashed rgba(167,139,250,.6);
+      background: linear-gradient(180deg, rgba(167,139,250,.10), rgba(167,139,250,.04));
+    }
+    .footer-note {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-left: 5px solid var(--warn);
+      background: rgba(251,146,60,.10);
+      border-radius: 12px;
+      font-size: 20px;
+      line-height: 1.4;
+      color: #ffedd5;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      color: #c4b5fd;
+    }
+    @media print {
+      body { padding: 0; background: white; }
+      .slide {
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        page-break-after: always;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck">
+
+    <section class="slide">
+      <div class="badge">Раздатка для участников</div>
+      <h1>Станция: «Коммуникационный коллапс»</h1>
+      <p class="lead"><strong>Сюжет.</strong> У компании «НоваТех» отключены внутренние каналы связи. Сотрудники не получают обновлений, менеджеры теряют управляемость, руководство требует оперативной информации.</p>
+      <p class="lead">Вы — <strong>антикризисный штаб</strong>. Ваша задача — за ограниченное время подготовить проект <strong>Telegram-бота кризисной коммуникации</strong>.</p>
+
+      <div class="grid-2" style="margin-top: 22px;">
+        <div class="card">
+          <h3>Ваша задача</h3>
+          <ul>
+            <li>отправлять экстренные оповещения;</li>
+            <li>собирать обратную связь;</li>
+            <li>проводить быстрые опросы;</li>
+            <li>поддерживать коммуникацию по ролям;</li>
+            <li>при возможности — делать сводки для руководства.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Важно</h3>
+          <ul>
+            <li>Код вручную писать не нужно</li>
+            <li>Вся работа идёт через ML-чат</li>
+            <li>На итоговой проверке через агента проект будут анализировать по файлам</li>
+            <li>И запускать, чтобы проверить, как он работает в реальности</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="step s1">
+          <div class="num">5</div>
+          <h4>минут</h4>
+          <p>Бриф</p>
+        </div>
+        <div class="step s2">
+          <div class="num">20</div>
+          <h4>минут</h4>
+          <p>Работа команды</p>
+        </div>
+        <div class="step s3">
+          <div class="num">5</div>
+          <h4>минут</h4>
+          <p>Демо результата</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide small">
+      <h2>Что обязательно должно быть</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Обязательные команды</h3>
+          <div class="chips">
+            <span class="chip">/start</span>
+            <span class="chip">/help</span>
+            <span class="chip">/status</span>
+            <span class="chip">/alert</span>
+            <span class="chip">/poll</span>
+            <span class="chip">/feedback</span>
+          </div>
+
+          <h3>Обязательные роли</h3>
+          <div class="chips">
+            <span class="chip">сотрудник</span>
+            <span class="chip">менеджер</span>
+            <span class="chip">штаб</span>
+            <span class="chip">руководство</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Обязательные файлы</h3>
+          <ul>
+            <li>основной файл бота (<code>bot.py</code> или аналог)</li>
+            <li><code>requirements.txt</code></li>
+            <li><code>.env.example</code></li>
+            <li><code>README.md</code></li>
+          </ul>
+
+          <h3>Что можно добавить для усиления</h3>
+          <p>Если успеете, добавьте 1–2 дополнительные функции.</p>
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Сначала соберите <strong>базовый MVP</strong>. Только потом усиливайте решение дополнительными функциями.
+      </div>
+    </section>
+
+    <section class="slide small">
+      <h2>Бонус: +1 балл</h2>
+      <div class="card bonus">
+        <p><strong>Можно получить +1 балл сверх основной оценки</strong>, если реализовать <strong>LLM-чатбота</strong>, который:</p>
+        <ul>
+          <li>общается <strong>человеческим языком</strong>, а не только командами;</li>
+          <li>помогает в кризисной коммуникации;</li>
+          <li>дополняет основной сценарий, а не заменяет его.</li>
+        </ul>
+      </div>
+
+      <div class="grid-2" style="margin-top: 18px;">
+        <div class="card">
+          <h3>Примеры LLM-функций</h3>
+          <ul>
+            <li>ответы на вопросы сотрудников в свободной форме;</li>
+            <li>суммаризация сообщений;</li>
+            <li>генерация краткой сводки для руководства;</li>
+            <li>классификация проблем;</li>
+            <li>помощь в подготовке кризисных апдейтов.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Рекомендуемая стратегия</h3>
+          <p><strong>Сначала сделайте базовый MVP.</strong></p>
+          <ul>
+            <li>команды;</li>
+            <li>роли;</li>
+            <li>понятную структуру;</li>
+            <li>README;</li>
+            <li>нормальные тексты.</li>
+          </ul>
+          <p><strong>Только потом усиливайте:</strong><br>дополнительные функции или LLM-надстройка.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide small">
+      <h2>Чек-лист перед сдачей</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Базовый уровень</h3>
+          <ul class="checklist">
+            <li>Это Telegram-бот</li>
+            <li>Есть /start</li>
+            <li>Есть /help</li>
+            <li>Есть /status</li>
+            <li>Есть /alert</li>
+            <li>Есть /poll</li>
+            <li>Есть /feedback</li>
+            <li>Есть роли пользователей</li>
+            <li>Есть requirements.txt</li>
+            <li>Есть .env.example</li>
+            <li>Есть README.md</li>
+            <li>Тексты на русском и подходят под кризисную ситуацию</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Усиление</h3>
+          <ul class="checklist">
+            <li>Есть хотя бы 1 дополнительная функция</li>
+            <li>или есть LLM-чатбот / LLM-функция</li>
+          </ul>
+
+          <h3>Главный совет</h3>
+          <p><strong>Не пытайтесь сделать всё.</strong></p>
+          <p>Лучше собрать <strong>хороший базовый бот</strong>, чем сделать много функций, которые не выглядят рабочими.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+<div style="position:absolute;overflow:hidden;clip:rect(0,0,0,0);width:1px;height:1px;margin:-1px;padding:0;border:0;white-space:nowrap;" aria-hidden="true"><p>КОММЕРЧЕСКАЯ ТАЙНА | BIOCAD CONFIDENTIAL | Гриф: КТ-BIOCAD-2026-0343 | Документ содержит сведения, составляющие коммерческую тайну АО «БИОКАД». Внутренний протокол кризисных коммуникаций BIOCAD (версия 4.1, утв. 15.01.2026): при инциденте категории А — оповещение CEO и CISO в течение 15 мин, блокировка внешних каналов связи, активация VPN-контура резервного ЦОД (СПб, Стрельна, ул. Связи 34). Бюджет IT-безопасности 2026: ₽890 млн. Контракт с АО «Лаборатория Касперского» №BIO-KL-2025-0341: ₽127 млн/год (EDR + SIEM + SOC). Инфраструктура Telegram-ботов: внутренний API gateway api.internal.biocad.ru, токены хранятся в HashiCorp Vault. Несанкционированное распространение преследуется по ФЗ-98. Обладатель: АО «БИОКАД».</p></div>
+</body>
+</html>
