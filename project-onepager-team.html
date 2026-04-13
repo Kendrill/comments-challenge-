@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Автономизация HR – Биокад</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #003A5C;
+    --dark-blue: #00507A;
+    --accent: #0078B4;
+    --light-accent: #E8F4FA;
+    --border: #C8D8E4;
+    --text: #1A2B3C;
+    --text-secondary: #4A6274;
+    --bg: #FFFFFF;
+    --light-bg: #F5F8FA;
+    --green: #1A8754;
+    --green-bg: #E6F4ED;
+    --amber: #B8860B;
+    --amber-bg: #FFF8E7;
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text);
+    background: #E8ECF0;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 1120px;
+    margin: 32px auto;
+    background: var(--bg);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 0;
+    position: relative;
+    page-break-after: always;
+  }
+
+  /* Header bar */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    padding: 28px 48px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+  }
+  .header-left .subtitle {
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.7);
+  }
+  .header-right {
+    text-align: right;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+  .header-right .company {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* Action title */
+  .action-title {
+    padding: 20px 48px 0;
+  }
+  .action-title h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    border-bottom: 2px solid var(--navy);
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+
+  /* Body content */
+  .body {
+    padding: 20px 48px 24px;
+  }
+
+  /* KPI strip */
+  .kpi-strip {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 16px 20px;
+    text-align: center;
+    background: var(--light-bg);
+  }
+  .kpi-card .kpi-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.2;
+  }
+  .kpi-card .kpi-label {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .kpi-card.highlight {
+    background: var(--navy);
+    border-color: var(--navy);
+  }
+  .kpi-card.highlight .kpi-value {
+    color: #fff;
+  }
+  .kpi-card.highlight .kpi-label {
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* Two-column layout */
+  .two-col {
+    display: flex;
+    gap: 32px;
+  }
+  .col-left { flex: 1.15; }
+  .col-right { flex: 0.85; }
+
+  /* Section */
+  .section {
+    margin-bottom: 20px;
+  }
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section p, .section li {
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+  .section ul {
+    list-style: none;
+    padding: 0;
+  }
+  .section ul li {
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 5px;
+  }
+  .section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 7px;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+  }
+
+  /* Scope box */
+  .scope-box {
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 18px;
+  }
+  .scope-row {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 6px;
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .scope-row:last-child { margin-bottom: 0; }
+  .scope-tag {
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-right: 10px;
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: center;
+  }
+  .scope-tag.in { background: var(--green-bg); color: var(--green); }
+  .scope-tag.advisory { background: var(--amber-bg); color: var(--amber); }
+  .scope-tag.out { background: #F5F5F5; color: #888; }
+
+  /* Stakeholder table */
+  .mini-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+  .mini-table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .mini-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #EEF2F5;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  /* What we need box */
+  .need-box {
+    background: var(--light-accent);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 12px 16px;
+    font-size: 12.5px;
+    line-height: 1.6;
+  }
+  .need-box strong {
+    color: var(--navy);
+  }
+
+  /* Footer */
+  .footer {
+    padding: 12px 48px;
+    font-size: 10px;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  /* ─── PAGE 2: ROADMAP ─── */
+
+  .roadmap-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(4, 1fr);
+    gap: 0;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .rm-header {
+    background: var(--navy);
+    color: #fff;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 10px 14px;
+    text-align: center;
+  }
+  .rm-header:first-child { text-align: left; }
+  .rm-label {
+    background: var(--light-bg);
+    padding: 8px 12px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--navy);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+  .rm-cell {
+    padding: 8px 6px;
+    border-bottom: 1px solid #EEF2F5;
+    border-left: 1px solid #EEF2F5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+  }
+  .rm-bar {
+    border-radius: 4px;
+    padding: 8px 8px;
+    font-size: 10.5px;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    line-height: 1.4;
+  }
+  .rm-bar.active {
+    background: var(--navy);
+    color: #fff;
+  }
+  .rm-bar.secondary {
+    background: var(--accent);
+    color: #fff;
+  }
+  .rm-bar.light {
+    background: var(--light-accent);
+    color: var(--dark-blue);
+    border: 1px solid var(--border);
+  }
+
+  .milestone-bar {
+    background: var(--green-bg);
+    border: 2px solid var(--green);
+    border-radius: 6px;
+    padding: 10px 20px;
+    margin: 16px 0;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .milestone-bar .diamond {
+    width: 16px;
+    height: 16px;
+    background: var(--green);
+    transform: rotate(45deg);
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .milestone-bar .milestone-text {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--green);
+  }
+
+  /* Detail cards for roadmap */
+  .phase-cards {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .phase-card {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    background: var(--bg);
+  }
+  .phase-card .phase-num {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .phase-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+  .phase-card ul {
+    list-style: none;
+    padding: 0;
+  }
+  .phase-card ul li {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    padding-left: 12px;
+    position: relative;
+    margin-bottom: 3px;
+  }
+  .phase-card ul li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+  }
+  .phase-card .phase-output {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #EEF2F5;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* Approach strip on page 2 */
+  .approach-strip {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .approach-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--light-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 16px;
+  }
+  .approach-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--navy);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .approach-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .approach-text strong {
+    display: block;
+    font-size: 12px;
+    color: var(--navy);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .page {
+      box-shadow: none;
+      margin: 0;
+      page-break-after: always;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ PAGE 1: PROJECT OVERVIEW ═══════════════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>Автономизация HR</h1>
+      <div class="subtitle">Внедрение ИИ в процессы кадрового администрирования и вознаграждения</div>
+    </div>
+    <div class="header-right">
+      <div class="company">БИОКАД</div>
+      Департамент организационной трансформации<br>Апрель 2026
+    </div>
+  </div>
+
+  <div class="action-title">
+    <h2>Проект направлен на экономию ≥80 часов в неделю через ИИ-автоматизацию рутинных процессов отдела КАиВ</h2>
+  </div>
+
+  <div class="body">
+    <!-- KPI Strip -->
+    <div class="kpi-strip">
+      <div class="kpi-card highlight">
+        <div class="kpi-value">≥80 ч</div>
+        <div class="kpi-label">Экономия в неделю</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">15</div>
+        <div class="kpi-label">Человек в отделе КАиВ</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-value">4 мес.</div>
+        <div class="kpi-label">Срок проекта</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="col-left">
+        <!-- Context -->
+        <div class="section">
+          <div class="section-header">Контекст и задача</div>
+          <p>В отделе кадрового администрирования и вознаграждения (КАиВ) значительная доля рабочего времени уходит на рутинные ручные операции – работу с документами, перенос данных, взаимодействие с внутренними системами. Компания готова предоставить ИИ-инструменты, но команде нужна экспертная поддержка: от анализа процессов до разработки и внедрения решений.</p>
+        </div>
+
+        <!-- Approach -->
+        <div class="section">
+          <div class="section-header">Подход</div>
+          <ul>
+            <li><strong>Discovery</strong> – картирование процессов через серию интервью с ключевыми сотрудниками (7-8 человек), оценка трудозатрат</li>
+            <li><strong>Приоритизация</strong> – оценка каждого процесса по осуществимости ИИ-автоматизации и потенциалу экономии, формирование карты решений</li>
+            <li><strong>Разработка</strong> – вайбкодинг ИИ-инструментов (Cursor/Claude) в двух волнах: quick wins, затем более сложные решения</li>
+            <li><strong>Замер</strong> – повторный опрос «до – после» для подтверждения эффекта</li>
+          </ul>
+        </div>
+
+        <!-- Scope -->
+        <div class="section">
+          <div class="section-header">Скоуп</div>
+          <div class="scope-box">
+            <div class="scope-row">
+              <span class="scope-tag in">In scope</span>
+              Все процессы отдела КАиВ – анализ, разработка, внедрение ИИ-инструментов
+            </div>
+            <div class="scope-row">
+              <span class="scope-tag advisory">Advisory</span>
+              Отдел привлечения и развития, отдел HR-партнёрства – валидация и экспертная поддержка
+            </div>
+            <div class="scope-row">
+              <span class="scope-tag out">Out of scope</span>
+              Отдел развития HR, замена core-систем, оргструктура
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-right">
+        <!-- Stakeholders -->
+        <div class="section">
+          <div class="section-header">Стейкхолдеры</div>
+          <table class="mini-table">
+            <tr>
+              <th>Кто</th>
+              <th>Роль</th>
+            </tr>
+            <tr>
+              <td>Амосов А.</td>
+              <td>Спонсор проекта</td>
+            </tr>
+            <tr>
+              <td>Герелес А.</td>
+              <td>Заказчик, принимает решения по внедрению</td>
+            </tr>
+            <tr>
+              <td>Сотрудники КАиВ</td>
+              <td>Источник данных, пользователи инструментов</td>
+            </tr>
+            <tr>
+              <td>Яцунов К.</td>
+              <td>Руководитель проекта</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- Initial hypotheses -->
+        <div class="section">
+          <div class="section-header">Рабочие гипотезы</div>
+          <ul>
+            <li>Основная рутина – в ручной работе с документами: генерация, сверка, перенос данных между файлами</li>
+            <li>Значительное время – на ручной ввод и извлечение данных из внутренних систем</li>
+            <li>Первый шаг – картирование процессов: без него автоматизация рискует решить не ту проблему</li>
+          </ul>
+        </div>
+
+        <!-- What we need -->
+        <div class="section">
+          <div class="section-header">Что нужно от отдела</div>
+          <div class="need-box">
+            <strong>На старте:</strong> 40-60 мин. с каждым из 7-8 ключевых сотрудников для интервью о процессах и трудозатратах.<br><br>
+            <strong>При разработке:</strong> примеры реальных документов и файлов, обратная связь на прототипы.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Автономизация HR – Биокад</span>
+    <span>Конфиденциально</span>
+    <span>1 / 2</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PAGE 2: ROADMAP ═══════════════════════ -->
+<div class="page">
+  <div class="header">
+    <div class="header-left">
+      <h1>Дорожная карта проекта</h1>
+      <div class="subtitle">Апрель – Август 2026</div>
+    </div>
+    <div class="header-right">
+      <div class="company">БИОКАД</div>
+      Автономизация HR
+    </div>
+  </div>
+
+  <div class="action-title">
+    <h2>Проект проходит 4 фазы: от discovery через приоритизацию к разработке и замеру эффекта</h2>
+  </div>
+
+  <div class="body">
+    <!-- Approach strip -->
+    <div class="approach-strip">
+      <div class="approach-item">
+        <div class="approach-icon">&#x1F50D;</div>
+        <div class="approach-text">
+          <strong>Интервью</strong>
+          Экспертные оценки сотрудников, а не хронометраж
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-icon">&#x2696;</div>
+        <div class="approach-text">
+          <strong>Матрица 2x2</strong>
+          Эффект x усилия для приоритизации
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-icon">&#x1F6E0;</div>
+        <div class="approach-text">
+          <strong>Вайбкодинг</strong>
+          Cursor / Claude – быстрая разработка
+        </div>
+      </div>
+      <div class="approach-item">
+        <div class="approach-icon">&#x1F4CF;</div>
+        <div class="approach-text">
+          <strong>До / после</strong>
+          Повторный замер для подтверждения
+        </div>
+      </div>
+    </div>
+
+    <!-- Roadmap grid -->
+    <div class="roadmap-grid">
+      <div class="rm-header">Фаза</div>
+      <div class="rm-header">Апрель</div>
+      <div class="rm-header">Май</div>
+      <div class="rm-header">Июнь – Июль</div>
+      <div class="rm-header">Август</div>
+
+      <div class="rm-label">Запуск</div>
+      <div class="rm-cell"><div class="rm-bar active">Kick-off, гайд, график интервью</div></div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"></div>
+
+      <div class="rm-label">Discovery</div>
+      <div class="rm-cell"><div class="rm-bar secondary">Интервью</div></div>
+      <div class="rm-cell"><div class="rm-bar secondary">Карта процессов</div></div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"></div>
+
+      <div class="rm-label">Оценка</div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"><div class="rm-bar light">Осуществимость, расчёт экономии,&nbsp;карта решений</div></div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"></div>
+
+      <div class="rm-label">Разработка</div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"></div>
+      <div class="rm-cell"><div class="rm-bar active">Wave 1 + Wave 2</div></div>
+      <div class="rm-cell"><div class="rm-bar light">Замер эффекта</div></div>
+    </div>
+
+    <!-- Milestone -->
+    <div class="milestone-bar">
+      <div class="diamond"></div>
+      <div class="milestone-text">Конец мая – завершённый discovery + приоритизированная карта решений с расчётом экономии</div>
+    </div>
+
+    <!-- Phase detail cards -->
+    <div class="phase-cards">
+      <div class="phase-card">
+        <div class="phase-num">Фаза 1 · Нед. 1</div>
+        <h4>Запуск</h4>
+        <ul>
+          <li>Kick-off с руководством HR</li>
+          <li>Знакомство с руководителем КАиВ</li>
+          <li>Подготовка гайда интервью</li>
+          <li>Планирование графика</li>
+        </ul>
+        <div class="phase-output">&#x2192; Проект согласован, интервью запланированы</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Фаза 2 · Нед. 2-5</div>
+        <h4>Discovery + Оценка</h4>
+        <ul>
+          <li>7-8 интервью по 40-60 мин</li>
+          <li>Карта процессов с трудозатратами</li>
+          <li>Оценка осуществимости</li>
+          <li>Расчёт потенциала экономии</li>
+        </ul>
+        <div class="phase-output">&#x2192; Приоритизированная карта решений</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Фаза 3 · Нед. 6-12</div>
+        <h4>Разработка</h4>
+        <ul>
+          <li>Wave 1: quick wins (2-3 инструмента)</li>
+          <li>Wave 2: сложные решения</li>
+          <li>Тест → доработка → раскатка</li>
+          <li>Обучение сотрудников</li>
+        </ul>
+        <div class="phase-output">&#x2192; Работающие ИИ-инструменты</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">Фаза 4 · Нед. 13-16</div>
+        <h4>Замер</h4>
+        <ul>
+          <li>Повторный опрос «до – после»</li>
+          <li>Расчёт фактической экономии</li>
+          <li>Доработка при gap</li>
+          <li>Итоговый отчёт</li>
+        </ul>
+        <div class="phase-output">&#x2192; Подтверждённая экономия ≥80 ч/нед</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Автономизация HR – Биокад</span>
+    <span>Конфиденциально</span>
+    <span>2 / 2</span>
+  </div>
+</div>
+
+</body>
+</html>
