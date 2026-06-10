@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ML-квест «Снимаем стены» — концепт v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4EFE3; --paper-deep:#EBE4D2; --ink:#141311; --ink-soft:#3D3A33;
+    --muted:#8A8478; --rule:#C9C1AE; --forest:#1F3A2E; --rust:#B14A2C; --gold:#B68A2A;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#E9E2D0;color:var(--ink);font-family:'Geist',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","ss02";}
+  body{padding:48px 24px;display:flex;justify-content:center}
+  .page{
+    width:min(940px,100%);background:var(--paper);position:relative;padding:56px 64px 56px;
+    box-shadow:0 32px 80px rgba(20,19,17,.18), 0 4px 12px rgba(20,19,17,.08);
+    background-image:radial-gradient(rgba(20,19,17,.035) 1px, transparent 1px);background-size:3px 3px;
+  }
+  .page::before,.page::after{content:"";position:absolute;width:20px;height:20px;border:1.5px solid var(--ink);}
+  .page::before{top:18px;left:18px;border-right:none;border-bottom:none}
+  .page::after{bottom:18px;right:18px;border-left:none;border-top:none}
+
+  .head{display:flex;justify-content:space-between;align-items:flex-end;font-family:'Geist Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--ink-soft);border-bottom:1px solid var(--ink);padding-bottom:14px;margin-bottom:36px;}
+  .head .left{display:flex;gap:18px;align-items:baseline}
+  .head .left .dot{width:8px;height:8px;border-radius:50%;background:var(--rust);display:inline-block;transform:translateY(-1px)}
+  .head .right{text-align:right;font-size:10px}
+
+  .title{font-family:'Instrument Serif',serif;font-weight:400;line-height:.92;letter-spacing:-.015em;font-size:80px;color:var(--ink);margin-bottom:6px;}
+  .title em{font-style:italic;color:var(--forest)}
+  .subtitle{font-size:14.5px;line-height:1.55;color:var(--ink-soft);max-width:640px;margin-top:18px;}
+
+  .meta{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:40px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);}
+  .meta > div{padding:18px 22px;border-right:1px solid var(--rule);}
+  .meta > div:last-child{border-right:none}
+  .meta .k{font-family:'Geist Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);margin-bottom:8px;}
+  .meta .v{font-family:'Instrument Serif',serif;font-size:26px;line-height:1;color:var(--ink);}
+  .meta .v small{font-size:12px;font-family:'Geist Mono',monospace;color:var(--ink-soft);letter-spacing:.04em;display:block;margin-top:5px}
+
+  .sec-h{font-family:'Geist Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.22em;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:14px;}
+  .sec-h::before{content:"";flex:0 0 28px;height:1px;background:var(--ink)}
+  .sec-h .num{font-weight:600}
+  .sec-h .aside{margin-left:auto;font-size:9.5px;color:var(--muted);letter-spacing:.18em}
+  section{margin-top:48px}
+
+  p.body{font-size:13.5px;line-height:1.62;color:var(--ink-soft);max-width:720px}
+  p.body + p.body{margin-top:12px}
+  .lead em{font-style:italic;font-family:'Instrument Serif',serif;color:var(--forest);font-size:1.08em}
+  .kbd{font-family:'Geist Mono',monospace;font-size:11.5px;background:var(--paper-deep);border:1px solid var(--rule);padding:1px 6px;color:var(--ink)}
+
+  /* callout */
+  .callout{border-left:2px solid var(--rust);background:var(--paper-deep);padding:16px 20px;margin-top:18px;}
+  .callout .lbl{font-family:'Geist Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.18em;color:var(--rust);margin-bottom:7px}
+  .callout p{font-size:13px;line-height:1.55;color:var(--ink-soft)}
+
+  /* step row (round mechanics) */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:8px}
+  .step{background:var(--paper-deep);border:1px solid var(--rule);padding:20px 18px;}
+  .step .gnum{font-family:'Instrument Serif',serif;font-style:italic;font-size:40px;line-height:1;color:var(--forest);margin-bottom:10px}
+  .step:nth-child(2) .gnum{color:var(--rust)}
+  .step:nth-child(3) .gnum{color:var(--gold)}
+  .step h4{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-bottom:8px;line-height:1.25}
+  .step p{font-size:12px;line-height:1.5;color:var(--ink-soft)}
+
+  /* score panel */
+  .scores{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);margin-top:18px}
+  .scores > div{padding:16px 20px;border-right:1px solid var(--rule)}
+  .scores > div:last-child{border-right:none}
+  .scores .t{font-family:'Geist',sans-serif;font-weight:600;font-size:13px;margin-bottom:6px}
+  .scores .d{font-size:12px;line-height:1.5;color:var(--ink-soft)}
+  .scores .pin{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper);background:var(--forest);padding:2px 6px;display:inline-block;margin-bottom:8px}
+  .scores .pin.b{background:var(--rust)} .scores .pin.c{background:var(--gold);color:var(--ink)}
+
+  /* roles table */
+  table{width:100%;border-collapse:collapse;margin-top:4px}
+  th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+  thead th{font-family:'Geist Mono',monospace;font-size:9.5px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);border-bottom:1px solid var(--ink)}
+  td.role{font-weight:600;font-size:13px;color:var(--ink);white-space:nowrap}
+  td.skill{font-size:12.5px;color:var(--forest);font-weight:500}
+  td.desc{font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+  tbody tr:last-child td{border-bottom:1px solid var(--ink)}
+
+  /* stations */
+  .stn{border-top:1px solid var(--rule);padding:18px 0 16px}
+  .stn:first-of-type{border-top:1px solid var(--ink)}
+  .stn:last-of-type{border-bottom:1px solid var(--ink)}
+  .stn .top{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
+  .stn .n{font-family:'Instrument Serif',serif;font-style:italic;font-size:30px;color:var(--forest);line-height:1;flex:0 0 auto}
+  .stn h4{font-size:15px;font-weight:600;color:var(--ink);line-height:1.2}
+  .stn .flag{font-family:'Geist Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;padding:3px 7px;border-radius:1px;margin-left:auto;white-space:nowrap}
+  .flag.cut{background:var(--rust);color:var(--paper)}
+  .flag.deep{background:var(--gold);color:var(--ink)}
+  .flag.team{background:var(--forest);color:var(--paper)}
+  .stn .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px 28px;margin-left:42px}
+  .stn .f{font-size:12.5px;line-height:1.5;color:var(--ink-soft);padding:3px 0}
+  .stn .f b{font-family:'Geist Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);font-weight:500;display:block;margin-bottom:1px}
+
+  /* timeline */
+  .timeline{display:grid;grid-template-columns:120px 1fr;border-top:1px solid var(--ink);}
+  .tl-row{display:contents}
+  .tl-row .time{padding:15px 0;font-family:'Geist Mono',monospace;font-size:13px;color:var(--ink);border-bottom:1px solid var(--rule);font-variant-numeric:tabular-nums;}
+  .tl-row .block{padding:15px 0 15px 24px;border-bottom:1px solid var(--rule);border-left:1px solid var(--rule);}
+  .tl-row:last-child .time,.tl-row:last-child .block{border-bottom:1px solid var(--ink)}
+  .tl-row .block h4{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+  .tl-row .block h4 .tag{font-family:'Geist Mono',monospace;font-size:8.5px;text-transform:uppercase;letter-spacing:.16em;background:var(--ink);color:var(--paper);padding:3px 7px;font-weight:500}
+  .tl-row .block h4 .tag.alt{background:var(--forest)}
+  .tl-row .block p{font-size:12.5px;line-height:1.5;color:var(--ink-soft);max-width:640px}
+  .tl-row.soft .time,.tl-row.soft .block h4{color:var(--muted)}
+  .tl-row.soft .block h4{font-weight:400;font-style:italic;font-family:'Instrument Serif',serif;font-size:16px}
+
+  /* forks */
+  .fork{margin-top:22px}
+  .fork .q{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;gap:10px;align-items:baseline}
+  .fork .q .fn{font-family:'Geist Mono',monospace;font-size:11px;color:var(--rust)}
+  .fork .opts{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--rule)}
+  .fork .opt{padding:16px 18px}
+  .fork .opt:first-child{border-right:1px solid var(--rule);background:var(--paper-deep)}
+  .fork .opt .tg{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:7px;display:inline-block}
+  .fork .opt .tg.rec{color:var(--paper);background:var(--forest);padding:2px 6px}
+  .fork .opt .tg.alt{color:var(--muted)}
+  .fork .opt h5{font-size:13px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .fork .opt p{font-size:12px;line-height:1.5;color:var(--ink-soft)}
+
+  /* journal / list */
+  ul.j{list-style:none;margin-top:6px}
+  ul.j li{position:relative;padding:9px 0 9px 26px;border-bottom:1px solid var(--rule);font-size:12.5px;line-height:1.5;color:var(--ink-soft)}
+  ul.j li:last-child{border-bottom:1px solid var(--ink)}
+  ul.j li::before{content:"→";position:absolute;left:0;top:9px;color:var(--rust);font-family:'Geist Mono',monospace;font-weight:600}
+  ul.j li b{color:var(--ink);font-weight:600}
+
+  /* prep two-col */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+
+  .foot{margin-top:54px;padding-top:14px;border-top:1px solid var(--ink);display:flex;justify-content:space-between;align-items:center;font-family:'Geist Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:var(--muted);}
+  .foot .stamp{border:1px solid var(--rust);color:var(--rust);padding:6px 12px;letter-spacing:.22em;font-weight:500;transform:rotate(-2deg);}
+
+  @media (max-width:780px){
+    .page{padding:36px 26px}
+    .title{font-size:50px}
+    .meta{grid-template-columns:1fr 1fr}
+    .meta>div:nth-child(2){border-right:none}
+    .meta>div:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+    .steps{grid-template-columns:1fr}
+    .scores{grid-template-columns:1fr}
+    .scores>div{border-right:none;border-bottom:1px solid var(--rule)}
+    .stn .grid{grid-template-columns:1fr;margin-left:0}
+    .stn .top{flex-wrap:wrap}
+    .fork .opts{grid-template-columns:1fr}
+    .fork .opt:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+    .twocol{grid-template-columns:1fr;gap:28px}
+    .timeline{grid-template-columns:92px 1fr}
+    table{font-size:12px}
+  }
+  @media print{body{background:white;padding:0}.page{box-shadow:none;width:100%}}
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="head">
+    <div class="left">
+      <span class="dot"></span>
+      <span>КОНЦЕПТ · ML-КВЕСТ · v2</span>
+      <span>ВНУТРЕННИЙ ДОКУМЕНТ</span>
+    </div>
+    <div class="right">
+      ДЕНЬ КВЕСТА · ОТДЕЛЬНО ОТ H1/H2<br>
+      ОБНОВЛЕНО · JUN 2026
+    </div>
+  </header>
+
+  <h1 class="title">ML-квест<br><em>«Снимаем стены»</em></h1>
+  <p class="subtitle">
+    Отдельный день стратсессии департамента ОК. Смешанные альянсы решают реальные задачи департамента
+    с помощью ИИ и за день собирают <strong>общий актив — департаментский плейбук</strong>. Соревнование держит энергию,
+    сквозной мердж результатов — единство. Один формат закрывает три цели: люди становятся ближе, видят чужую работу,
+    получают первый рабочий опыт с ИИ.
+  </p>
+
+  <section class="meta" style="margin-top:40px">
+    <div><div class="k">Участники</div><div class="v">60–65<small>весь департамент ОК</small></div></div>
+    <div><div class="k">Команды</div><div class="v">8 × 8<small>альянс = 2 квартета по 4</small></div></div>
+    <div><div class="k">Станции</div><div class="v">6<small>либо 8 — на выбор QA</small></div></div>
+    <div><div class="k">Формат</div><div class="v">квест<small>синхронные раунды + мердж</small></div></div>
+  </section>
+
+  <!-- 01 -->
+  <section>
+    <div class="sec-h"><span class="num">01</span> Нарратив и логика дня</div>
+    <p class="body lead">
+      Главная боль департамента — <em>изоляция групп</em> (аудит / валидация / документооборот / инспекции живут отдельно).
+      Сценарий «снимаем стены» делает разрушение этих стен механикой, а не лозунгом.
+    </p>
+    <p class="body">
+      Ключевой ход — <strong>двухуровневый мердж</strong>. Внутри альянса два квартета из разных групп сводят свои куски в один
+      артефакт (стена №1, внутри команды). Затем артефакты всех альянсов сливаются в единый департаментский «кирпич» плейбука
+      (стена №2, департамент). К концу дня лидерборд называет победителя, но <strong>последнее слово — собранный плейбук департамента</strong>,
+      сделанный всеми вместе.
+    </p>
+  </section>
+
+  <!-- 02 -->
+  <section>
+    <div class="sec-h"><span class="num">02</span> Архитектура: синхронные раунды</div>
+    <p class="body">
+      Станция — это <strong>задача раунда, а не место</strong>. В каждом раунде все 8 альянсов за своими столами делают одну и ту же задачу,
+      затем результаты сводятся. Это сознательный отказ от пространственной карусели.
+    </p>
+    <div class="callout">
+      <div class="lbl">Почему не карусель</div>
+      <p>Мердж «ответов всех команд по станции» несовместим с каруселью: там на станции в каждый момент стоит одна команда,
+      остальные приходят в другие раунды — слить «ответы всех» одновременно нельзя. Синхронные раунды снимают и привязку
+      «число станций = число команд» → можно делать 6 станций и давать им глубину. Цена — меньше движения по залу;
+      компенсируем gallery-walk слитых «кирпичей» между раундами.</p>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section>
+    <div class="sec-h"><span class="num">03</span> Механика раунда</div>
+    <div class="steps">
+      <div class="step"><div class="gnum">1</div><h4>Квартеты работают</h4><p>Задача станции на экран, роли в квартетах сдвинуты. Два квартета альянса (по 4) делают параллельно на двух ноутбуках с Qwen.</p></div>
+      <div class="step"><div class="gnum">2</div><h4>Мердж №1 — альянс</h4><p>Два квартета сводят свои куски в единый артефакт альянса. Первая «снятая стена» — внутри команды, между разными группами.</p></div>
+      <div class="step"><div class="gnum">3</div><h4>Мердж №2 — департамент</h4><p>Сводчик станции + ML сливают 8 артефактов в департаментский «кирпич» на экране. Альянсы сами номинируют лучший элемент в общий мердж.</p></div>
+    </div>
+    <div class="sec-h" style="margin-top:36px"><span class="num">03·b</span> Два счёта на дашборде</div>
+    <div class="scores">
+      <div><span class="pin">энергия</span><div class="t">Лидерборд альянсов</div><div class="d">Баллы за раунд по рубрике (0–5 × 3 критерия). Азарт и динамика — обновляется после каждого раунда.</div></div>
+      <div><span class="pin b">единство</span><div class="t">Счётчик департамента</div><div class="d">Качество слитого «кирпича» (0–100 %). N/6 кирпичей = собранный плейбук. Делает соревнование кооперативным.</div></div>
+      <div><span class="pin c">финал</span><div class="t">Балл за презентацию</div><div class="d">Жюри оценивает финальную презу альянса отдельно. Итог = Σ станций + финал.</div></div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section>
+    <div class="sec-h"><span class="num">04</span> Команды и сборка</div>
+    <p class="body">
+      <strong>8 альянсов × 8 человек = 64</strong> (≈ 60–65). Каждый альянс = <strong>2 квартета по 4</strong>: квартет — рабочая ячейка,
+      где все руками; альянс — единица бондинга, зачёта и мерджа. Сборка — не случайная, до сессии по матрице:
+    </p>
+    <ul class="j">
+      <li>В каждом альянсе <b>≥3 группы</b>; два квартета — из <b>разных</b> групп, чтобы склейка реально ломала стену.</li>
+      <li>Новички — только с «опытным якорем» в квартете; конфликтные пары разводим по разным альянсам.</li>
+      <li>Линейные руководители групп распределены по альянсам как <b>равные участники</b> (не «начальники»).</li>
+    </ul>
+  </section>
+
+  <!-- 05 -->
+  <section>
+    <div class="sec-h"><span class="num">05</span> Роли и навык на каждого <span class="aside">ВАРИАНТ B — РЕКОМЕНДУЕМ</span></div>
+    <p class="body">
+      <strong>Вариант A — без ролей:</strong> квартет делится сам. Просто, но доминируют 1–2 активных, «навык на каждого» не гарантирован,
+      верификацию (критичную в фарме) может не взять никто. <strong>Вариант B — ротация ролей</strong> (ниже): 4 роли на квартет
+      сдвигаются каждый раунд → каждый участник за день проходит все навыки.
+    </p>
+    <table>
+      <thead><tr><th>Роль</th><th>ИИ-навык</th><th>Что делает</th></tr></thead>
+      <tbody>
+        <tr><td class="role">Промпт-лид</td><td class="skill">Промпт-инжиниринг, декомпозиция</td><td class="desc">Формулирует запрос, «продавливает» ML на конкретику, ведёт диалог.</td></tr>
+        <tr><td class="role">Верификатор / QC</td><td class="skill">Критическая проверка ИИ (GxP)</td><td class="desc">Проверяет вывод по источникам, ловит галлюцинации, требует ссылки на пункты.</td></tr>
+        <tr><td class="role">Редактор-упаковщик</td><td class="skill">Структурирование, production-вид</td><td class="desc">Доводит вывод до рабочего артефакта по шаблону, чистит формулировки.</td></tr>
+        <tr><td class="role">Доменный якорь</td><td class="skill">Связка домен-экспертизы с ИИ</td><td class="desc">Держит реальный контекст процесса, проверяет применимость к работе департамента.</td></tr>
+        <tr><td class="role">Спикер / таймкипер</td><td class="skill">Коммуникация результата</td><td class="desc">Уровень альянса: тайминг, 30-сек питч артефакта, фиксация решения.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout" style="border-left-color:var(--forest)">
+      <div class="lbl" style="color:var(--forest)">Навык на каждого</div>
+      <p>Квартет = 4 человека = 4 рабочие роли 1:1. Сдвиг каждый раунд → за 4 раунда каждый прошёл все 4 навыка
+      (за 6 раундов — с запасом), спикер ротируется среди восьми + финал. Итог: <strong>каждый участник практикует все 5 ИИ-навыков</strong>,
+      а проверяем мы их через рубрики станций. Заодно ротация защищает тихих и новичков структурой — это важно при низкой психбезопасности.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section>
+    <div class="sec-h"><span class="num">06</span> Станции <span class="aside">МАСТЕР-НАБОР 8 · ДЛЯ 6-ВАРИАНТА РЕЖЕМ 2</span></div>
+    <p class="body">Все на Qwen-3.5, материалы анонимизированы, без исполнения кода. 5 «департаментских» станций мерджатся в плейбук;
+    станция 6 (команда) — не мерджится, она личная. <span style="color:var(--rust)">🔪</span> — кандидат на рез при 6 станциях, <span style="color:var(--gold)">◆</span> — «глубокая» (проседает на 25 мин).</p>
+
+    <div class="stn">
+      <div class="top"><span class="n">1</span><h4>Анализ и улучшение СОПа</h4><span class="flag deep">из A2+A3</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Анонимизированный СОП (фрагмент).</div>
+        <div class="f"><b>Задача</b>Найти противоречия, двусмысленности, избыточные шаги → предложить упрощения.</div>
+        <div class="f"><b>Образ результата</b>Маркап СОПа со ссылками на пункты + переписанные формулировки.</div>
+        <div class="f"><b>Навык / кросс</b>Критразбор регламента, «продавить» ML. Автор-группа vs исполнитель.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">2</span><h4>Перевод + адаптация + сравнение с СОП + gap</h4><span class="flag deep">◆ C2</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Документ поставщика (внешний) + фрагмент внутреннего СОП.</div>
+        <div class="f"><b>Задача</b>Адаптировать под шаблон → сравнить с СОП → gap-анализ с приоритетами.</div>
+        <div class="f"><b>Образ результата</b>Таблица gap’ов: разрыв · риск · приоритет.</div>
+        <div class="f"><b>Навык / кросс</b>Работа с внешними входами, аудит-мышление. Группа внешних входов + владелец СОП.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">3</span><h4>Отклонения: анализ причин возврата</h4><span class="flag cut">🔪 B1</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Набор возвращённых на доработку отклонений.</div>
+        <div class="f"><b>Задача</b>Почему вернули, какие паттерны.</div>
+        <div class="f"><b>Образ результата</b>Кластеры причин возврата + чек-лист «как не вернут».</div>
+        <div class="f"><b>Навык / кросс</b>Учиться на ошибках процесса. Документооборот + расследователи.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">4</span><h4>Root-cause разбор (5 Why + Ishikawa)</h4><span class="flag deep">◆ B2</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Один реальный кейс отклонения.</div>
+        <div class="f"><b>Задача</b>Расследование по методике; ML — партнёр по логике и уточняющим вопросам.</div>
+        <div class="f"><b>Образ результата</b>Диаграмма Ishikawa + цепочка 5 Why + сформулированная корневая причина.</div>
+        <div class="f"><b>Навык / кросс</b>Дисциплина расследования. Разные группы — разные гипотезы причин.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">5</span><h4>Генерация CAPA-плана</h4><span class="flag">B3</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Готовый итог расследования (станция самодостаточна).</div>
+        <div class="f"><b>Задача</b>Корректирующие/предупреждающие действия с владельцами и сроками + SMART-проверка.</div>
+        <div class="f"><b>Образ результата</b>CAPA-план в шаблоне, SMART-валидированный.</div>
+        <div class="f"><b>Навык / кросс</b>Переход от анализа к действию. Владельцы действий из разных групп.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">6</span><h4>Карта команды: профессиональная + личная</h4><span class="flag team">редизайн D2 · не мерджится</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Каркас визитки альянса.</div>
+        <div class="f"><b>Задача</b>С помощью ML собрать автопортрет: проф. сторона (компетенции, группы, сильные стороны каждого) + личная (факт о себе, суперсила вне работы).</div>
+        <div class="f"><b>Образ результата</b>Слайд-визитка альянса — материал для финальной презы.</div>
+        <div class="f"><b>Навык / тимбилдинг</b>Видимость между группами; люди узнают друг друга как людей — эмоциональное ядро дня.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">7</span><h4>Обучение по СОП: тезисы + тест</h4><span class="flag cut">🔪 D3</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Фрагмент СОП.</div>
+        <div class="f"><b>Задача</b>Обучающий каркас: тезисы презентации + проверочный тест.</div>
+        <div class="f"><b>Образ результата</b>5–7 тезисов онбординга + 5 проверочных вопросов с ответами.</div>
+        <div class="f"><b>Навык / кросс</b>Эмпатия к новичку, упаковка сложного. «Свежий взгляд» другой группы.</div>
+      </div>
+    </div>
+
+    <div class="stn">
+      <div class="top"><span class="n">8</span><h4>Генерация идей операционных улучшений</h4><span class="flag">E</span></div>
+      <div class="grid">
+        <div class="f"><b>Вход</b>Описание «проблемного» процесса QA.</div>
+        <div class="f"><b>Задача</b>Идеи → матрица «влияние × сложность» → отбор и приоритизация.</div>
+        <div class="f"><b>Образ результата</b>5–8 идей на матрице + топ-3 с первым шагом.</div>
+        <div class="f"><b>Навык / кросс</b>От жалоб к управляемому списку. Боль одной группы — решения от других.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section>
+    <div class="sec-h"><span class="num">07</span> Тайминг дня <span class="aside">ВАРИАНТ 6 СТАНЦИЙ · 09:30–17:30</span></div>
+    <div class="timeline">
+      <div class="tl-row"><div class="time">09:30–10:00</div><div class="block"><h4>Открытие <span class="tag">рамка</span></h4><p>Короткое включение замгендира/директора (легитимизация формата), правила квеста и дашборда, сбор альянсов и ролей.</p></div></div>
+      <div class="tl-row"><div class="time">10:00–10:20</div><div class="block"><h4>Демо-раунд <span class="tag alt">не в зачёт</span></h4><p>Тренировка механики квартетов и знакомство с Qwen на безопасном кейсе.</p></div></div>
+      <div class="tl-row"><div class="time">10:20–12:20</div><div class="block"><h4>Раунды 1–3 <span class="tag">3 × 40 мин</span></h4><p>30 мин работа + 10 мин мердж/шоу-кейс «кирпича» на экране. Дашборд обновляется после каждого.</p></div></div>
+      <div class="tl-row soft"><div class="time">12:20–13:10</div><div class="block"><h4>Обед · здесь ре-микс, если выбран</h4></div></div>
+      <div class="tl-row"><div class="time">13:10–15:10</div><div class="block"><h4>Раунды 4–6 <span class="tag">3 × 40 мин</span></h4><p>Вторая половина карусели задач, включая «Карту команды» под финал.</p></div></div>
+      <div class="tl-row soft"><div class="time">15:10–15:25</div><div class="block"><h4>Кофе</h4></div></div>
+      <div class="tl-row"><div class="time">15:25–16:20</div><div class="block"><h4>Финал: сборка плейбука <span class="tag alt">вместе</span></h4><p>Альянсы полируют свои вклады в общий плейбук и готовят презу с картой команды.</p></div></div>
+      <div class="tl-row"><div class="time">16:20–17:05</div><div class="block"><h4>Презентации альянсов <span class="tag">~5 мин × 8</span></h4><p>Каждый альянс — артефакты + автопортрет. Жюри выставляет финальный балл.</p></div></div>
+      <div class="tl-row"><div class="time">17:05–17:30</div><div class="block"><h4>Итоги и награждение</h4><p>Плейбук департамента на экран, номинации, командный приз, слово директора. Неформальная часть — опционально.</p></div></div>
+    </div>
+    <div class="callout" style="margin-top:18px">
+      <div class="lbl">Энергобюджет</div>
+      <p>Перегруз — критичный риск. Демо и финал лёгкие, обед в середине, кофе не урезаем, раунд жёстко по времени, без домашки.
+      Вариант 8 станций сдвигает финал на ~17:50–18:00 либо требует урезать раунды до 25+8 мин.</p>
+    </div>
+  </section>
+
+  <!-- 08 forks -->
+  <section>
+    <div class="sec-h"><span class="num">08</span> Развилки на выбор QA</div>
+
+    <div class="fork">
+      <div class="q"><span class="fn">F1</span> Сколько станций?</div>
+      <div class="opts">
+        <div class="opt"><span class="tg rec">рекомендуем</span><h5>6 станций × ~30–35 мин</h5><p>Глубина для C2/B2, меньше переключений и перегруза, меньше материалов готовить, мердж тракторен (6 сводок). Минус — уже охват тем.</p></div>
+        <div class="opt"><span class="tg alt">альтернатива</span><h5>8 станций × ~25 мин</h5><p>Шире охват сценариев ИИ. Минус — C2/B2 проседают, +перегруз, 8 мерджей нагружают сводчиков, день длиннее на ~30–40 мин.</p></div>
+      </div>
+    </div>
+
+    <div class="fork">
+      <div class="q"><span class="fn">F2</span> Если 6 — какие 2 режем?</div>
+      <div class="opts">
+        <div class="opt"><span class="tg rec">рекомендуем</span><h5>Режем B1 + D3</h5><p>Остаются 1 · 2 · 4 · 5 · 8 (департаментские) + 6 (команда). Тема возвратов покрыта кластером отклонений 4+5, СОП-навык — станцией 1.</p></div>
+        <div class="opt"><span class="tg alt">альтернатива</span><h5>Режем B1 + E</h5><p>Оставить «Обучение по СОП» (D3) вместо «Идей» — больше эмпатии/онбординга, меньше креатива.</p></div>
+      </div>
+    </div>
+
+    <div class="fork">
+      <div class="q"><span class="fn">F3</span> Костяк альянсов?</div>
+      <div class="opts">
+        <div class="opt"><span class="tg rec">рекомендуем</span><h5>Стабильный костяк</h5><p>Альянсы неизменны весь день → глубже бондинг и чистый зачёт. Межкомандную связь уже даёт мердж.</p></div>
+        <div class="opt"><span class="tg alt">альтернатива</span><h5>Лёгкий ре-микс на обеде</h5><p>По 1–2 «посла» меняются между альянсами → каждый знакомится с ~9–10 людьми, не ломая зачёт. Доп. вклад в реляционный KPI, небольшой churn ролей.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 -->
+  <section>
+    <div class="sec-h"><span class="num">09</span> Судейство и роль руководителей</div>
+    <p class="body">
+      Нужны <strong>сводчики-судьи на каждую задачу</strong> (мердж + балл) + оператор дашборда + ведущий + жюри финала.
+      Рекомендация: <strong>руководители отделов и приглашённые ИИ-тренеры = сводчики-судьи</strong>; линейные руководители групп = участники альянсов.
+      Это убирает «начальник смотрит» из рабочих ячеек (выше психбезопасность), а судим мы артефакты по рубрике — не людей.
+      При 6 станциях каждый сводчик ведёт свою задачу во все раунды → хорошая калибровка внутри станции (видит все 8 альянсов на одной задаче).
+    </p>
+  </section>
+
+  <!-- 10 -->
+  <section>
+    <div class="sec-h"><span class="num">10</span> Соревнование, дашборд, призы</div>
+    <ul class="j">
+      <li><b>Анти-конфликт:</b> мердж делает соревнование кооперативным; финал — про «что построили вместе», а не голый лидерборд.</li>
+      <li><b>Номинации:</b> «самый практичный артефакт», «прорыв дня», «лучший верификатор» — распределяют признание шире.</li>
+      <li><b>Призы:</b> один ощутимый командный приз + символические плюшки всем + индивидуальные номинации.</li>
+      <li><b>Дашборд:</b> внутренний инструмент с авто-лидербордом и счётчиком плейбука на проекторе. <span style="color:var(--rust)">Проверить ИБ:</span> допустим ли Google-Sheet/Forms на корп-сети при запрете Claude — иначе внутренний аналог.</li>
+    </ul>
+  </section>
+
+  <!-- 11 -->
+  <section>
+    <div class="sec-h"><span class="num">11</span> Несостыковки и решения</div>
+    <ul class="j">
+      <li><b>60–65 чел ломали единую карусель</b> (10 команд > 8 станций) → 8 альянсов × 8 (2 квартета).</li>
+      <li><b>Большие команды = «пассажиры»</b> → квартеты + ротация ролей.</li>
+      <li><b>«Навык на каждого»</b> → ротация гарантирует прохождение всех 5 навыков.</li>
+      <li><b>Карта компетенций в кросс-составе</b> (приватность, нет данных) → редизайн в автопортрет команды для презы.</li>
+      <li><b>Зависимость root-cause → CAPA</b> → станция CAPA самодостаточна (свой вход).</li>
+      <li><b>Соревнование строило «8 племён»</b> → департаментский мердж + финал «вместе» + номинации.</li>
+      <li><b>Мердж несовместим с пространственной каруселью</b> → синхронные раунды.</li>
+      <li><b>C2/B2 проседают на 25 мин</b> → рекомендуем 6 станций × 30–35.</li>
+      <li><b>Отдельный день теряет якорь «общая картина»</b> → нарратив + плейбук + автопортреты несут тимбилдинг явно.</li>
+      <li><b>Нет Claude / нет кода</b> → все станции текстовые на Qwen-3.5.</li>
+      <li><b>Дашборд-инструмент</b> может упереться в ту же ИБ-стену, что и Claude → проверить внутренний аналог.</li>
+    </ul>
+  </section>
+
+  <!-- 12 -->
+  <section>
+    <div class="sec-h"><span class="num">12</span> Подготовка и решения директору</div>
+    <div class="twocol">
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Что подготовить до дня</div>
+        <ul class="j">
+          <li>Комплекты <b>анонимизированных реальных материалов</b> — согласовать с QA-комплаенс/IT по data security в Qwen.</li>
+          <li>Матрица альянсов (оргструктура + предсессионный опрос).</li>
+          <li>Бейджи ролей + 1-стр. памятка (вариант B); шаблоны артефактов + рубрики + ключи; шаблон «кирпича» и каркас карты команды.</li>
+          <li>Дашборд + проектор; <b>нагрузочный тест Qwen на 16 сессий</b> + план Б.</li>
+          <li>Брифинг сводчиков-судей (единые критерии) + прогон демо-кейса; призы и номинации.</li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-family:'Geist Mono',monospace;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:6px">Открытые решения</div>
+        <ul class="j">
+          <li>F1 — 6 станций <b>(рекоменд.)</b> или 8.</li>
+          <li>F2 — режем B1+D3 <b>(рекоменд.)</b> или B1+E.</li>
+          <li>F3 — стабильный костяк <b>(рекоменд.)</b> или лёгкий ре-микс.</li>
+          <li>Роли — A или <b>B (рекоменд.)</b>.</li>
+          <li>Руководители — отделов→судьи, групп→участники <b>(рекоменд.)</b>.</li>
+          <li>ИБ-дашборд: какой внутренний инструмент допустим.</li>
+          <li>1–2 внешних ИИ-тренера в пул сводчиков — нужны?</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="foot">
+    <span>СТРАТСЕССИЯ ОК · ML-КВЕСТ «СНИМАЕМ СТЕНЫ»</span>
+    <span class="stamp">КОНЦЕПТ v2 · К ОБСУЖДЕНИЮ</span>
+  </div>
+
+</main>
+</body>
+</html>
